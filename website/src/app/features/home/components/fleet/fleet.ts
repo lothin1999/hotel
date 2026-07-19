@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../../../core/services/booking.service';
-import { DataService, BikeItem } from '../../../../core/services/data.service';
+import { DataService, BikeItem, MotorCategory } from '../../../../core/services/data.service';
 
 @Component({
   selector: 'app-fleet',
@@ -12,6 +12,7 @@ import { DataService, BikeItem } from '../../../../core/services/data.service';
 })
 export class FleetComponent implements OnInit {
   selectedCategory: string = 'all';
+  categories: MotorCategory[] = [];
   bikes: BikeItem[] = [];
 
   constructor(
@@ -20,6 +21,10 @@ export class FleetComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.dataService.getMotorCategories().subscribe(cats => {
+      this.categories = cats;
+    });
+
     this.dataService.getBikes().subscribe(data => {
       this.bikes = data;
     });

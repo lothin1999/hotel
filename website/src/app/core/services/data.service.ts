@@ -54,9 +54,14 @@ export interface SuiteItem {
   detail?: string;
 }
 
+export interface MotorCategory {
+  id: string;
+  label: string;
+}
+
 export interface BikeItem {
   name: string;
-  category: 'adventure' | 'scrambler' | 'naked' | 'sport' | 'touring';
+  category: 'adventure' | 'scrambler' | 'naked' | 'sport' | 'touring' | string;
   engine: string;
   power: string;
   price: number;
@@ -444,6 +449,15 @@ export class DataService {
     }
   ];
 
+  private motorCategories: MotorCategory[] = [
+    { id: 'all', label: 'All Machines' },
+    { id: 'adventure', label: 'Adventure' },
+    { id: 'scrambler', label: 'Scrambler' },
+    { id: 'naked', label: 'Naked' },
+    { id: 'sport', label: 'Sport' },
+    { id: 'touring', label: 'Touring' }
+  ];
+
   /**
    * API simulation getters (returns Observables ready for HTTP backend replacement)
    */
@@ -461,6 +475,10 @@ export class DataService {
 
   getBikes(): Observable<BikeItem[]> {
     return of(this.bikes);
+  }
+
+  getMotorCategories(): Observable<MotorCategory[]> {
+    return of(this.motorCategories);
   }
 
   getRoutes(): Observable<RouteItem[]> {

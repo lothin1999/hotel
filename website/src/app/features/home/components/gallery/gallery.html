@@ -7,7 +7,11 @@
       </div>
       <h2 class="section-title">{{ galleryData?.title || 'Every Frame a Memory' }}</h2>
     </div>
-    <p class="section-body" style="margin-top:0;max-width:300px;text-align:right">{{ galleryData?.description }}</p>
+    <div class="header-desc-card">
+      <p class="header-desc-text">
+        {{ galleryData?.description || 'A visual journey through unspoiled sanctuaries, secret lagoons, and private motorways.' }}
+      </p>
+    </div>
   </div>
   
   <div class="gallery-grid" *ngIf="galleryData?.items">

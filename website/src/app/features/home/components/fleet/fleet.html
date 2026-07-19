@@ -8,18 +8,21 @@
         </div>
         <h2 class="section-title">The <em>Motorcycle</em> Fleet</h2>
       </div>
-      <p class="section-body" style="margin-top:0;max-width:300px;text-align:right">16 machines of pure adrenaline,
-        maintained to competition standards. Prepared for your command.</p>
+      <div class="header-desc-card">
+        <p class="header-desc-text">
+          <strong>16 machines of pure adrenaline</strong>, maintained to competition standards. Prepared for your command.
+        </p>
+      </div>
     </div>
     
     <!-- Filters menu -->
     <div class="fleet-filters">
-      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'all'" (click)="filterBikes('all')">All Machines</button>
-      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'adventure'" (click)="filterBikes('adventure')">Adventure</button>
-      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'scrambler'" (click)="filterBikes('scrambler')">Scrambler</button>
-      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'naked'" (click)="filterBikes('naked')">Naked</button>
-      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'sport'" (click)="filterBikes('sport')">Sport</button>
-      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'touring'" (click)="filterBikes('touring')">Touring</button>
+      <button *ngFor="let cat of categories" 
+              class="filter-btn cursor-pointer" 
+              [class.active]="selectedCategory === cat.id" 
+              (click)="filterBikes(cat.id)">
+        {{ cat.label }}
+      </button>
     </div>
     
     <!-- Bikes Grid -->
