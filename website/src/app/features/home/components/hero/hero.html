@@ -27,9 +27,9 @@
       <span class="hero-overline-text">{{ 'hero.overline' | translate }}</span>
     </div>
     <h1 class="hero-title">
-      <span class="hl">{{ 'hero.titlePart1' | translate }}</span>
-      <span class="hl">{{ 'hero.titlePart2' | translate }} <span class="gold-italic">{{ 'hero.titleGold' | translate }}</span></span>
-      <span class="hl">{{ 'hero.titlePart3' | translate }}</span>
+      <span class="hl" [innerText]="'hero.titlePart1' | translate"></span>
+      <span class="hl"><span [innerText]="'hero.titlePart2' | translate"></span> <span class="gold-italic" [innerText]="'hero.titleGold' | translate"></span></span>
+      <span class="hl" [innerText]="'hero.titlePart3' | translate"></span>
     </h1>
     <p class="hero-desc">{{ 'hero.description' | translate }}</p>
     <div class="hero-actions">

@@ -143,6 +143,14 @@ html.lang-kh, html.lang-km {
     letter-spacing: 0.05em !important;
   }
 
+  .hero-title {
+    line-height: 1.35 !important;
+    .hl {
+      font-size: clamp(1.6rem, 4vw, 4.2rem) !important;
+      line-height: 1.35 !important;
+    }
+  }
+
   .hero-overline-text {
     font-size: 0.82rem !important;
     letter-spacing: 0.1em !important;
