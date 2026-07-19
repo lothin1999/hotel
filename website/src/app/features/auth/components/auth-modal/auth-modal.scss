@@ -1,6 +1,6 @@
 .auth-wrap {
   padding: 3rem 3rem;
-  background: rgba(12, 11, 20, 0.94);
+  background: var(--color-card, #1A1828);
   backdrop-filter: blur(35px);
   -webkit-backdrop-filter: blur(35px);
   border: 1px solid var(--color-border2, rgba(212, 175, 80, 0.25));
@@ -64,12 +64,12 @@
 
   a {
     font-size: 0.72rem;
-    color: var(--color-text2, #9591AA);
+    color: var(--color-text2, #9591AA) !important;
     text-decoration: underline;
     transition: color 0.3s;
 
     &:hover {
-      color: var(--color-gold2, #E8CC78);
+      color: var(--color-gold2, #E8CC78) !important;
     }
   }
 }
@@ -117,7 +117,7 @@
 }
 
 .sso-btn {
-  background: var(--color-depth, #12101E);
+  background: var(--color-abyss, #070611);
   border: 1px solid var(--color-border, rgba(212, 175, 80, 0.15));
   color: var(--color-lighter, #DDD9EC);
   padding: 0.75rem 0.8rem;
