@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "estate": "庄园领地",
+    "suites": "奢华套房",
+    "experiences": "专属体验",
+    "fleet": "重型车队",
+    "gallery": "画廊影像",
+    "signIn": "登录",
+    "reserveNow": "立即预订"
+  },
+  "hero": {
+    "overline": "全球最私密的隐逸圣地",
+    "titlePart1": "在安静中",
+    "titlePart2": "重塑",
+    "titleGold": "奢华",
+    "titlePart3": "新定义",
+    "description": "坐落于私密海岸线上的邀请制庄园 — 48间定制套房与16台顶级重型摩托车等待着追求极致的您。",
+    "requestStay": "预订入住",
+    "exploreSuites": "探索套房",
+    "discover": "探索发现"
+  },
+  "suites": {
+    "chip": "臻选住宿",
+    "titlePart1": "精心雕琢的",
+    "titleGold": "私密避世圣所",
+    "desc": "每间套房皆为独立的私密世界，由普利兹克奖获奖建筑师精心构思打造。",
+    "perNight": "/ 每晚",
+    "reserve": "预订套房"
+  },
+  "fleet": {
+    "chip": "吴哥车队马厩",
+    "titlePart1": "极致竞技",
+    "titleGold": "摩托车队",
+    "titlePart2": "",
+    "desc": "16台性能强悍的顶尖坐骑，按赛事标准维保，随时听候您的调遣。",
+    "perDay": "/ 每天",
+    "bookRider": "预约骑行"
+  },
+  "booking": {
+    "chip": "尊享预订",
+    "title": "锁定您的奢华圣所",
+    "desc": "选择您的入住日期、首选别墅或重型摩托。组合套餐立享85折优惠。",
+    "stay": "客房",
+    "moto": "机车",
+    "combo": "组合",
+    "selectSuite": "选择套房",
+    "selectMachine": "选择机车",
+    "checkIn": "入住日期",
+    "checkOut": "退房日期",
+    "adults": "成人",
+    "children": "儿童",
+    "proceedToKyc": "前往填写身份信息",
+    "proceedToPayment": "前往支付",
+    "confirm": "确认预订",
+    "khmer": "柬埔寨公民 (Khmer)",
+    "foreigner": "外籍宾客 (International)",
+    "nationalId": "身份证件号码",
+    "passport": "护照号码",
+    "riderHelmet": "头盔尺寸"
+  },
+  "chat": {
+    "title": "吴哥布克私人管家",
+    "greeting": "欢迎光临吴哥布克庄园 🏛️✨ 我是您的首席管家 Isabelle。请问今天有什么可以为您效劳的？",
+    "placeholder": "咨询管家关于客房、车队或接送服务...",
+    "online": "首席私人管家 · 24/7在线"
+  },
+  "theme": {
+    "dark": "暗夜奢华 (Dark)",
+    "light": "璀璨珍珠 (Light)"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "estate": "The Estate",
+    "suites": "Suites",
+    "experiences": "Experiences",
+    "fleet": "Fleet",
+    "gallery": "Gallery",
+    "signIn": "Sign In",
+    "reserveNow": "Reserve Now"
+  },
+  "hero": {
+    "overline": "The World's Most Private Retreat",
+    "titlePart1": "Where",
+    "titlePart2": "Silence is",
+    "titleGold": "Luxury",
+    "titlePart3": "Reborn",
+    "description": "An invitation-only estate nestled above a private coastline — where 48 curated suites and 16 motorcycles await those who seek perfection without compromise.",
+    "requestStay": "Request a Stay",
+    "exploreSuites": "Explore Suites",
+    "discover": "Discover"
+  },
+  "suites": {
+    "chip": "Accommodations",
+    "titlePart1": "Curated",
+    "titleGold": "Sanctuaries",
+    "desc": "Each suite is a private sanctuary, conceived by Pritzker-winning architects using materials sourced within 100 miles.",
+    "perNight": "/ night",
+    "reserve": "Reserve Suite"
+  },
+  "fleet": {
+    "chip": "Ankor Book Stable",
+    "titlePart1": "The",
+    "titleGold": "Motorcycle",
+    "titlePart2": "Fleet",
+    "desc": "16 machines of pure adrenaline, maintained to competition standards. Prepared for your command.",
+    "perDay": "/ day",
+    "bookRider": "Book Rider"
+  },
+  "booking": {
+    "chip": "Reservations",
+    "title": "Secure a Sanctuary",
+    "desc": "Select your stay dates, preferred villa, or motorcycle. Combined packages receive a 15% rate reduction.",
+    "stay": "Stay",
+    "moto": "Moto",
+    "combo": "Combo",
+    "selectSuite": "Select Suite",
+    "selectMachine": "Select Machine",
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "adults": "Adults",
+    "children": "Children",
+    "proceedToKyc": "Proceed to Guest Details",
+    "proceedToPayment": "Proceed to Payment",
+    "confirm": "Confirm Reservation",
+    "khmer": "Cambodian (Khmer)",
+    "foreigner": "Foreigner / International",
+    "nationalId": "National ID Card Number",
+    "passport": "Passport Number",
+    "riderHelmet": "Rider Helmet Size"
+  },
+  "chat": {
+    "title": "Ankor Book Concierge",
+    "greeting": "Welcome to Ankor Book Estates & Motorworks 🏛️✨ I am Isabelle, your Private Concierge. How may I assist with your stay, villa selection, or motorcycle fleet today?",
+    "placeholder": "Ask Concierge about stay, bikes, transfers...",
+    "online": "Chief Private Concierge · Online 24/7"
+  },
+  "theme": {
+    "dark": "Dark Mode",
+    "light": "Light Mode"
+  }
+}

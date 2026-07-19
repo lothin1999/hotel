@@ -3,13 +3,16 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { LanguageService, SupportedLang, LanguageOption } from '../../../core/services/language.service';
+import { ThemeService, AppTheme } from '../../../core/services/theme.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { HlmDialogService } from '../../../components/ui/dialog/src';
 import { AuthModalComponent } from '../../../features/auth/components/auth-modal/auth-modal';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss'],
   providers: [HlmDialogService]
@@ -21,11 +24,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   userDisplayName = signal('');
   userPhotoUrl = signal('');
   
+  langDropdownOpen = false;
+
   private authSubscription?: Subscription;
   private isBrowser: boolean;
 
   constructor(
     private authService: AuthService,
+    public langService: LanguageService,
+    public themeService: ThemeService,
     private dialogService: HlmDialogService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -60,6 +67,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private onScroll = (): void => {
     this.isScrolled.set(window.scrollY > 80);
   };
+
+  toggleLangDropdown(): void {
+    this.langDropdownOpen = !this.langDropdownOpen;
+  }
+
+  selectLanguage(code: SupportedLang): void {
+    this.langService.setLanguage(code);
+    this.langDropdownOpen = false;
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen.update(val => !val);

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300;1,400;1,600&family=DM+Sans:wght@200;300;400;500&family=Cinzel:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300;1,400;1,600&family=DM+Sans:wght@200;300;400;500&family=Noto+Sans+Khmer:wght@300;400;500;600;700&display=swap');
 @import "animate.css";
 
 @layer theme, base, components, utilities;
@@ -28,9 +28,10 @@
   --color-lighter: #DDD9EC;
   --color-white: #F8F6FF;
   
-  --font-serif: 'Cormorant Garamond', serif;
-  --font-display: 'Cinzel', serif;
-  --font-sans: 'DM Sans', sans-serif;
+  --font-serif: 'Cormorant Garamond', 'Noto Sans Khmer', serif;
+  --font-display: 'Cinzel', 'Noto Sans Khmer', serif;
+  --font-sans: 'DM Sans', 'Noto Sans Khmer', sans-serif;
+  --font-khmer: 'Noto Sans Khmer', sans-serif;
 }
 
 :root {
@@ -57,6 +58,37 @@
   --radius: 0px; /* Luxury brutalist styling uses sharp borders */
 }
 
+/* Luxury Light Mode Overrides */
+html.light-mode {
+  color-scheme: light;
+  --background: #FDFBF7;
+  --foreground: #1A1828;
+  --card: #FFFFFF;
+  --card-foreground: #1A1828;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1828;
+  --primary: #D4AF50;
+  --primary-foreground: #04030A;
+  --secondary: #F4EFE6;
+  --secondary-foreground: #9A751A;
+  --muted: #F7F3EB;
+  --muted-foreground: #5A556E;
+  --border: rgba(184, 144, 40, 0.25);
+  
+  --color-obsidian: #FDFBF7;
+  --color-abyss: #F7F3EB;
+  --color-void: #F2ECE0;
+  --color-depth: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-card2: #FDFBF7;
+  --color-gold: #B89028;
+  --color-gold2: #9A751A;
+  --color-text: #5A556E;
+  --color-text2: #3A364F;
+  --color-lighter: #1A1828;
+  --color-white: #F8F6FF; /* Preserved crisp white token for dark elements */
+}
+
 /* Base resets & styles */
 html {
   scroll-behavior: smooth;
@@ -67,11 +99,23 @@ html {
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', 'Noto Sans Khmer', sans-serif;
   background: #04030A;
   color: #C8C3D8;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Instant Khmer Font Enforcement on Language Switch */
+:lang(km), :lang(kh), [lang="km"], [lang="kh"],
+html.lang-kh, html.lang-km,
+body.lang-kh, body.lang-km,
+.lang-kh, .lang-km {
+  font-family: 'Noto Sans Khmer', 'DM Sans', sans-serif !important;
+
+  button, input, select, textarea, p, span, h1, h2, h3, h4, h5, h6, a, div {
+    font-family: 'Noto Sans Khmer', 'DM Sans', sans-serif !important;
+  }
 }
 
 body.loading {

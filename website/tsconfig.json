@@ -12,6 +12,8 @@
     "target": "ES2022",
     "module": "preserve",
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@spartan-ng/helm/*": ["./src/app/components/ui/*"],
       "@spartan-ng/helm/button": ["./src/app/components/ui/button/src/index.ts"],

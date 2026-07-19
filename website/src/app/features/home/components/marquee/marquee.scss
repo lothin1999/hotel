@@ -2,8 +2,9 @@
   position: relative;
   z-index: 3;
   overflow: hidden;
-  border-top: 1px solid var(--color-border, rgba(212, 175, 80, 0.12));
-  border-bottom: 1px solid var(--color-border, rgba(212, 175, 80, 0.12));
+  background: var(--color-abyss, #070611);
+  border-top: 1px solid var(--color-border, rgba(212, 175, 80, 0.15));
+  border-bottom: 1px solid var(--color-border, rgba(212, 175, 80, 0.15));
 }
 
 .marquee-inner {
@@ -28,7 +29,7 @@
   font-size: 0.58rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: var(--color-text, #7A7590);
+  color: var(--color-lighter, #DDD9EC);
 }
 
 .marquee-item .m-diamond {

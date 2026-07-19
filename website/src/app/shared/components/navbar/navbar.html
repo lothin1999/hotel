@@ -1,16 +1,41 @@
 <nav [class.nav-scrolled]="isScrolled()" id="mainNav">
   <a [routerLink]="['/']" (click)="closeMobileMenu()" class="nav-logo">
     <span class="nav-logo-main">Ankor Book</span>
-    <span class="nav-logo-sub">Estates & Motorworks</span>
+    <span class="nav-logo-sub">Estates &amp; Motorworks</span>
   </a>
   <ul class="nav-center">
-    <li><a (click)="navigateToFragment('about')" class="cursor-pointer">The Estate</a></li>
-    <li><a (click)="navigateToFragment('suites')" class="cursor-pointer">Suites</a></li>
-    <li><a (click)="navigateToFragment('experiences')" class="cursor-pointer">Experiences</a></li>
-    <li><a (click)="navigateToFragment('fleet')" class="cursor-pointer">Fleet</a></li>
-    <li><a (click)="navigateToFragment('gallery')" class="cursor-pointer">Gallery</a></li>
+    <li><a (click)="navigateToFragment('about')" class="cursor-pointer">{{ 'nav.estate' | translate }}</a></li>
+    <li><a (click)="navigateToFragment('suites')" class="cursor-pointer">{{ 'nav.suites' | translate }}</a></li>
+    <li><a (click)="navigateToFragment('experiences')" class="cursor-pointer">{{ 'nav.experiences' | translate }}</a></li>
+    <li><a (click)="navigateToFragment('fleet')" class="cursor-pointer">{{ 'nav.fleet' | translate }}</a></li>
+    <li><a (click)="navigateToFragment('gallery')" class="cursor-pointer">{{ 'nav.gallery' | translate }}</a></li>
   </ul>
+
   <div class="nav-right">
+    <!-- Language Selector Dropdown -->
+    <div class="lang-selector-custom" [class.open]="langDropdownOpen">
+      <button (click)="toggleLangDropdown(); $event.stopPropagation()" class="lang-toggle-btn cursor-pointer">
+        <span class="lang-flag">{{ langService.currentLang === 'en' ? '🇬🇧' : langService.currentLang === 'kh' ? '🇰🇭' : '🇨🇳' }}</span>
+        <span class="lang-code">{{ langService.currentLang | uppercase }}</span>
+        <span class="lang-arrow">▾</span>
+      </button>
+      <div class="lang-dropdown-menu">
+        <button *ngFor="let l of langService.languages" 
+                (click)="selectLanguage(l.code); $event.stopPropagation()" 
+                class="lang-option-btn cursor-pointer"
+                [class.active]="langService.currentLang === l.code">
+          <span class="lang-flag">{{ l.flag }}</span>
+          <span class="lang-name">{{ l.name }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dark / Light Theme Toggle -->
+    <button (click)="toggleTheme()" class="theme-toggle-btn cursor-pointer" [attr.aria-label]="themeService.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+      <span *ngIf="themeService.isDark" title="Dark Mode (Obsidian)">🌙</span>
+      <span *ngIf="!themeService.isDark" title="Light Mode (Ivory Pearl)">☀️</span>
+    </button>
+
     <span class="nav-tel">+1 800 ANKOR·1</span>
     
     <!-- User Info if Logged In -->
@@ -28,11 +53,11 @@
     </ng-container>
     
     <!-- Sign In link if guest -->
-    <button *ngIf="!isLoggedIn()" (click)="openAuth()" class="login-text-btn">Sign In</button>
+    <button *ngIf="!isLoggedIn()" (click)="openAuth()" class="login-text-btn">{{ 'nav.signIn' | translate }}</button>
 
     <!-- RESERVE NOW button always visible -->
     <button (click)="navigateToFragment('booking')" class="nav-btn">
-      <span>RESERVE NOW</span>
+      <span>{{ 'nav.reserveNow' | translate }}</span>
     </button>
 
     <button (click)="toggleMobileMenu()" class="nav-hamburger" aria-label="Menu">
@@ -44,16 +69,32 @@
 <!-- Mobile Navigation Drawer -->
 <div class="mobile-nav" [class.open]="isMobileMenuOpen()">
   <button class="mobile-nav-close" (click)="closeMobileMenu()">✕</button>
-  <a (click)="navigateToFragment('about')">The Estate</a>
-  <a (click)="navigateToFragment('suites')">Suites</a>
-  <a (click)="navigateToFragment('experiences')">Experiences</a>
-  <a (click)="navigateToFragment('fleet')">Fleet</a>
-  <a (click)="navigateToFragment('gallery')">Gallery</a>
+
+  <!-- Mobile Language & Theme Bar -->
+  <div class="mobile-lang-theme-bar">
+    <div class="mobile-lang-grid">
+      <button *ngFor="let l of langService.languages" 
+              (click)="selectLanguage(l.code)" 
+              class="mobile-lang-btn cursor-pointer"
+              [class.active]="langService.currentLang === l.code">
+        {{ l.flag }} {{ l.code | uppercase }}
+      </button>
+    </div>
+    <button (click)="toggleTheme()" class="mobile-theme-btn cursor-pointer">
+      {{ themeService.isDark ? '🌙 Dark Mode' : '☀️ Light Mode' }}
+    </button>
+  </div>
+
+  <a (click)="navigateToFragment('about')">{{ 'nav.estate' | translate }}</a>
+  <a (click)="navigateToFragment('suites')">{{ 'nav.suites' | translate }}</a>
+  <a (click)="navigateToFragment('experiences')">{{ 'nav.experiences' | translate }}</a>
+  <a (click)="navigateToFragment('fleet')">{{ 'nav.fleet' | translate }}</a>
+  <a (click)="navigateToFragment('gallery')">{{ 'nav.gallery' | translate }}</a>
   <a *ngIf="isLoggedIn()" [routerLink]="['/profile']" (click)="closeMobileMenu()">Profile Dashboard</a>
   
   <div class="mobile-auth-section">
-    <a *ngIf="!isLoggedIn()" (click)="openAuth()" class="mobile-reserve-btn">Sign In</a>
-    <a (click)="navigateToFragment('booking')" class="mobile-reserve-btn">Reserve Now →</a>
+    <a *ngIf="!isLoggedIn()" (click)="openAuth()" class="mobile-reserve-btn">{{ 'nav.signIn' | translate }}</a>
+    <a (click)="navigateToFragment('booking')" class="mobile-reserve-btn">{{ 'nav.reserveNow' | translate }} →</a>
     <button *ngIf="isLoggedIn()" (click)="logout()" class="mobile-logout-btn">Logout</button>
   </div>
 </div>
