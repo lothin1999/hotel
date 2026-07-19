@@ -5,6 +5,7 @@ import { LoaderComponent } from './shared/components/loader/loader';
 import { CustomCursorComponent } from './shared/components/custom-cursor/custom-cursor';
 import { NavbarComponent } from './shared/components/navbar/navbar';
 import { FooterComponent } from './shared/components/footer/footer';
+import { ChatWidgetComponent } from './shared/components/chat-widget/chat-widget';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import { FooterComponent } from './shared/components/footer/footer';
     LoaderComponent,
     CustomCursorComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ChatWidgetComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

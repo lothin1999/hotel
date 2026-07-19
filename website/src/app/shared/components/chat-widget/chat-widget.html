@@ -1,0 +1,99 @@
+<!-- Floating Chat Trigger Button -->
+<div class="chat-trigger-wrap" [class.open]="isOpen">
+  <!-- Greeting Tooltip Preview (When closed and unread) -->
+  <div *ngIf="!isOpen && unreadCount > 0" class="chat-greeting-tooltip animate__animated animate__fadeInUp cursor-pointer" (click)="toggleChat()">
+    <div class="tooltip-avatar-wrap">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80&auto=format&fit=crop" alt="Isabelle Moreau" class="tooltip-avatar">
+      <span class="online-dot"></span>
+    </div>
+    <div class="tooltip-text-content">
+      <div class="tooltip-title">Ankor Book Concierge</div>
+      <p class="tooltip-desc">"How may I assist your stay or motorcycle fleet today?"</p>
+    </div>
+    <button (click)="closeChat(); $event.stopPropagation()" class="tooltip-close-btn">&times;</button>
+  </div>
+
+  <!-- Main Floating Action Button -->
+  <button (click)="toggleChat()" class="chat-fab-btn cursor-pointer" aria-label="Open Concierge Chat">
+    <div class="fab-inner">
+      <span *ngIf="!isOpen" class="fab-icon">💬</span>
+      <span *ngIf="isOpen" class="fab-icon-close">&times;</span>
+    </div>
+    <span *ngIf="!isOpen && unreadCount > 0" class="unread-badge">{{ unreadCount }}</span>
+  </button>
+</div>
+
+<!-- Chat Popup Window -->
+<div *ngIf="isOpen" class="chat-window-card animate__animated animate__fadeInUp animate__faster">
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="chat-header-user">
+      <div class="header-avatar-box">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80&auto=format&fit=crop" alt="Isabelle Moreau" class="header-avatar">
+        <span class="online-status-dot"></span>
+      </div>
+      <div>
+        <div class="header-name">Isabelle Moreau</div>
+        <div class="header-status">Chief Private Concierge · Online 24/7</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button (click)="closeChat()" class="chat-close-btn cursor-pointer" aria-label="Close Chat">&times;</button>
+    </div>
+  </div>
+
+  <!-- Messages Scroll Area -->
+  <div #chatScrollContainer class="chat-body">
+    <div class="chat-time-divider">Today · Live Concierge Desk</div>
+
+    <div *ngFor="let msg of messages" class="message-row" [class.customer]="msg.sender === 'customer'" [class.hotel]="msg.sender === 'hotel'">
+      <!-- Hotel Avatar -->
+      <img *ngIf="msg.sender === 'hotel'" [src]="msg.avatar" [alt]="msg.senderName" class="msg-avatar">
+
+      <div class="msg-bubble-group">
+        <div class="msg-sender-name">{{ msg.senderName }}</div>
+        <div class="msg-bubble">
+          <p class="msg-text">{{ msg.text }}</p>
+          <span class="msg-time">{{ msg.timestamp }}</span>
+        </div>
+
+        <!-- Quick Reply Chips -->
+        <div *ngIf="msg.quickReplies && msg.quickReplies.length > 0" class="quick-replies-wrap">
+          <button *ngFor="let qr of msg.quickReplies" 
+                  (click)="sendQuickReply(qr)" 
+                  class="quick-reply-btn cursor-pointer">
+            {{ qr }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Concierge Typing Indicator -->
+    <div *ngIf="isTyping" class="message-row hotel animate__animated animate__fadeIn">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80&auto=format&fit=crop" alt="Concierge" class="msg-avatar">
+      <div class="msg-bubble-group">
+        <div class="msg-sender-name">Isabelle Moreau</div>
+        <div class="msg-bubble typing-bubble">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Footer -->
+  <div class="chat-footer">
+    <input type="text" 
+           [(ngModel)]="userMessageText" 
+           (keyup.enter)="sendMessage()" 
+           placeholder="Ask Concierge about stay, bikes, transfers..." 
+           class="chat-input">
+    <button (click)="sendMessage()" [disabled]="!userMessageText.trim()" class="chat-send-btn cursor-pointer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>
