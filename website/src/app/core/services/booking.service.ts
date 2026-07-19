@@ -19,10 +19,13 @@ export interface BookingItem {
   guestName: string;
   guestEmail: string;
   guestPhone?: string;
+  guestGender?: 'male' | 'female' | 'other';
   nationality?: 'khmer' | 'foreigner';
+  specificNationality?: string;
   idDocumentType?: 'khmer_id' | 'passport';
   idDocumentNumber?: string;
   idDocumentPhotoUrl?: string;
+  uploadedDocumentUrls?: string[];
   driverLicenseNumber?: string;
   driverLicensePhotoUrl?: string;
   helmetSizeRider?: 'S' | 'M' | 'L' | 'XL';

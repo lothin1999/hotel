@@ -153,7 +153,23 @@
     "nightsDays": "Nights / Days",
     "subtotal": "Subtotal",
     "discountLabel": "Package Discount (15%)",
-    "estimatedTotal": "Estimated Total"
+    "estimatedTotal": "Estimated Total",
+    "validation": {
+      "nameRequired": "Name is required.",
+      "nameInvalid": "Name must contain only letters and spaces.",
+      "nameParts": "Please enter both first and last name.",
+      "emailInvalid": "Please enter a valid email address.",
+      "phoneInvalid": "Please enter a valid phone number (8-15 digits).",
+      "khmerIdInvalid": "Cambodian ID must be 9 to 12 digits.",
+      "passportInvalid": "Passport must be 7 to 12 alphanumeric characters.",
+      "idPhotoRequired": "Please upload a photo of your ID/Passport.",
+      "licenseRequired": "Please enter a valid driver's license number.",
+      "licensePhotoRequired": "Please upload a photo of your driver's license.",
+      "cardNumberInvalid": "Card number must be 16 digits.",
+      "cardExpiryInvalid": "Expiry must be in MM/YY format.",
+      "cardExpired": "Card has expired.",
+      "cardCvvInvalid": "CVV must be 3 digits."
+    }
   },
   "footer": {
     "top": {

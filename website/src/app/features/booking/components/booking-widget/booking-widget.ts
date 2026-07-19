@@ -58,10 +58,16 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   guestFullName = '';
   guestEmail = '';
   guestPhone = '+855 ';
+  guestGender: 'male' | 'female' | 'other' = 'male';
   nationality: 'khmer' | 'foreigner' = 'khmer';
+  specificNationality = '';
   idNumber = '';
   idPhotoPreview: string | null = null;
   idPhotoFileName = '';
+
+  // Multiple drag & drop files/images upload
+  uploadedFiles: Array<{ name: string; size: number; type: string; previewUrl: string; file: File }> = [];
+  isDragging = false;
 
   // Moto Prerequisites
   driverLicenseNumber = '';
@@ -89,6 +95,7 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   // Active drafts subscription
   private draftSubscription?: Subscription;
   private isBrowser: boolean;
+  public todayStr = '';
 
   // Options lists loaded dynamically from DataService
   suitesOptions: { name: string; price: number; detail: string }[] = [];
@@ -208,6 +215,7 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
       const pad = (n: number) => n.toString().padStart(2, '0');
       const fmt = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
+      this.todayStr = fmt(today);
       this.hotelCheckIn = this.motoCheckIn = this.comboCheckIn = fmt(today);
       this.hotelCheckOut = this.motoCheckOut = this.comboCheckOut = fmt(tomorrow);
     }
@@ -255,6 +263,72 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
     this.idNumber = '';
     this.idPhotoPreview = null;
     this.idPhotoFileName = '';
+    this.specificNationality = '';
+    this.uploadedFiles = [];
+  }
+
+  setGender(gender: 'male' | 'female' | 'other'): void {
+    this.guestGender = gender;
+  }
+
+  // Multi file upload handlers
+  onDragOver(e: DragEvent): void {
+    e.preventDefault();
+    e.stopPropagation();
+    this.isDragging = true;
+  }
+
+  onDragLeave(e: DragEvent): void {
+    e.preventDefault();
+    e.stopPropagation();
+    this.isDragging = false;
+  }
+
+  onDrop(e: DragEvent): void {
+    e.preventDefault();
+    e.stopPropagation();
+    this.isDragging = false;
+    
+    if (e.dataTransfer && e.dataTransfer.files) {
+      this.handleMultipleFiles(e.dataTransfer.files);
+    }
+  }
+
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.handleMultipleFiles(input.files);
+    }
+  }
+
+  private handleMultipleFiles(files: FileList): void {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const previewUrl = e.target?.result as string;
+        this.uploadedFiles.push({
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          previewUrl: previewUrl,
+          file: file
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeUploadedFile(index: number): void {
+    this.uploadedFiles.splice(index, 1);
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
   setHelmetRider(size: any): void {
@@ -267,6 +341,155 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
 
   setExperience(exp: 'novice' | 'intermediate' | 'expert'): void {
     this.ridingExperience = exp;
+  }
+
+  onDateChange(type: 'hotelCheckIn' | 'hotelCheckOut' | 'motoCheckIn' | 'motoCheckOut' | 'comboCheckIn' | 'comboCheckOut', value: string): void {
+    if (type === 'hotelCheckIn') {
+      this.hotelCheckIn = value;
+      this.adjustDates('hotel');
+    } else if (type === 'hotelCheckOut') {
+      this.hotelCheckOut = value;
+      this.adjustDates('hotel');
+    } else if (type === 'motoCheckIn') {
+      this.motoCheckIn = value;
+      this.adjustDates('moto');
+    } else if (type === 'motoCheckOut') {
+      this.motoCheckOut = value;
+      this.adjustDates('moto');
+    } else if (type === 'comboCheckIn') {
+      this.comboCheckIn = value;
+      this.adjustDates('combo');
+    } else if (type === 'comboCheckOut') {
+      this.comboCheckOut = value;
+      this.adjustDates('combo');
+    }
+  }
+
+  private adjustDates(tab: 'hotel' | 'moto' | 'combo'): void {
+    let start = '';
+    let end = '';
+    if (tab === 'hotel') { start = this.hotelCheckIn; end = this.hotelCheckOut; }
+    else if (tab === 'moto') { start = this.motoCheckIn; end = this.motoCheckOut; }
+    else { start = this.comboCheckIn; end = this.comboCheckOut; }
+
+    if (start && end) {
+      const s = new Date(start + 'T00:00:00');
+      const e = new Date(end + 'T00:00:00');
+      if (e <= s) {
+        const nextDay = new Date(s);
+        nextDay.setDate(nextDay.getDate() + 1);
+        const pad = (n: number) => n.toString().padStart(2, '0');
+        const fmt = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+        const newEnd = fmt(nextDay);
+        if (tab === 'hotel') this.hotelCheckOut = newEnd;
+        else if (tab === 'moto') this.motoCheckOut = newEnd;
+        else this.comboCheckOut = newEnd;
+      }
+    }
+  }
+
+  // Validation getters
+  get nameError(): string {
+    if (!this.guestFullName) return 'booking.validation.nameRequired';
+    if (!/^[a-zA-Z\s\u1780-\u17FF]+$/.test(this.guestFullName)) return 'booking.validation.nameInvalid';
+    if (this.guestFullName.trim().split(/\s+/).length < 2) return 'booking.validation.nameParts';
+    return '';
+  }
+
+  get emailError(): string {
+    if (!this.guestEmail) return 'booking.validation.nameRequired';
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(this.guestEmail)) return 'booking.validation.emailInvalid';
+    return '';
+  }
+
+  get phoneError(): string {
+    if (!this.guestPhone || this.guestPhone.trim() === '+855' || this.guestPhone.trim() === '') return 'booking.validation.phoneInvalid';
+    const cleanPhone = this.guestPhone.replace(/\s+/g, '');
+    const phonePattern = /^\+?[0-9-]{8,15}$/;
+    if (!phonePattern.test(cleanPhone)) return 'booking.validation.phoneInvalid';
+    return '';
+  }
+
+  get idNumberErrorMsg(): string {
+    if (!this.idNumber) return '';
+    if (this.nationality === 'khmer') {
+      if (!/^\d{9,12}$/.test(this.idNumber)) return 'booking.validation.khmerIdInvalid';
+    } else {
+      if (!/^[a-zA-Z0-9]{7,12}$/.test(this.idNumber)) return 'booking.validation.passportInvalid';
+    }
+    return '';
+  }
+
+  get idPhotoErrorMsg(): string {
+    if (this.checkoutStep === 'guest_kyc' && !this.idPhotoPreview) {
+      return 'booking.validation.idPhotoRequired';
+    }
+    return '';
+  }
+
+  get licenseErrorMsg(): string {
+    if (this.activeTab === 'moto' || this.activeTab === 'combo') {
+      if (!this.driverLicenseNumber) return 'booking.validation.licenseRequired';
+      if (this.driverLicenseNumber.trim().length < 5) return 'booking.validation.licenseRequired';
+    }
+    return '';
+  }
+
+  get licensePhotoErrorMsg(): string {
+    if ((this.activeTab === 'moto' || this.activeTab === 'combo') && this.checkoutStep === 'guest_kyc' && !this.licensePhotoPreview) {
+      return 'booking.validation.licensePhotoRequired';
+    }
+    return '';
+  }
+
+  get isKycValid(): boolean {
+    if (this.nameError || this.emailError || this.phoneError || !this.idNumber || this.idNumberErrorMsg || this.idPhotoErrorMsg) {
+      return false;
+    }
+    if (this.activeTab === 'moto' || this.activeTab === 'combo') {
+      if (this.licenseErrorMsg || this.licensePhotoErrorMsg) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  get cardNumberError(): string {
+    if (this.selectedPaymentMethod !== 'online' || this.selectedPaymentChannel !== 'card') return '';
+    if (!this.cardNumber) return 'booking.validation.cardNumberInvalid';
+    const cleanCard = this.cardNumber.replace(/\s+/g, '');
+    if (!/^\d{16}$/.test(cleanCard)) return 'booking.validation.cardNumberInvalid';
+    return '';
+  }
+
+  get cardExpiryError(): string {
+    if (this.selectedPaymentMethod !== 'online' || this.selectedPaymentChannel !== 'card') return '';
+    if (!this.cardExpiry) return 'booking.validation.cardExpiryInvalid';
+    if (!/^\d{2}\/\d{2}$/.test(this.cardExpiry)) return 'booking.validation.cardExpiryInvalid';
+    const [monthStr, yearStr] = this.cardExpiry.split('/');
+    const month = parseInt(monthStr, 10);
+    const year = parseInt('20' + yearStr, 10);
+    if (month < 1 || month > 12) return 'booking.validation.cardExpiryInvalid';
+    const now = new Date();
+    const curYear = now.getFullYear();
+    const curMonth = now.getMonth() + 1;
+    if (year < curYear || (year === curYear && month < curMonth)) return 'booking.validation.cardExpired';
+    return '';
+  }
+
+  get cardCvvError(): string {
+    if (this.selectedPaymentMethod !== 'online' || this.selectedPaymentChannel !== 'card') return '';
+    if (!this.cardCvv) return 'booking.validation.cardCvvInvalid';
+    if (!/^\d{3}$/.test(this.cardCvv)) return 'booking.validation.cardCvvInvalid';
+    return '';
+  }
+
+  get isCardValid(): boolean {
+    if (this.selectedPaymentMethod !== 'online' || this.selectedPaymentChannel !== 'card') {
+      return true;
+    }
+    return !this.cardNumberError && !this.cardExpiryError && !this.cardCvvError;
   }
 
   // ── Step Navigation & Validation ──────────────────────────────────
@@ -304,7 +527,7 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   }
 
   proceedToPayment(): void {
-    if (!this.guestFullName || !this.guestEmail) return;
+    if (!this.isKycValid) return;
     this.checkoutStep = 'payment';
     this.startQrTimer();
   }
@@ -400,9 +623,28 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   }
 
   get isFormValid(): boolean {
-    if (this.activeTab === 'hotel') return !!this.hotelSuite && !!this.hotelCheckIn && !!this.hotelCheckOut;
-    if (this.activeTab === 'moto') return !!this.motoBike && !!this.motoCheckIn && !!this.motoCheckOut;
-    return !!this.comboSuite && !!this.comboBike && !!this.comboCheckIn && !!this.comboCheckOut;
+    let start = '';
+    let end = '';
+    let selectedItem = false;
+    if (this.activeTab === 'hotel') {
+      start = this.hotelCheckIn;
+      end = this.hotelCheckOut;
+      selectedItem = !!this.hotelSuite;
+    } else if (this.activeTab === 'moto') {
+      start = this.motoCheckIn;
+      end = this.motoCheckOut;
+      selectedItem = !!this.motoBike;
+    } else {
+      start = this.comboCheckIn;
+      end = this.comboCheckOut;
+      selectedItem = !!this.comboSuite && !!this.comboBike;
+    }
+
+    if (!selectedItem || !start || !end) return false;
+
+    const s = new Date(start + 'T00:00:00');
+    const e = new Date(end + 'T00:00:00');
+    return e > s;
   }
 
   // Formatting helpers for rendering currency safely
@@ -442,6 +684,7 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
    */
   async submitReservation(): Promise<void> {
     if (this.isProcessingPayment) return;
+    if (this.selectedPaymentMethod === 'online' && this.selectedPaymentChannel === 'card' && !this.isCardValid) return;
     
     const user = this.authService.currentUser;
     const name = this.guestFullName || user?.displayName || 'Guest User';
@@ -468,10 +711,13 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
         guestName: name,
         guestEmail: email,
         guestPhone: this.guestPhone,
+        guestGender: this.guestGender,
         nationality: this.nationality,
+        specificNationality: this.nationality === 'foreigner' ? this.specificNationality : undefined,
         idDocumentType: this.nationality === 'khmer' ? 'khmer_id' : 'passport',
         idDocumentNumber: this.idNumber,
-        idDocumentPhotoUrl: this.idPhotoPreview || undefined,
+        idDocumentPhotoUrl: this.uploadedFiles[0]?.previewUrl || undefined,
+        uploadedDocumentUrls: this.uploadedFiles.map(f => f.previewUrl),
         driverLicenseNumber: this.driverLicenseNumber || undefined,
         driverLicensePhotoUrl: this.licensePhotoPreview || undefined,
         helmetSizeRider: (this.activeTab === 'moto' || this.activeTab === 'combo') ? this.helmetSizeRider : undefined,

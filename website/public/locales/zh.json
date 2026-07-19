@@ -153,7 +153,23 @@
     "nightsDays": "晚 / 天",
     "subtotal": "费用小计",
     "discountLabel": "套组套餐特惠 (15%折扣)",
-    "estimatedTotal": "预计总费用"
+    "estimatedTotal": "预计总费用",
+    "validation": {
+      "nameRequired": "姓名必填。",
+      "nameInvalid": "姓名只能包含字母和空格。",
+      "nameParts": "请输入您的姓氏和名字。",
+      "emailInvalid": "请输入有效的电子邮箱地址。",
+      "phoneInvalid": "请输入有效的电话号码 (8-15位数字)。",
+      "khmerIdInvalid": "柬埔寨身份证号必须为 9 到 12 位数字。",
+      "passportInvalid": "护照号码必须为 7 到 12 位字母或数字。",
+      "idPhotoRequired": "请上传身份证/护照照片。",
+      "licenseRequired": "请输入有效的驾驶执照号码。",
+      "licensePhotoRequired": "请上传驾驶执照照片。",
+      "cardNumberInvalid": "银行卡号必须为 16 位数字。",
+      "cardExpiryInvalid": "卡片有效期格式须为 MM/YY。",
+      "cardExpired": "该银行卡已过期。",
+      "cardCvvInvalid": "安全码 (CVV) 必须为 3 位数字。"
+    }
   },
   "footer": {
     "top": {

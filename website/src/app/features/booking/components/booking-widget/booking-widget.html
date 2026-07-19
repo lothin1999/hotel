@@ -99,7 +99,8 @@
                     <app-date-picker
                       [value]="hotelCheckIn"
                       placeholder="{{ 'booking.selectCheckInDate' | translate }}"
-                      (valueChange)="hotelCheckIn = $event">
+                      [minDate]="todayStr"
+                      (valueChange)="onDateChange('hotelCheckIn', $event)">
                     </app-date-picker>
                   </div>
                   <div class="f-group">
@@ -108,7 +109,7 @@
                       [value]="hotelCheckOut"
                       placeholder="{{ 'booking.selectCheckOutDate' | translate }}"
                       [minDate]="hotelCheckIn"
-                      (valueChange)="hotelCheckOut = $event">
+                      (valueChange)="onDateChange('hotelCheckOut', $event)">
                     </app-date-picker>
                   </div>
                 </div>
@@ -162,7 +163,8 @@
                     <app-date-picker
                       [value]="motoCheckIn"
                       placeholder="{{ 'booking.selectStartDate' | translate }}"
-                      (valueChange)="motoCheckIn = $event">
+                      [minDate]="todayStr"
+                      (valueChange)="onDateChange('motoCheckIn', $event)">
                     </app-date-picker>
                   </div>
                   <div class="f-group">
@@ -171,7 +173,7 @@
                       [value]="motoCheckOut"
                       placeholder="{{ 'booking.selectEndDate' | translate }}"
                       [minDate]="motoCheckIn"
-                      (valueChange)="motoCheckOut = $event">
+                      (valueChange)="onDateChange('motoCheckOut', $event)">
                     </app-date-picker>
                   </div>
                 </div>
@@ -227,7 +229,8 @@
                     <app-date-picker
                       [value]="comboCheckIn"
                       placeholder="{{ 'booking.selectStartDate' | translate }}"
-                      (valueChange)="comboCheckIn = $event">
+                      [minDate]="todayStr"
+                      (valueChange)="onDateChange('comboCheckIn', $event)">
                     </app-date-picker>
                   </div>
                   <div class="f-group">
@@ -236,7 +239,7 @@
                       [value]="comboCheckOut"
                       placeholder="{{ 'booking.selectEndDate' | translate }}"
                       [minDate]="comboCheckIn"
-                      (valueChange)="comboCheckOut = $event">
+                      (valueChange)="onDateChange('comboCheckOut', $event)">
                     </app-date-picker>
                   </div>
                 </div>
@@ -263,16 +266,19 @@
               <div class="f-group">
                 <label class="f-label">{{ 'booking.fullNameLabel' | translate }} <span class="f-required">*</span></label>
                 <input type="text" class="f-input" [(ngModel)]="guestFullName" placeholder="e.g. Sokha Chan">
+                <div *ngIf="nameError && guestFullName" class="f-error-msg animate__animated animate__fadeIn">{{ nameError | translate }}</div>
               </div>
 
               <div class="f-row">
                 <div class="f-group">
                   <label class="f-label">{{ 'booking.emailLabel' | translate }} <span class="f-required">*</span></label>
                   <input type="email" class="f-input" [(ngModel)]="guestEmail" placeholder="e.g. guest@domain.com">
+                  <div *ngIf="emailError && guestEmail" class="f-error-msg animate__animated animate__fadeIn">{{ emailError | translate }}</div>
                 </div>
                 <div class="f-group">
                   <label class="f-label">{{ 'booking.phoneLabel' | translate }} <span class="f-required">*</span></label>
                   <input type="tel" class="f-input" [(ngModel)]="guestPhone" placeholder="+855 12 345 678">
+                  <div *ngIf="phoneError && guestPhone && guestPhone.trim() !== '+855' && guestPhone.trim() !== ''" class="f-error-msg animate__animated animate__fadeIn">{{ phoneError | translate }}</div>
                 </div>
               </div>
 
@@ -293,6 +299,7 @@
               <div *ngIf="nationality === 'khmer'" class="f-group document-upload-card animate__animated animate__fadeIn">
                 <label class="f-label">{{ 'booking.nationalId' | translate }} <span class="f-required">*</span></label>
                 <input type="text" class="f-input" [(ngModel)]="idNumber" placeholder="e.g. 182049281">
+                <div *ngIf="idNumberErrorMsg && idNumber" class="f-error-msg animate__animated animate__fadeIn">{{ idNumberErrorMsg | translate }}</div>
                 
                 <div class="upload-dropzone-label">{{ 'booking.uploadKhmerId' | translate }}</div>
                 
@@ -302,6 +309,7 @@
                   <div class="upload-text">{{ 'booking.clickUploadId' | translate }}</div>
                   <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
                 </div>
+                <div *ngIf="!idPhotoPreview" class="f-error-msg text-center" style="margin-top: 0.5rem;">{{ 'booking.validation.idPhotoRequired' | translate }}</div>
 
                 <div *ngIf="idPhotoPreview" class="file-preview-card">
                   <img [src]="idPhotoPreview" alt="ID Card Preview" class="preview-img">
@@ -316,6 +324,7 @@
               <div *ngIf="nationality === 'foreigner'" class="f-group document-upload-card animate__animated animate__fadeIn">
                 <label class="f-label">{{ 'booking.passport' | translate }} <span class="f-required">*</span></label>
                 <input type="text" class="f-input" [(ngModel)]="idNumber" placeholder="e.g. N92847291">
+                <div *ngIf="idNumberErrorMsg && idNumber" class="f-error-msg animate__animated animate__fadeIn">{{ idNumberErrorMsg | translate }}</div>
                 
                 <div class="upload-dropzone-label">{{ 'booking.uploadPassport' | translate }}</div>
                 
@@ -325,6 +334,7 @@
                   <div class="upload-text">{{ 'booking.clickUploadPassport' | translate }}</div>
                   <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
                 </div>
+                <div *ngIf="!idPhotoPreview" class="f-error-msg text-center" style="margin-top: 0.5rem;">{{ 'booking.validation.idPhotoRequired' | translate }}</div>
 
                 <div *ngIf="idPhotoPreview" class="file-preview-card">
                   <img [src]="idPhotoPreview" alt="Passport Preview" class="preview-img">
@@ -341,16 +351,18 @@
                 
                 <!-- Driver License Upload -->
                 <div class="f-group">
-                  <label class="f-label">{{ 'booking.licenseNumberLabel' | translate }}</label>
+                  <label class="f-label">{{ 'booking.licenseNumberLabel' | translate }} <span class="f-required">*</span></label>
                   <input type="text" class="f-input" [(ngModel)]="driverLicenseNumber" placeholder="e.g. DL-98214-KH">
+                  <div *ngIf="licenseErrorMsg && driverLicenseNumber" class="f-error-msg animate__animated animate__fadeIn">{{ licenseErrorMsg | translate }}</div>
                 </div>
 
-                <div *ngIf="!licensePhotoPreview" class="upload-dropzone cursor-pointer" (click)="licenseFileInput.click()" style="margin-bottom: 1.2rem;">
+                <div *ngIf="!licensePhotoPreview" class="upload-dropzone cursor-pointer" (click)="licenseFileInput.click()" style="margin-bottom: 0.6rem;">
                   <input #licenseFileInput type="file" accept="image/*" (change)="onLicensePhotoSelected($event)" style="display:none">
                   <div class="upload-icon">🪪</div>
                   <div class="upload-text">{{ 'booking.clickUploadLicense' | translate }}</div>
                   <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
                 </div>
+                <div *ngIf="!licensePhotoPreview" class="f-error-msg text-center" style="margin-bottom: 1.2rem;">{{ 'booking.validation.licensePhotoRequired' | translate }}</div>
 
                 <div *ngIf="licensePhotoPreview" class="file-preview-card" style="margin-bottom: 1.2rem;">
                   <img [src]="licensePhotoPreview" alt="Driver License Preview" class="preview-img">
@@ -391,7 +403,7 @@
 
               <!-- Actions -->
               <div class="booking-action-row" style="margin-top: 1.5rem;">
-                <button [disabled]="!guestFullName || !guestEmail || !idNumber" (click)="proceedToPayment()" class="btn-primary w-full justify-center cursor-pointer" style="display:flex;">
+                <button [disabled]="!isKycValid" (click)="proceedToPayment()" class="btn-primary w-full justify-center cursor-pointer" style="display:flex;">
                   <span>{{ 'booking.proceedToPayment' | translate }}</span>
                   <span>→</span>
                 </button>
@@ -450,20 +462,23 @@
                 <div *ngIf="selectedPaymentChannel === 'card'" class="card-inputs-form animate__animated animate__fadeIn">
                   <div class="f-group">
                     <label class="f-label">{{ 'booking.cardholderName' | translate }}</label>
-                    <input type="text" class="f-input" [value]="guestFullName" placeholder="e.g. Isabelle Moreau">
+                    <input type="text" class="f-input" [value]="guestFullName" placeholder="e.g. Isabelle Moreau" disabled>
                   </div>
                   <div class="f-group">
-                    <label class="f-label">{{ 'booking.cardNumber' | translate }}</label>
+                    <label class="f-label">{{ 'booking.cardNumber' | translate }} <span class="f-required">*</span></label>
                     <input type="text" class="f-input" [(ngModel)]="cardNumber" placeholder="4111 2222 3333 4444">
+                    <div *ngIf="cardNumberError && cardNumber" class="f-error-msg animate__animated animate__fadeIn">{{ cardNumberError | translate }}</div>
                   </div>
                   <div class="f-row">
                     <div class="f-group">
-                      <label class="f-label">{{ 'booking.expiryDate' | translate }}</label>
+                      <label class="f-label">{{ 'booking.expiryDate' | translate }} <span class="f-required">*</span></label>
                       <input type="text" class="f-input" [(ngModel)]="cardExpiry" placeholder="MM/YY">
+                      <div *ngIf="cardExpiryError && cardExpiry" class="f-error-msg animate__animated animate__fadeIn">{{ cardExpiryError | translate }}</div>
                     </div>
                     <div class="f-group">
-                      <label class="f-label">{{ 'booking.cvv' | translate }}</label>
+                      <label class="f-label">{{ 'booking.cvv' | translate }} <span class="f-required">*</span></label>
                       <input type="password" class="f-input" [(ngModel)]="cardCvv" placeholder="•••">
+                      <div *ngIf="cardCvvError && cardCvv" class="f-error-msg animate__animated animate__fadeIn">{{ cardCvvError | translate }}</div>
                     </div>
                   </div>
                 </div>
@@ -483,7 +498,7 @@
               </div>
 
               <!-- Actions -->
-              <button [disabled]="isProcessingPayment" (click)="submitReservation()" class="btn-primary w-full justify-center cursor-pointer mt-4" style="display:flex;">
+              <button [disabled]="isProcessingPayment || !isCardValid" (click)="submitReservation()" class="btn-primary w-full justify-center cursor-pointer mt-4" style="display:flex;">
                 <span *ngIf="!isProcessingPayment">{{ 'booking.confirm' | translate }}</span>
                 <span *ngIf="isProcessingPayment" class="processing-spinner">{{ 'booking.processingPayment' | translate }}</span>
               </button>

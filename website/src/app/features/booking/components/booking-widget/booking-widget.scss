@@ -863,3 +863,11 @@
     display: none;
   }
 }
+
+.f-error-msg {
+  color: var(--color-crimson, #E5484D);
+  font-size: 0.65rem;
+  margin-top: 0.4rem;
+  letter-spacing: 0.02em;
+}
+
