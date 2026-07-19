@@ -1,0 +1,217 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+/* ── Trigger Button ── */
+.dp-wrap {
+  position: relative;
+}
+
+.dp-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.95rem 1.2rem;
+  background: rgba(212, 175, 80, 0.04);
+  border: 1px solid rgba(212, 175, 80, 0.18);
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+  min-height: 52px;
+
+  &:hover,
+  &.active {
+    border-color: rgba(212, 175, 80, 0.5);
+    background: rgba(212, 175, 80, 0.07);
+  }
+}
+
+.dp-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #F8F6FF;
+  letter-spacing: 0.04em;
+
+  &.placeholder {
+    color: #7A7590;
+    font-size: 0.75rem;
+  }
+}
+
+.dp-icon {
+  color: #E8CC78;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: opacity 0.3s;
+}
+
+.dp-trigger.active .dp-icon {
+  opacity: 1;
+}
+
+/* ── Calendar Popup ── */
+.dp-calendar {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 600;
+  width: 300px;
+  background: #1A1828;
+  border: 1px solid rgba(212, 175, 80, 0.25);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 175, 80, 0.05);
+  animation: dpSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dpSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Header ── */
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem 0.8rem;
+  border-bottom: 1px solid rgba(212, 175, 80, 0.1);
+}
+
+.dp-month-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #E8CC78;
+}
+
+.dp-nav-btn {
+  background: transparent;
+  border: 1px solid rgba(212, 175, 80, 0.18);
+  color: #E8CC78;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(212, 175, 80, 0.12);
+    border-color: rgba(212, 175, 80, 0.45);
+  }
+}
+
+/* ── Day Name Row ── */
+.dp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  padding: 0.6rem 0.8rem 0;
+}
+
+.dp-day-names {
+  padding-bottom: 0.4rem;
+}
+
+.dp-day-name {
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #7A7590;
+  text-align: center;
+  padding: 0.3rem 0;
+}
+
+/* ── Day Cells ── */
+.dp-days {
+  padding-bottom: 0.6rem;
+}
+
+.dp-day {
+  aspect-ratio: 1;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #C8C3D8;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  position: relative;
+
+  &:hover:not(.selected):not(.disabled):not(.empty) {
+    background: rgba(212, 175, 80, 0.08);
+    border-color: rgba(212, 175, 80, 0.2);
+    color: #E8CC78;
+  }
+
+  &.today:not(.selected) {
+    color: #E8CC78;
+    border-color: rgba(212, 175, 80, 0.3);
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #E8CC78;
+    }
+  }
+
+  &.selected {
+    background: #E8CC78;
+    border-color: #E8CC78;
+    color: #04030A;
+    font-weight: 600;
+  }
+
+  &.disabled {
+    color: rgba(122, 117, 144, 0.3);
+    cursor: not-allowed;
+  }
+
+  &.empty {
+    pointer-events: none;
+  }
+}
+
+/* ── Footer ── */
+.dp-footer {
+  border-top: 1px solid rgba(212, 175, 80, 0.08);
+  padding: 0.6rem 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.dp-hint {
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(122, 117, 144, 0.5);
+}
+
+/* ── Mobile ── */
+@media(max-width: 480px) {
+  .dp-calendar {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+}

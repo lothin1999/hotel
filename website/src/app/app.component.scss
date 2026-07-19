@@ -1,0 +1,7 @@
+/* Global wrapper layout styling */
+:host {
+  display: block;
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--color-obsidian, #04030A);
+}

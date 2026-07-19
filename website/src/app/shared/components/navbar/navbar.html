@@ -1,0 +1,59 @@
+<nav [class.nav-scrolled]="isScrolled()" id="mainNav">
+  <a [routerLink]="['/']" (click)="closeMobileMenu()" class="nav-logo">
+    <span class="nav-logo-main">Ankor Book</span>
+    <span class="nav-logo-sub">Estates & Motorworks</span>
+  </a>
+  <ul class="nav-center">
+    <li><a (click)="navigateToFragment('about')" class="cursor-pointer">The Estate</a></li>
+    <li><a (click)="navigateToFragment('suites')" class="cursor-pointer">Suites</a></li>
+    <li><a (click)="navigateToFragment('experiences')" class="cursor-pointer">Experiences</a></li>
+    <li><a (click)="navigateToFragment('fleet')" class="cursor-pointer">Fleet</a></li>
+    <li><a (click)="navigateToFragment('gallery')" class="cursor-pointer">Gallery</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-tel">+1 800 ANKOR·1</span>
+    
+    <!-- User Info if Logged In -->
+    <ng-container *ngIf="isLoggedIn()">
+      <a [routerLink]="['/profile']" (click)="closeMobileMenu()" class="profile-link">
+        <div class="profile-avatar-wrap">
+          <img *ngIf="userPhotoUrl(); else fallbackAvatar" [src]="userPhotoUrl()" alt="Avatar" class="avatar-img">
+          <ng-template #fallbackAvatar>
+            <div class="avatar-letter">{{ userDisplayName().charAt(0) | uppercase }}</div>
+          </ng-template>
+        </div>
+        <span class="profile-name">{{ userDisplayName() }}</span>
+      </a>
+      <button (click)="logout()" class="logout-text-btn">Logout</button>
+    </ng-container>
+    
+    <!-- Sign In link if guest -->
+    <button *ngIf="!isLoggedIn()" (click)="openAuth()" class="login-text-btn">Sign In</button>
+
+    <!-- RESERVE NOW button always visible -->
+    <button (click)="navigateToFragment('booking')" class="nav-btn">
+      <span>RESERVE NOW</span>
+    </button>
+
+    <button (click)="toggleMobileMenu()" class="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Navigation Drawer -->
+<div class="mobile-nav" [class.open]="isMobileMenuOpen()">
+  <button class="mobile-nav-close" (click)="closeMobileMenu()">✕</button>
+  <a (click)="navigateToFragment('about')">The Estate</a>
+  <a (click)="navigateToFragment('suites')">Suites</a>
+  <a (click)="navigateToFragment('experiences')">Experiences</a>
+  <a (click)="navigateToFragment('fleet')">Fleet</a>
+  <a (click)="navigateToFragment('gallery')">Gallery</a>
+  <a *ngIf="isLoggedIn()" [routerLink]="['/profile']" (click)="closeMobileMenu()">Profile Dashboard</a>
+  
+  <div class="mobile-auth-section">
+    <a *ngIf="!isLoggedIn()" (click)="openAuth()" class="mobile-reserve-btn">Sign In</a>
+    <a (click)="navigateToFragment('booking')" class="mobile-reserve-btn">Reserve Now →</a>
+    <button *ngIf="isLoggedIn()" (click)="logout()" class="mobile-logout-btn">Logout</button>
+  </div>
+</div>

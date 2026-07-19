@@ -1,41 +1,30 @@
 # ------------------------------------------------------------------------------
-# Git Ignore Configuration - Velour Hotel Manage Workspace
+# Git Ignore Configuration - Website (Angular Application)
 # ------------------------------------------------------------------------------
 
 # Compiled & Build Outputs
-dist/
-website/dist/
-website/.angular/
-.angular/
-tmp/
-website/tmp/
-out-tsc/
-website/out-tsc/
-bazel-out/
-coverage/
+/dist
+/tmp
+/out-tsc
+/bazel-out
+/.angular/cache
+/coverage
 __screenshots__/
 
 # Node Dependencies
-node_modules/
-website/node_modules/
-
-# Logs & Debugging
-*.log
+/node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment & Secret Files
+# Environment & Secrets
 .env
 .env.*
 !.env.example
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
-# IDEs & Code Editors
+# IDEs & Editors
 .idea/
 .project
 .classpath
@@ -55,10 +44,5 @@ pnpm-debug.log*
 
 # Operating System & System Files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 desktop.ini

@@ -1,0 +1,145 @@
+<section class="section profile-section">
+  <div class="section-max">
+    <div class="profile-grid">
+      <!-- Sidebar Navigation -->
+      <div class="profile-sidebar">
+        <div class="profile-header-card">
+          <div class="phc-avatar">
+            <img *ngIf="photoURL; else letterAvatar" [src]="photoURL" alt="Profile Picture">
+            <ng-template #letterAvatar>
+              <div class="phc-letter">{{ displayName.charAt(0) | uppercase }}</div>
+            </ng-template>
+          </div>
+          <div class="phc-name">{{ displayName }}</div>
+          <div class="phc-email">{{ authService.currentUser?.email }}</div>
+        </div>
+
+        <div class="profile-nav-list">
+          <button (click)="setSection('history')" [class.active]="activeSection === 'history'" class="profile-nav-btn cursor-pointer">
+            <span class="pnb-icon">📅</span> Stays & Rides History
+          </button>
+          <button (click)="setSection('settings')" [class.active]="activeSection === 'settings'" class="profile-nav-btn cursor-pointer">
+            <span class="pnb-icon">👤</span> Personal Information
+          </button>
+          <button (click)="setSection('connections')" [class.active]="activeSection === 'connections'" class="profile-nav-btn cursor-pointer">
+            <span class="pnb-icon">🔗</span> Linked Accounts
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Panel Display -->
+      <div class="profile-main-panel">
+        <div class="profile-card">
+          <!-- SECTION 1: BOOKING HISTORY -->
+          <div *ngIf="activeSection === 'history'" class="animate__animated animate__fadeIn">
+            <h3 class="panel-title">Reservation Records</h3>
+            <div class="gold-line" style="margin: 1rem 0 2rem;"></div>
+
+            <div *ngIf="bookings.length === 0" class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <div class="empty-state-title">No bookings found</div>
+              <p class="empty-state-desc">You haven't reserved any stays or motorcycle rides yet. Return to the home screen to reserve a suite or bike.</p>
+            </div>
+
+            <div *ngIf="bookings.length > 0" class="history-list">
+              <div *ngFor="let item of bookings" class="history-item">
+                <div class="history-item-top">
+                  <div>
+                    <div class="hit-type">{{ item.type | uppercase }} RESERVATION</div>
+                    <div class="hit-title">{{ item.title }}</div>
+                    <div *ngIf="item.subTitle" class="hit-subtitle">{{ item.subTitle }}</div>
+                  </div>
+                  <div class="hit-status" [class]="item.status">
+                    {{ item.status | uppercase }}
+                  </div>
+                </div>
+
+                <div class="history-item-details">
+                  <div>
+                    <div class="hid-label">Date Range</div>
+                    <div class="hid-val">{{ item.startDate }} to {{ item.endDate }} ({{ item.unitsCount }} Units)</div>
+                  </div>
+                  <div>
+                    <div class="hid-label">Reference Code</div>
+                    <div class="hid-val text-gold">{{ item.reference }}</div>
+                  </div>
+                  <div>
+                    <div class="hid-label">Total Settle</div>
+                    <div class="hid-val">{{ formatVal(item.total) }}</div>
+                  </div>
+                </div>
+
+                <div *ngIf="item.status === 'active'" class="history-item-actions">
+                  <button (click)="cancelReservation(item.id)" class="cancel-booking-btn cursor-pointer">Cancel Booking</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: PERSONAL SETTINGS -->
+          <div *ngIf="activeSection === 'settings'" class="animate__animated animate__fadeIn">
+            <h3 class="panel-title">Personal Details</h3>
+            <div class="gold-line" style="margin: 1rem 0 2rem;"></div>
+
+            <form (submit)="savePersonalInformation()" class="settings-form">
+              <div class="f-group">
+                <label class="f-label">Full Name</label>
+                <input type="text" class="f-input" [(ngModel)]="displayName" name="displayName" required>
+              </div>
+
+              <!-- Avatar Selection Presets -->
+              <div class="f-group mt-4">
+                <label class="f-label">Select Avatar Image</label>
+                <div class="avatar-presets-grid">
+                  <div *ngFor="let preset of avatarPresets" 
+                       (click)="selectAvatar(preset)" 
+                       class="avatar-preset-item cursor-pointer"
+                       [class.selected]="photoURL === preset">
+                    <img [src]="preset" alt="Avatar option">
+                  </div>
+                </div>
+              </div>
+
+              <div class="f-group mt-4">
+                <label class="f-label">Custom Avatar URL</label>
+                <input type="text" class="f-input" [(ngModel)]="photoURL" name="photoURL" placeholder="https://example.com/myphoto.jpg">
+              </div>
+
+              <button type="submit" [disabled]="isSavingInfo" class="btn-primary mt-6 cursor-pointer">
+                <span *ngIf="!isSavingInfo">Save Changes</span>
+                <span *ngIf="isSavingInfo">Updating Profile...</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- SECTION 3: SOCIAL CONNECTIONS -->
+          <div *ngIf="activeSection === 'connections'" class="animate__animated animate__fadeIn">
+            <h3 class="panel-title">Account Connections</h3>
+            <div class="gold-line" style="margin: 1rem 0 2rem;"></div>
+            <p class="panel-desc">Securely link your Ankor Book guests profile to external networks. Connecting accounts enables one-click authenticated logins across all devices.</p>
+
+            <div class="connections-list mt-6">
+              <div *ngFor="let provider of socialProviders" class="connection-item">
+                <div class="ci-left">
+                  <span class="ci-icon">{{ provider.icon }}</span>
+                  <div>
+                    <div class="ci-name">{{ provider.name }}</div>
+                    <div class="ci-status" [class.connected]="authService.isProviderLinked(provider.id)">
+                      {{ authService.isProviderLinked(provider.id) ? 'Connected' : 'Not Linked' }}
+                    </div>
+                  </div>
+                </div>
+                <button (click)="toggleConnection(provider.id)" 
+                        [class.link-btn]="!authService.isProviderLinked(provider.id)"
+                        [class.unlink-btn]="authService.isProviderLinked(provider.id)"
+                        class="connection-action-btn cursor-pointer">
+                  {{ authService.isProviderLinked(provider.id) ? 'Disconnect' : 'Connect' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

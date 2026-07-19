@@ -1,0 +1,44 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@spartan-ng/helm/*": ["./src/app/components/ui/*"],
+      "@spartan-ng/helm/button": ["./src/app/components/ui/button/src/index.ts"],
+      "@spartan-ng/helm/utils": ["./src/app/components/ui/utils/src/index.ts"],
+      "@spartan-ng/helm/dialog": ["./src/app/components/ui/dialog/src/index.ts"],
+      "@spartan-ng/helm/tabs": ["./src/app/components/ui/tabs/src/index.ts"],
+      "@spartan-ng/helm/select": ["./src/app/components/ui/select/src/index.ts"],
+      "@spartan-ng/helm/input": ["./src/app/components/ui/input/src/index.ts"],
+      "@spartan-ng/helm/label": ["./src/app/components/ui/label/src/index.ts"],
+      "@spartan-ng/helm/avatar": ["./src/app/components/ui/avatar/src/index.ts"],
+      "@spartan-ng/helm/card": ["./src/app/components/ui/card/src/index.ts"],
+      "@spartan-ng/helm/separator": ["./src/app/components/ui/separator/src/index.ts"],
+      "@spartan-ng/helm/toggle": ["./src/app/components/ui/toggle/src/index.ts"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

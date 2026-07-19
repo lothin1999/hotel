@@ -1,0 +1,363 @@
+<section class="section booking-section" id="booking">
+  <div class="section-max">
+    <div class="booking-grid">
+      <!-- Left Panel: Summary & Brand -->
+      <div class="booking-left">
+        <div class="chip">
+          <div class="chip-ornament"><span></span><span></span><span></span></div>
+          <span class="chip-text">Reservations</span>
+        </div>
+        <h2 class="section-title">Secure a<br><em>Sanctuary</em></h2>
+        <div class="gold-line"></div>
+        <p class="section-body" style="max-width:340px;">Select your stay dates, preferred villa, or motorcycle. Stays of 3 nights or more receive premium concierge allocation. Combined packages automatically receive a 15% rate reduction.</p>
+        
+        <!-- Live Costs Summary (If form is valid and showing form step) -->
+        <div *ngIf="checkoutStep === 'form' && isFormValid" class="cost-summary-card animate__animated animate__fadeIn">
+          <div class="csc-title">Reservation Summary</div>
+          <div class="csc-row">
+            <span>{{ checkoutTitle }}</span>
+            <span>{{ formatVal(ratePerUnit) }} / unit</span>
+          </div>
+          <div class="csc-row">
+            <span>Duration</span>
+            <span>{{ calculatedUnits }} Nights / Days</span>
+          </div>
+          <div class="csc-divider"></div>
+          <div class="csc-row">
+            <span>Subtotal</span>
+            <span>{{ formatVal(subTotal) }}</span>
+          </div>
+          <div *ngIf="discount > 0" class="csc-row text-gold">
+            <span>Package Discount (15%)</span>
+            <span>-{{ formatVal(discount) }}</span>
+          </div>
+          <div class="csc-divider2"></div>
+          <div class="csc-row csc-total">
+            <span>Estimated Total</span>
+            <span class="text-gold">{{ formatVal(totalCost) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Dynamic Forms / Checkout -->
+      <div class="booking-right">
+        <div class="booking-card">
+          <!-- Step 1: Form Inputs -->
+          <ng-container *ngIf="checkoutStep === 'form'">
+            <!-- Tab Headers -->
+            <div class="booking-tabs">
+              <button (click)="setTab('hotel')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'hotel'">Stay</button>
+              <button (click)="setTab('moto')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'moto'">Moto</button>
+              <button (click)="setTab('combo')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'combo'">Combo</button>
+            </div>
+
+            <div class="booking-tab-content">
+              <!-- HOTEL TAB -->
+              <div *ngIf="activeTab === 'hotel'">
+                <div class="f-group">
+                  <label class="f-label">Select Suite <span class="f-required">*</span></label>
+                  <div class="custom-select" [class.open]="hotelSuiteOpen">
+                    <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('hotelSuite'); $event.stopPropagation()">
+                      <span>{{ hotelSuite ? (hotelSuite === 'Obsidian Garden' ? 'Obsidian Garden Suite' : hotelSuite) + ' — ' + formatVal(hotelSuitePrice) + '/night' : 'Choose a sanctuary...' }}</span>
+                    </div>
+                    <div class="custom-dropdown">
+                      <div *ngFor="let s of suitesOptions" 
+                           class="custom-option" 
+                           [class.selected]="hotelSuite === s.name"
+                           (click)="selectHotelSuite(s.name); $event.stopPropagation()">
+                        <div>
+                          <span class="custom-opt-name" [style.color]="hotelSuite === s.name ? '#E8CC78' : '#F8F6FF'">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
+                          <span class="custom-opt-detail">{{ s.detail }}</span>
+                        </div>
+                        <span class="custom-opt-price">{{ formatVal(s.price) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="f-row">
+                  <div class="f-group">
+                    <label class="f-label">Check In <span class="f-required">*</span></label>
+                    <app-date-picker
+                      [value]="hotelCheckIn"
+                      placeholder="Select check-in date"
+                      (valueChange)="hotelCheckIn = $event">
+                    </app-date-picker>
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">Check Out <span class="f-required">*</span></label>
+                    <app-date-picker
+                      [value]="hotelCheckOut"
+                      placeholder="Select check-out date"
+                      [minDate]="hotelCheckIn"
+                      (valueChange)="hotelCheckOut = $event">
+                    </app-date-picker>
+                  </div>
+                </div>
+
+
+                <div class="f-row-guests">
+                  <div>
+                    <label class="f-label">Adults</label>
+                    <div class="f-stepper">
+                      <button (click)="decrementGuest('adults')" class="stepper-btn">-</button>
+                      <span class="stepper-val">{{ hotelAdults }}</span>
+                      <button (click)="incrementGuest('adults')" class="stepper-btn">+</button>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="f-label">Children</label>
+                    <div class="f-stepper">
+                      <button (click)="decrementGuest('children')" class="stepper-btn">-</button>
+                      <span class="stepper-val">{{ hotelChildren }}</span>
+                      <button (click)="incrementGuest('children')" class="stepper-btn">+</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- MOTO TAB -->
+              <div *ngIf="activeTab === 'moto'">
+                <div class="f-group">
+                  <label class="f-label">Select Machine <span class="f-required">*</span></label>
+                  <div class="custom-select" [class.open]="motoBikeOpen">
+                    <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('motoBike'); $event.stopPropagation()">
+                      <span>{{ motoBike ? motoBike + ' — ' + formatVal(motoBikePrice) + '/day' : 'Choose a rider...' }}</span>
+                    </div>
+                    <div class="custom-dropdown">
+                      <div *ngFor="let b of bikesOptions" 
+                           class="custom-option" 
+                           [class.selected]="motoBike === b.name"
+                           (click)="selectMotoBike(b.name); $event.stopPropagation()">
+                        <div>
+                          <span class="custom-opt-name" [style.color]="motoBike === b.name ? '#E8CC78' : '#F8F6FF'">{{ b.name }}</span>
+                          <span class="custom-opt-detail">{{ b.detail }}</span>
+                        </div>
+                        <span class="custom-opt-price">{{ formatVal(b.price) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="f-row">
+                  <div class="f-group">
+                    <label class="f-label">Start Date <span class="f-required">*</span></label>
+                    <app-date-picker
+                      [value]="motoCheckIn"
+                      placeholder="Select start date"
+                      (valueChange)="motoCheckIn = $event">
+                    </app-date-picker>
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">End Date <span class="f-required">*</span></label>
+                    <app-date-picker
+                      [value]="motoCheckOut"
+                      placeholder="Select end date"
+                      [minDate]="motoCheckIn"
+                      (valueChange)="motoCheckOut = $event">
+                    </app-date-picker>
+                  </div>
+                </div>
+              </div>
+
+              <!-- COMBO TAB -->
+              <div *ngIf="activeTab === 'combo'">
+                <div class="f-group">
+                  <label class="f-label">Select Suite <span class="f-required">*</span></label>
+                  <div class="custom-select" [class.open]="comboSuiteOpen">
+                    <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('comboSuite'); $event.stopPropagation()">
+                      <span>{{ comboSuite ? (comboSuite === 'Obsidian Garden' ? 'Obsidian Garden Suite' : comboSuite) + ' — ' + formatVal(comboSuitePrice) + '/night' : 'Choose a sanctuary...' }}</span>
+                    </div>
+                    <div class="custom-dropdown">
+                      <div *ngFor="let s of suitesOptions" 
+                           class="custom-option" 
+                           [class.selected]="comboSuite === s.name"
+                           (click)="selectComboSuite(s.name); $event.stopPropagation()">
+                        <div>
+                          <span class="custom-opt-name" [style.color]="comboSuite === s.name ? '#E8CC78' : '#F8F6FF'">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
+                          <span class="custom-opt-detail">{{ s.detail }}</span>
+                        </div>
+                        <span class="custom-opt-price">{{ formatVal(s.price) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="f-group">
+                  <label class="f-label">Select Machine <span class="f-required">*</span></label>
+                  <div class="custom-select" [class.open]="comboBikeOpen">
+                    <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('comboBike'); $event.stopPropagation()">
+                      <span>{{ comboBike ? comboBike + ' — ' + formatVal(comboBikePrice) + '/day' : 'Choose a rider...' }}</span>
+                    </div>
+                    <div class="custom-dropdown">
+                      <div *ngFor="let b of bikesOptions" 
+                           class="custom-option" 
+                           [class.selected]="comboBike === b.name"
+                           (click)="selectComboBike(b.name); $event.stopPropagation()">
+                        <div>
+                          <span class="custom-opt-name" [style.color]="comboBike === b.name ? '#E8CC78' : '#F8F6FF'">{{ b.name }}</span>
+                          <span class="custom-opt-detail">{{ b.detail }}</span>
+                        </div>
+                        <span class="custom-opt-price">{{ formatVal(b.price) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="f-row">
+                  <div class="f-group">
+                    <label class="f-label">Start Date <span class="f-required">*</span></label>
+                    <app-date-picker
+                      [value]="comboCheckIn"
+                      placeholder="Select start date"
+                      (valueChange)="comboCheckIn = $event">
+                    </app-date-picker>
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">End Date <span class="f-required">*</span></label>
+                    <app-date-picker
+                      [value]="comboCheckOut"
+                      placeholder="Select end date"
+                      [minDate]="comboCheckIn"
+                      (valueChange)="comboCheckOut = $event">
+                    </app-date-picker>
+                  </div>
+                </div>
+              </div>
+
+              <div class="booking-action-row" style="margin-top: 2rem;">
+                <button [disabled]="!isFormValid" (click)="proceedToCheckout()" class="btn-primary w-full cursor-pointer justify-center" style="display:flex;">
+                  <span>Proceed to Checkout</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Step 2: Payment Selector & Simulators -->
+          <ng-container *ngIf="checkoutStep === 'payment'">
+            <div class="checkout-header">
+              <button (click)="cancelCheckout()" class="checkout-back-btn">← Back to Form</button>
+              <div class="checkout-title">Secured Gateway</div>
+            </div>
+
+            <!-- Method Selection -->
+            <div class="method-toggle">
+              <button (click)="selectPaymentMethod('online')" [class.active]="selectedPaymentMethod === 'online'" class="mt-btn cursor-pointer">Online Payment</button>
+              <button (click)="selectPaymentMethod('hotel')" [class.active]="selectedPaymentMethod === 'hotel'" class="mt-btn cursor-pointer">Pay at Hotel</button>
+            </div>
+
+            <div class="checkout-body">
+              <!-- ONLINE PAYMENT METHOD -->
+              <div *ngIf="selectedPaymentMethod === 'online'">
+                <div class="channel-select-label">Select Payment Channel</div>
+                <div class="payment-channels">
+                  <button (click)="selectPaymentChannel('bakong')" [class.active]="selectedPaymentChannel === 'bakong'" class="pc-btn cursor-pointer">Bakong KHQR</button>
+                  <button (click)="selectPaymentChannel('aba')" [class.active]="selectedPaymentChannel === 'aba'" class="pc-btn cursor-pointer">ABA Pay</button>
+                  <button (click)="selectPaymentChannel('card')" [class.active]="selectedPaymentChannel === 'card'" class="pc-btn cursor-pointer">Credit Card</button>
+                </div>
+
+                <div class="channel-separator"></div>
+
+                <!-- Bakong / ABA QR Code Simulator -->
+                <div *ngIf="selectedPaymentChannel === 'bakong' || selectedPaymentChannel === 'aba'" class="qr-simulator animate__animated animate__fadeIn">
+                  <div class="qr-box">
+                    <img [src]="qrPayloadUrl" alt="QR Code" class="qr-img">
+                    <div class="qr-scan-line"></div>
+                  </div>
+                  <div class="qr-instructions">
+                    <div class="qr-instructions-title">Scan to Pay via {{ selectedPaymentChannel === 'bakong' ? 'Bakong KHQR' : 'ABA Pay' }}</div>
+                    <p class="qr-instructions-desc">Open your banking app, scan this KHQR, and complete the secure payment. Once scanned, the booking will auto-confirm.</p>
+                    <div class="qr-timer">Expires in: <strong>{{ countdownSeconds }}s</strong></div>
+                  </div>
+                </div>
+
+                <!-- Credit Card Secure Inputs -->
+                <div *ngIf="selectedPaymentChannel === 'card'" class="card-inputs-form animate__animated animate__fadeIn">
+                  <div class="f-group">
+                    <label class="f-label">Cardholder Name</label>
+                    <input type="text" class="f-input" placeholder="e.g. Isabelle Moreau">
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">Card Number</label>
+                    <input type="text" class="f-input" [(ngModel)]="cardNumber" placeholder="4111 2222 3333 4444">
+                  </div>
+                  <div class="f-row">
+                    <div class="f-group">
+                      <label class="f-label">Expiry Date</label>
+                      <input type="text" class="f-input" [(ngModel)]="cardExpiry" placeholder="MM/YY">
+                    </div>
+                    <div class="f-group">
+                      <label class="f-label">CVV</label>
+                      <input type="password" class="f-input" [(ngModel)]="cardCvv" placeholder="•••">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PAY AT HOTEL METHOD -->
+              <div *ngIf="selectedPaymentMethod === 'hotel'" class="hotel-instructions animate__animated animate__fadeIn">
+                <div class="hotel-inst-icon">🏨</div>
+                <div class="hotel-inst-title">Reservation Deposit-Free</div>
+                <p class="hotel-inst-desc">Your stay will be reserved under the guest profile. No online payment is required today. The invoice will be settled at the hotel check-in desk.</p>
+              </div>
+
+              <!-- Total Cost Box -->
+              <div class="checkout-total-banner">
+                <span class="ctb-label">Total to Settle:</span>
+                <span class="ctb-val">{{ formatVal(totalCost) }}</span>
+              </div>
+
+              <!-- Actions -->
+              <button [disabled]="isProcessingPayment" (click)="submitReservation()" class="btn-primary w-full justify-center cursor-pointer mt-4" style="display:flex;">
+                <span *ngIf="!isProcessingPayment">Confirm Reservation</span>
+                <span *ngIf="isProcessingPayment" class="processing-spinner">Processing Secure Payment...</span>
+              </button>
+            </div>
+          </ng-container>
+
+          <!-- Step 3: Success Confirmation Page -->
+          <ng-container *ngIf="checkoutStep === 'success'">
+            <div class="success-screen animate__animated animate__zoomIn">
+              <div class="success-icon">✓</div>
+              <h3 class="success-title">Sanctuary Reserved</h3>
+              <p class="success-desc">Your booking is confirmed. A receipt and digital key guide have been dispatched to your email address.</p>
+              
+              <div class="reference-box">
+                <div class="ref-label">Booking Reference</div>
+                <div class="ref-val">{{ completedBooking?.reference }}</div>
+                <button (click)="copyReference()" class="ref-copy-btn cursor-pointer">Copy Ref Code</button>
+              </div>
+
+              <div class="receipt-details">
+                <div class="rd-row">
+                  <span>Guest</span>
+                  <strong>{{ completedBooking?.guestName }}</strong>
+                </div>
+                <div class="rd-row">
+                  <span>Stay</span>
+                  <strong>{{ completedBooking?.title }}</strong>
+                </div>
+                <div class="rd-row">
+                  <span>Dates</span>
+                  <strong>{{ completedBooking?.startDate }} to {{ completedBooking?.endDate }}</strong>
+                </div>
+                <div class="rd-row">
+                  <span>Total Settled</span>
+                  <strong class="text-gold">{{ formatVal(completedBooking?.total || 0) }}</strong>
+                </div>
+                <div class="rd-row">
+                  <span>Status</span>
+                  <strong class="text-gold" style="text-transform: uppercase;">{{ completedBooking?.paymentStatus }}</strong>
+                </div>
+              </div>
+
+              <button (click)="resetWidget()" class="btn-outline w-full justify-center mt-6">Book Another Stay</button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

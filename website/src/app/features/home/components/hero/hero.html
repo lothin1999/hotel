@@ -1,0 +1,80 @@
+<section class="hero" id="home">
+  <div class="hero-bg" #heroBg>
+    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=90&auto=format&fit=crop"
+      alt="Ankor Book Estate">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-art-lines">
+    <svg viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.3" />
+        </pattern>
+      </defs>
+      <rect width="800" height="900" fill="url(#grid)" />
+      <circle cx="400" cy="450" r="200" fill="none" stroke="white" stroke-width="0.3" />
+      <circle cx="400" cy="450" r="300" fill="none" stroke="white" stroke-width="0.2" />
+      <circle cx="400" cy="450" r="380" fill="none" stroke="white" stroke-width="0.15" />
+    </svg>
+  </div>
+  <div class="hero-content">
+    <div class="hero-overline">
+      <div class="hero-overline-line"></div>
+      <div class="hero-overline-diamond"></div>
+      <span class="hero-overline-text">The World's Most Private Retreat</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="hl">Where</span>
+      <span class="hl">Silence is <span class="gold-italic">Luxury</span></span>
+      <span class="hl">Reborn</span>
+    </h1>
+    <p class="hero-desc">An invitation-only estate nestled above a private coastline — where 48 curated suites and 16
+      motorcycles await those who seek perfection without compromise.</p>
+    <div class="hero-actions">
+      <button class="btn-primary cursor-pointer" (click)="scrollToBooking()">
+        <span>Request a Stay</span>
+        <span class="btn-arrow">→</span>
+      </button>
+      <button class="btn-outline cursor-pointer" (click)="scrollToSuites()">Explore Suites</button>
+    </div>
+  </div>
+  
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">48</span>
+      <span class="hero-stat-label">Private Suites</span>
+    </div>
+    <div class="hero-stat-sep"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">16</span>
+      <span class="hero-stat-label">Motorcycles</span>
+    </div>
+    <div class="hero-stat-sep"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">5★</span>
+      <span class="hero-stat-label">Forbes Rated</span>
+    </div>
+    <div class="hero-stat-sep"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">15</span>
+      <span class="hero-stat-label">Years of Excellence</span>
+    </div>
+  </div>
+  
+  <div class="hero-scroll-indicator">
+    <span class="scroll-text">Discover</span>
+    <div class="scroll-orb">
+      <div class="scroll-dot"></div>
+    </div>
+  </div>
+  
+  <div class="hero-award-card">
+    <div class="award-stars">
+      <span class="award-star">★</span><span class="award-star">★</span><span class="award-star">★</span><span
+        class="award-star">★</span><span class="award-star">★</span>
+    </div>
+    <div class="award-title">"A destination that<br>transcends hospitality"</div>
+    <div class="award-source">Condé Nast Traveller · 2024</div>
+    <div class="award-badge">World's Best Resort</div>
+  </div>
+</section>

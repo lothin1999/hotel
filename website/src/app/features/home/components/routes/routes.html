@@ -1,0 +1,101 @@
+<section class="section routes-section" id="routes">
+  <div class="routes-decor">
+    <svg viewBox="0 0 600 800" style="width:100%;height:100%">
+      <path d="M100,50 C200,50 150,200 300,200 C450,200 400,350 500,350 C550,350 580,400 580,450" fill="none"
+        stroke="white" stroke-width="1" stroke-dasharray="8,8" />
+      <circle cx="100" cy="50" r="6" fill="white" opacity="0.5" />
+      <circle cx="300" cy="200" r="4" fill="white" opacity="0.4" />
+      <circle cx="500" cy="350" r="4" fill="white" opacity="0.4" />
+      <circle cx="580" cy="450" r="8" fill="white" opacity="0.3" />
+      <path d="M100,300 C180,280 220,400 300,420 C380,440 420,360 500,380" fill="none" stroke="rgba(212,175,80,1)"
+        stroke-width="0.5" stroke-dasharray="5,10" />
+      <path d="M50,550 C150,520 200,620 280,610 C360,600 400,680 480,660" fill="none" stroke="white"
+        stroke-width="0.8" stroke-dasharray="3,12" />
+    </svg>
+  </div>
+  
+  <div class="section-max" style="position:relative;z-index:1;">
+    <div class="chip">
+      <div class="chip-ornament"><span></span><span></span><span></span></div>
+      <span class="chip-text">Coastal Routes</span>
+    </div>
+    
+    <div class="routes-grid">
+      <div>
+        <h2 class="section-title">Six <em>Legendary</em><br>Roads</h2>
+        <div class="gold-line"></div>
+        <p class="section-body">Each of our six curated routes was personally mapped by our head of moto experiences,
+          Luca Ferretti. Every road is assessed weekly for safety, scenery, and discovery.</p>
+        <p class="section-body" style="margin-top:1rem">GPS-loaded route cards are prepared for each rental. Every
+          route includes rest stops, fuel points, emergency contacts, and hidden viewpoints unknown to public maps.
+        </p>
+        
+        <div class="routes-list">
+          <div *ngFor="let item of routes" class="route-item">
+            <div class="route-no">{{ item.no }}</div>
+            <div style="flex:1;">
+              <div class="route-name">{{ item.name }}</div>
+              <div class="route-meta">{{ item.size }}</div>
+              <div class="route-desc">{{ item.desc }}</div>
+            </div>
+            <div *ngIf="item.badge" class="route-badge">{{ item.badge }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="routes-right-panel">
+        <div class="route-map-card">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=85&auto=format&fit=crop"
+            alt="Coastal route" class="route-map-img">
+          <div class="route-map-overlay">
+            <div class="chip-text" style="margin-bottom:1rem;">Featured Route</div>
+            <div class="route-map-title">
+              Cliff's Edge<br><em style="color:var(--color-gold2, #E8CC78);">Circuit</em>
+            </div>
+            <div class="gold-line" style="margin:1.2rem 0 1rem;"></div>
+            <div class="route-map-stats">
+              <div>
+                <div class="route-stat-num">42</div>
+                <div class="route-stat-label">km</div>
+              </div>
+              <div>
+                <div class="route-stat-num">2.5</div>
+                <div class="route-stat-label">Hours</div>
+              </div>
+              <div>
+                <div class="route-stat-num">3</div>
+                <div class="route-stat-label">Viewpoints</div>
+              </div>
+            </div>
+            <button (click)="scrollToFleet()" class="route-fleet-btn cursor-pointer">
+              Choose Your Bike <span>→</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="route-perks-grid">
+          <div class="route-perk-card">
+            <div class="route-perk-icon">🗺️</div>
+            <div class="route-perk-title">GPS Loaded</div>
+            <div class="route-perk-desc">Pre-loaded routes</div>
+          </div>
+          <div class="route-perk-card">
+            <div class="route-perk-icon">📡</div>
+            <div class="route-perk-title">24/7 Support</div>
+            <div class="route-perk-desc">Always on call</div>
+          </div>
+          <div class="route-perk-card">
+            <div class="route-perk-icon">🛡️</div>
+            <div class="route-perk-title">Full Insurance</div>
+            <div class="route-perk-desc">Zero excess</div>
+          </div>
+          <div class="route-perk-card">
+            <div class="route-perk-icon">⛽</div>
+            <div class="route-perk-title">Full Tank</div>
+            <div class="route-perk-desc">Always fuelled</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

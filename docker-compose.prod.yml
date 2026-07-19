@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  website-prod:
+    build:
+      context: ./website
+      dockerfile: Dockerfile.prod
+    container_name: ankorbook_website_prod
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+    restart: always

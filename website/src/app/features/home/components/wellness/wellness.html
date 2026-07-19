@@ -1,0 +1,47 @@
+<section class="section wellness-section" id="wellness">
+  <div class="wellness-decor"></div>
+  <div class="section-max" style="position:relative;z-index:1;">
+    <div style="text-align:center;margin-bottom:5rem;">
+      <div class="chip" style="justify-content:center;">
+        <div class="chip-ornament"><span></span><span></span><span></span></div>
+        <span class="chip-text">Onsen Sanctuary</span>
+      </div>
+      <h2 class="section-title">Thermal <em>Transcendence</em></h2>
+      <p class="section-body" style="margin:1.5rem auto 0;text-align:center;">Our geothermal onsen facility draws from
+        the island's volcanic aquifers — water that has filtered through lava rock for centuries before reaching your
+        body.</p>
+    </div>
+    
+    <!-- Spa treatments grid -->
+    <div class="spa-grid">
+      <div *ngFor="let item of treatments" class="spa-card">
+        <div class="spa-icon">{{ item.icon }}</div>
+        <div class="spa-card-title">{{ item.name }}</div>
+        <div class="spa-duration">{{ item.duration }}</div>
+        <div class="gold-line" style="margin:1.2rem auto;width:40px;"></div>
+        <div class="spa-desc">{{ item.desc }}</div>
+        <div class="spa-price">${{ item.price }}</div>
+      </div>
+    </div>
+    
+    <!-- Spa stats bar -->
+    <div class="spa-stats-bar">
+      <div class="spa-stat-box">
+        <div class="spa-stat-num">8</div>
+        <div class="spa-stat-label">Private Villas</div>
+      </div>
+      <div class="spa-stat-box">
+        <div class="spa-stat-num">14</div>
+        <div class="spa-stat-label">Treatments</div>
+      </div>
+      <div class="spa-stat-box">
+        <div class="spa-stat-num">40°</div>
+        <div class="spa-stat-label">Thermal Pools</div>
+      </div>
+      <div class="spa-stat-box">
+        <div class="spa-stat-num">∞</div>
+        <div class="spa-stat-label">Tranquility</div>
+      </div>
+    </div>
+  </div>
+</section>

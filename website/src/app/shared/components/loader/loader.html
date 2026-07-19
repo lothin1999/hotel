@@ -1,0 +1,24 @@
+<div class="loader-container" [class.loaded]="isLoaded()">
+  <div class="loader-bg-lines"></div>
+  <div class="loader-emblem">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" stroke="rgba(212,175,80,0.15)" stroke-width="0.5" />
+      <circle cx="50" cy="50" r="38" stroke="rgba(212,175,80,0.1)" stroke-width="0.5" />
+      <path d="M50 4 L50 10 M50 90 L50 96 M4 50 L10 50 M90 50 L96 50" stroke="rgba(212,175,80,0.4)"
+        stroke-width="0.8" />
+      <path d="M20.1 20.1 L24.6 24.6 M75.4 75.4 L79.9 79.9 M79.9 20.1 L75.4 24.6 M24.6 75.4 L20.1 79.9"
+        stroke="rgba(212,175,80,0.25)" stroke-width="0.8" />
+      <path d="M50 16 A34 34 0 0 1 84 50" stroke="rgba(212,175,80,0.5)" stroke-width="0.8" stroke-linecap="round" />
+      <path d="M50 84 A34 34 0 0 1 16 50" stroke="rgba(212,175,80,0.3)" stroke-width="0.8" stroke-linecap="round" />
+    </svg>
+    <div class="loader-center-dot">
+      <span class="loader-v">V</span>
+    </div>
+  </div>
+  <div class="loader-wordmark">Ankor Book</div>
+  <div class="loader-sub">Estates & Motorworks — Est. 2009</div>
+  <div class="loader-line-wrap">
+    <div class="loader-line-fill" [style.width.%]="progress()"></div>
+  </div>
+  <div class="loader-percent">{{ progress() }}%</div>
+</div>

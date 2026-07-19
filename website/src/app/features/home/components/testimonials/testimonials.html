@@ -1,0 +1,47 @@
+<section class="section testi-section" id="testimonials">
+  <div class="testi-bg-decor"></div>
+  <div class="testi-big-quote">"</div>
+  <div class="section-max">
+    <div style="text-align:center;margin-bottom:5rem">
+      <div class="chip" style="justify-content:center">
+        <div class="chip-ornament"><span></span><span></span><span></span></div>
+        <span class="chip-text">Guest Voices</span>
+      </div>
+      <h2 class="section-title">What Our <em>Guests</em><br>Will Never Forget</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-avatars">
+        <div *ngFor="let item of testimonials; let idx = index" 
+             class="testi-avatar cursor-pointer" 
+             [class.active]="currentIndex() === idx"
+             (click)="select(idx)">
+          <div class="testi-avatar-active-line"></div>
+          <div class="testi-avatar-img">
+            <img [src]="item.image" [alt]="item.name">
+          </div>
+          <div>
+            <div class="testi-avatar-name">{{ item.name }}</div>
+            <div class="testi-avatar-loc">{{ item.location }}</div>
+            <div class="testi-avatar-suite">{{ item.suite }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testi-content-area">
+        <div *ngFor="let item of testimonials; let idx = index" 
+             class="testi-content" 
+             [class.active]="currentIndex() === idx">
+          <div class="testi-quote-mark">"</div>
+          <div class="testi-text">{{ item.text }}</div>
+          <div class="testi-rating">
+            <span *ngFor="let star of [1,2,3,4,5]" class="testi-star">★</span>
+          </div>
+          <div class="testi-meta">
+            <div class="testi-stay">Stayed: <strong>{{ item.stayDuration }}</strong> · {{ item.suite }}</div>
+            <div style="font-size:0.58rem;letter-spacing:0.15em;color:var(--color-text, #7A7590)">{{ item.date }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

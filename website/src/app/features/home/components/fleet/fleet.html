@@ -1,0 +1,62 @@
+<section class="section fleet-section" id="fleet">
+  <div class="section-max">
+    <div class="fleet-header">
+      <div>
+        <div class="chip">
+          <div class="chip-ornament"><span></span><span></span><span></span></div>
+          <span class="chip-text">Ankor Book Stable</span>
+        </div>
+        <h2 class="section-title">The <em>Motorcycle</em> Fleet</h2>
+      </div>
+      <p class="section-body" style="margin-top:0;max-width:300px;text-align:right">16 machines of pure adrenaline,
+        maintained to competition standards. Prepared for your command.</p>
+    </div>
+    
+    <!-- Filters menu -->
+    <div class="fleet-filters">
+      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'all'" (click)="filterBikes('all')">All Machines</button>
+      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'adventure'" (click)="filterBikes('adventure')">Adventure</button>
+      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'scrambler'" (click)="filterBikes('scrambler')">Scrambler</button>
+      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'naked'" (click)="filterBikes('naked')">Naked</button>
+      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'sport'" (click)="filterBikes('sport')">Sport</button>
+      <button class="filter-btn cursor-pointer" [class.active]="selectedCategory === 'touring'" (click)="filterBikes('touring')">Touring</button>
+    </div>
+    
+    <!-- Bikes Grid -->
+    <div class="fleet-grid">
+      <div *ngFor="let bike of filteredBikes" class="moto-card">
+        <div class="moto-card-img-wrap">
+          <img [src]="bike.image" [alt]="bike.name">
+          <div class="moto-card-overlay"></div>
+          <div *ngIf="bike.badge" class="moto-card-badge">{{ bike.badge }}</div>
+        </div>
+        
+        <div class="moto-card-body">
+          <div class="moto-card-cat">{{ bike.category | uppercase }}</div>
+          <div class="moto-card-name">{{ bike.name }}</div>
+          
+          <div class="moto-card-specs">
+            <div>
+              <div class="moto-spec-val">{{ bike.engine }}</div>
+              <div class="moto-spec-label">Engine</div>
+            </div>
+            <div>
+              <div class="moto-spec-val">{{ bike.power }}</div>
+              <div class="moto-spec-label">Power</div>
+            </div>
+          </div>
+          
+          <div class="moto-card-footer">
+            <div class="moto-card-price">
+              <span class="moto-price-num">${{ bike.price }}</span>
+              <span class="moto-price-per">/ day</span>
+            </div>
+            <button (click)="reserveBike(bike)" class="moto-reserve-btn cursor-pointer">
+              Book Rider <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

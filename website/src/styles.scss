@@ -1,0 +1,611 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300;1,400;1,600&family=DM+Sans:wght@200;300;400;500&family=Cinzel:wght@400;600&display=swap');
+@import "animate.css";
+
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+@import "@spartan-ng/brain/hlm-tailwind-preset.css";
+
+@theme {
+  --color-obsidian: #04030A;
+  --color-abyss: #070611;
+  --color-void: #0C0B14;
+  --color-depth: #12101E;
+  --color-card: #1A1828;
+  --color-card2: #1F1D2E;
+  --color-gold: #D4AF50;
+  --color-gold2: #E8CC78;
+  --color-gold3: #F5E4A8;
+  --color-gold4: rgba(212, 175, 80, 0.06);
+  --color-crimson: #8B1A2F;
+  --color-crimson2: #A52340;
+  --color-rose: #C4435A;
+  --color-text: #7A7590;
+  --color-text2: #9591AA;
+  --color-light: #C8C3D8;
+  --color-lighter: #DDD9EC;
+  --color-white: #F8F6FF;
+  
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-display: 'Cinzel', serif;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  --background: #04030A;
+  --foreground: #C8C3D8;
+  --card: #1A1828;
+  --card-foreground: #F8F6FF;
+  --popover: #1F1D2E;
+  --popover-foreground: #F8F6FF;
+  --primary: #D4AF50;
+  --primary-foreground: #04030A;
+  --secondary: #1F1D2E;
+  --secondary-foreground: #E8CC78;
+  --muted: #12101E;
+  --muted-foreground: #7A7590;
+  --accent: #1F1D2E;
+  --accent-foreground: #E8CC78;
+  --destructive: #8B1A2F;
+  --border: rgba(212, 175, 80, 0.12);
+  --input: rgba(212, 175, 80, 0.12);
+  --ring: #E8CC78;
+  
+  --radius: 0px; /* Luxury brutalist styling uses sharp borders */
+}
+
+/* Base resets & styles */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: #04030A;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #04030A;
+  color: #C8C3D8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.loading {
+  overflow: hidden !important;
+  height: 100vh;
+}
+
+/* Premium custom scrollbar matching dark luxury theme */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #04030A;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 80, 0.18);
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 80, 0.35);
+}
+
+/* Ensure the default browser cursor is hidden on EVERY element when custom cursor is active */
+@media (pointer: fine) {
+  body.use-custom-cursor,
+  body.use-custom-cursor *,
+  .cdk-overlay-container,
+  .cdk-overlay-container * {
+    cursor: none !important;
+  }
+}
+
+.cdk-overlay-container {
+  z-index: 99900 !important; /* lower than custom cursor host z-index: 999999 */
+}
+
+app-custom-cursor {
+  position: fixed !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+}
+
+app-custom-cursor .cursor-dot,
+app-custom-cursor .cursor-ring,
+app-custom-cursor .cursor-trail {
+  z-index: 2147483647 !important;
+}
+
+/* ================================================================
+   NOISE + ATMOSPHERE
+================================================================ */
+.noise-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
+
+.vignette-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(4, 3, 10, 0.55) 100%);
+}
+
+/* Common Layout Components */
+.section {
+  padding: clamp(6rem, 11vw, 11rem) 6vw;
+  position: relative;
+  z-index: 10;
+}
+
+.section-max {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Decorative chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.8rem;
+}
+
+.chip-ornament {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chip-ornament span {
+  display: block;
+  height: 1px;
+  background: #E8CC78;
+}
+
+.chip-ornament span:nth-child(1) {
+  width: 20px;
+}
+
+.chip-ornament span:nth-child(2) {
+  width: 6px;
+  opacity: 0.6;
+}
+
+.chip-ornament span:nth-child(3) {
+  width: 3px;
+  opacity: 0.3;
+}
+
+.chip-text {
+  font-size: 0.56rem;
+  letter-spacing: 0.5em;
+  color: #E8CC78;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  font-weight: 200;
+  line-height: 0.95;
+  color: #F8F6FF;
+  letter-spacing: -0.02em;
+}
+
+.section-title em {
+  font-style: italic;
+  color: #E8CC78;
+  font-weight: 300;
+}
+
+.section-body {
+  font-size: 0.85rem;
+  font-weight: 300;
+  line-height: 2;
+  color: #9591AA;
+  max-width: 480px;
+  margin-top: 1.5rem;
+}
+
+.gold-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, #E8CC78, transparent);
+  margin: 2rem 0;
+}
+
+/* Dynamic Entrance Animations for ScrollTrigger */
+.reveal, .reveal-left, .reveal-right, .stagger > * {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.reveal {
+  transform: translateY(40px);
+}
+
+.reveal-left {
+  transform: translateX(-40px);
+}
+
+.reveal-right {
+  transform: translateX(40px);
+}
+
+.stagger > * {
+  transform: translateY(30px);
+}
+
+/* Custom Scroll Progress Bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9500;
+  height: 2px;
+  background: linear-gradient(90deg, #D4AF50, #F5E4A8);
+  width: 0%;
+  pointer-events: none;
+}
+
+/* Overrides for Spartan/Hlm library elements to fit dark luxury design */
+button.hlm-btn {
+  border-radius: 0px !important;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.2em;
+}
+
+.hlm-dialog-content {
+  border-radius: 0px !important;
+  background-color: #1A1828 !important;
+  border-color: rgba(212, 175, 80, 0.22) !important;
+}
+
+/* Mobile full screen dialog overrides */
+@media (max-width: 768px) {
+  .cdk-overlay-pane {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .hlm-dialog-content {
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Stepper styles */
+.f-stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(212, 175, 80, 0.12);
+  background: rgba(212, 175, 80, 0.06);
+  padding: 0.2rem;
+  width: max-content;
+}
+
+.stepper-btn {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: #E8CC78;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.stepper-btn:hover {
+  background: rgba(212, 175, 80, 0.1);
+}
+
+.stepper-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: #F8F6FF;
+  padding: 0 1.2rem;
+  min-width: 40px;
+  text-align: center;
+}
+
+.stepper-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #7A7590;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* Custom form inputs */
+.f-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.f-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #E8CC78;
+}
+
+.f-required {
+  color: #C4435A;
+}
+
+.f-input {
+  width: 100%;
+  padding: 1.1rem 1.4rem;
+  background: rgba(212, 175, 80, 0.04);
+  border: 1px solid rgba(212, 175, 80, 0.12);
+  color: #F8F6FF;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  outline: none;
+  transition: all 0.4s;
+  border-radius: 0px;
+  box-sizing: border-box;
+}
+
+/* Option dropdown styling to fix unreadable text on dark inputs */
+.f-input option {
+  background-color: #12101E !important;
+  color: #DDD9EC !important;
+}
+
+/* Ensure native date inputs match the select dropdown height and UI */
+input[type="date"].f-input {
+  min-height: 50px;
+  line-height: 1.2;
+  padding-right: 3rem; /* Leave room for calendar indicator */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8CC78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 16px;
+  height: 16px;
+  filter: none !important; /* Disable default black calendar filter */
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.f-input:focus {
+  border-color: #E8CC78;
+  background: rgba(212, 175, 80, 0.08);
+}
+
+.f-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+}
+
+/* Guest stepper row — always stays 2 columns regardless of viewport */
+.f-row-guests {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Custom Select Dropdown logic */
+.custom-select {
+  position: relative;
+}
+
+.custom-select-display {
+  width: 100%;
+  padding: 1.1rem 1.4rem;
+  background: rgba(212, 175, 80, 0.04);
+  border: 1px solid rgba(212, 175, 80, 0.12);
+  color: #F8F6FF;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.4s;
+}
+
+.custom-select-display::after {
+  content: '';
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8CC78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 12px;
+  height: 12px;
+  transition: transform 0.4s;
+  opacity: 0.85;
+}
+
+.custom-select.open .custom-select-display {
+  border-color: #E8CC78;
+}
+
+.custom-select.open .custom-select-display::after {
+  transform: rotate(180deg);
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  background: #1A1828;
+  border: 1px solid rgba(212, 175, 80, 0.22);
+  max-height: 280px;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-select.open .custom-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.custom-option {
+  padding: 1rem 1.4rem;
+  border-bottom: 1px solid rgba(212, 175, 80, 0.06);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.3s;
+}
+
+.custom-option:hover {
+  background: rgba(212, 175, 80, 0.06);
+}
+
+.custom-option.selected {
+  background: rgba(212, 175, 80, 0.1);
+}
+
+.custom-opt-name {
+  display: block;
+  font-size: 0.78rem;
+  color: #F8F6FF;
+}
+
+.custom-opt-detail {
+  display: block;
+  font-size: 0.6rem;
+  color: #7A7590;
+  margin-top: 0.2rem;
+}
+
+.custom-opt-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: #E8CC78;
+}
+
+/* Stepper wrapper for select input field */
+.f-select-wrap {
+  position: relative;
+}
+
+.f-select-wrap select,
+select.f-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.f-select-wrap::after {
+  content: '';
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23E8CC78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  right: 1.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0.8;
+  transition: transform 0.3s;
+}
+
+/* Global Premium Primary Buttons */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.15rem 2.8rem;
+  background: var(--primary, #D4AF50);
+  color: var(--primary-foreground, #04030A);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  text-decoration: none;
+  border-radius: 0px;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ring, #E8CC78);
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.btn-primary:hover::before {
+  transform: translateX(0);
+}
+
+.btn-primary span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-primary.w-full {
+  width: 100%;
+}

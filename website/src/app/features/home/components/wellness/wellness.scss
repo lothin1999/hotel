@@ -1,0 +1,110 @@
+.wellness-section {
+  background: var(--color-void, #0C0B14);
+  position: relative;
+  overflow: hidden;
+}
+
+.wellness-decor {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(ellipse at 80% 50%, rgba(212, 175, 80, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.spa-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+
+.spa-card {
+  padding: 2.5rem;
+  border: 1px solid var(--color-border, rgba(212, 175, 80, 0.12));
+  background: var(--color-gold4, rgba(212, 175, 80, 0.06));
+  text-align: center;
+  transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
+  &:hover {
+    border-color: var(--color-gold2, #E8CC78);
+    background: rgba(212, 175, 80, 0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(212, 175, 80, 0.04);
+  }
+}
+
+.spa-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.spa-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--color-white, #F8F6FF);
+}
+
+.spa-duration {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold2, #E8CC78);
+  margin-top: 0.5rem;
+}
+
+.spa-desc {
+  font-size: 0.72rem;
+  color: var(--color-text, #7A7590);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.spa-price {
+  margin-top: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: var(--color-gold2, #E8CC78);
+  font-weight: 300;
+}
+
+.spa-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5px;
+  background: var(--color-border, rgba(212, 175, 80, 0.12));
+}
+
+.spa-stat-box {
+  background: var(--color-depth, #12101E);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.spa-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 200;
+  color: var(--color-gold2, #E8CC78);
+  line-height: 1;
+}
+
+.spa-stat-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-text, #7A7590);
+  margin-top: 0.5rem;
+}
+
+@media(max-width: 1024px) {
+  .spa-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .spa-stats-bar {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+  }
+}

@@ -1,0 +1,217 @@
+.routes-section {
+  background: var(--color-void, #0C0B14);
+  overflow: hidden;
+  position: relative;
+}
+
+.routes-decor {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.routes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6vw;
+  align-items: start;
+}
+
+.routes-list {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.route-item {
+  display: flex;
+  gap: 1.4rem;
+  padding: 1.6rem;
+  border: 1px solid var(--color-border, rgba(212, 175, 80, 0.12));
+  background: var(--color-gold4, rgba(212, 175, 80, 0.06));
+  transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    border-color: var(--color-border2, rgba(212, 175, 80, 0.22));
+    background: rgba(212, 175, 80, 0.07);
+    transform: translateX(6px);
+  }
+}
+
+.route-no {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(212, 175, 80, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--color-text2, #9591AA);
+  transition: border-color 0.4s, color 0.4s;
+}
+
+.route-item:hover .route-no {
+  border-color: var(--color-gold2, #E8CC78);
+  color: var(--color-gold2, #E8CC78);
+}
+
+.route-name {
+  font-size: 0.8rem;
+  color: var(--color-white, #F8F6FF);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.route-meta {
+  font-size: 0.62rem;
+  color: var(--color-text, #7A7590);
+  margin-top: 0.3rem;
+}
+
+.route-desc {
+  font-size: 0.68rem;
+  color: var(--color-text2, #9591AA);
+  margin-top: 0.4rem;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.route-badge {
+  flex-shrink: 0;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold2, #E8CC78);
+  align-self: center;
+}
+
+.routes-right-panel {
+  position: relative;
+}
+
+.route-map-card {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border: 1px solid var(--color-border, rgba(212, 175, 80, 0.12));
+}
+
+.route-map-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5) saturate(0.8);
+}
+
+.route-map-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(7, 6, 17, 0.3), rgba(7, 6, 17, 0.6));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem;
+}
+
+.route-map-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 200;
+  color: var(--color-white, #F8F6FF);
+  line-height: 1.1;
+}
+
+.route-map-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  text-align: center;
+}
+
+.route-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  color: var(--color-gold2, #E8CC78);
+  font-weight: 200;
+  line-height: 1;
+}
+
+.route-stat-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text, #7A7590);
+  margin-top: 0.2rem;
+}
+
+.route-fleet-btn {
+  margin-top: 1.8rem;
+  padding: 1rem;
+  background: transparent;
+  border: 1px solid var(--color-gold2, #E8CC78);
+  color: var(--color-gold2, #E8CC78);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  transition: all 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+
+  &:hover {
+    background: var(--color-gold2, #E8CC78);
+    color: var(--color-obsidian, #04030A);
+  }
+}
+
+.route-perks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.route-perk-card {
+  padding: 1.2rem;
+  border: 1px solid var(--color-border, rgba(212, 175, 80, 0.12));
+  background: var(--color-gold4, rgba(212, 175, 80, 0.06));
+  text-align: center;
+}
+
+.route-perk-icon {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.route-perk-title {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-lighter, #DDD9EC);
+}
+
+.route-perk-desc {
+  font-size: 0.62rem;
+  color: var(--color-text, #7A7590);
+  margin-top: 0.2rem;
+  font-weight: 300;
+}
+
+@media(max-width: 1024px) {
+  .routes-grid {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+}
