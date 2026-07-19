@@ -25,9 +25,9 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   lightImages: string[] = [
-    'https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=1920&q=90&auto=format&fit=crop',
     'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1920&q=90&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=90&auto=format&fit=crop'
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=90&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920&q=90&auto=format&fit=crop'
   ];
 
   currentSlideIndex = 0;
