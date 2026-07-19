@@ -80,6 +80,11 @@ export class LanguageService {
     const lang = this.currentLang;
     const dict = this.translations[lang] || this.translations['en'];
 
+    // First check if it is a plain dynamic string (like "Obsidian Garden") in dict.dynamic
+    if (dict && dict.dynamic && key in dict.dynamic) {
+      return dict.dynamic[key];
+    }
+
     // Resolve dot notation e.g. "nav.suites"
     const parts = key.split('.');
     let val: any = dict;
@@ -89,6 +94,9 @@ export class LanguageService {
       } else {
         // Fallback to English dictionary if key missing in target lang
         let fallbackVal: any = this.translations['en'];
+        if (fallbackVal && fallbackVal.dynamic && key in fallbackVal.dynamic) {
+          return fallbackVal.dynamic[key];
+        }
         for (const fp of parts) {
           if (fallbackVal && typeof fallbackVal === 'object' && fp in fallbackVal) {
             fallbackVal = fallbackVal[fp];

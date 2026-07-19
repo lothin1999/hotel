@@ -159,7 +159,7 @@ export class DataService {
     titleGold: 'Luxury',
     titlePart3: 'Reborn',
     description: 'An invitation-only estate nestled above a private coastline — where 48 curated suites and 16 motorcycles await those who seek perfection without compromise.',
-    bgImage: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=1920&q=90&auto=format&fit=crop',
+    bgImage: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1920&q=90&auto=format&fit=crop',
     stats: [
       { num: '48', label: 'Private Suites' },
       { num: '16', label: 'Motorcycles' },

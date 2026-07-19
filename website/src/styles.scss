@@ -118,6 +118,88 @@ body.lang-kh, body.lang-km,
   }
 }
 
+/* Khmer Legibility and Font Scaling Overrides */
+html.lang-kh, html.lang-km {
+  .nav-center a {
+    font-size: 0.85rem !important;
+    letter-spacing: 0.05em !important;
+    font-weight: 500 !important;
+  }
+  
+  .nav-btn span, .login-text-btn, .logout-text-btn {
+    font-size: 0.82rem !important;
+    letter-spacing: 0.05em !important;
+    font-weight: 500 !important;
+  }
+
+  .mobile-nav a {
+    font-size: 2rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .hero-overline-text {
+    font-size: 0.82rem !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem !important;
+    line-height: 1.7 !important;
+  }
+
+  .btn-primary, .btn-outline {
+    font-size: 0.82rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .hero-stat-label {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .chip-text {
+    font-size: 0.78rem !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .header-desc-card p {
+    font-size: 1.1rem !important;
+    line-height: 1.7 !important;
+  }
+
+  .booking-widget-wrap {
+    .step-label {
+      font-size: 0.82rem !important;
+    }
+    label {
+      font-size: 0.85rem !important;
+      letter-spacing: 0.02em !important;
+    }
+    button, input, select {
+      font-size: 0.85rem !important;
+    }
+  }
+
+  .chat-window-card {
+    .header-name {
+      font-size: 1.25rem !important;
+    }
+    .header-status {
+      font-size: 0.72rem !important;
+    }
+    .msg-text {
+      font-size: 0.88rem !important;
+      line-height: 1.6 !important;
+    }
+    .quick-reply-btn {
+      font-size: 0.75rem !important;
+    }
+    .chat-input {
+      font-size: 0.82rem !important;
+    }
+  }
+}
+
 body.loading {
   overflow: hidden !important;
   height: 100vh;
@@ -244,13 +326,13 @@ app-custom-cursor .cursor-trail {
   font-size: clamp(3rem, 6vw, 6.5rem);
   font-weight: 200;
   line-height: 0.95;
-  color: #F8F6FF;
+  color: var(--color-lighter, #DDD9EC);
   letter-spacing: -0.02em;
 }
 
 .section-title em {
   font-style: italic;
-  color: #E8CC78;
+  color: var(--color-gold2, #E8CC78);
   font-weight: 300;
 }
 
@@ -258,7 +340,7 @@ app-custom-cursor .cursor-trail {
   font-size: 0.85rem;
   font-weight: 300;
   line-height: 2;
-  color: #9591AA;
+  color: var(--color-text, #7A7590);
   max-width: 480px;
   margin-top: 1.5rem;
 }
@@ -657,17 +739,17 @@ select.f-input {
 /* Global Luxury Header Description Card */
 .header-desc-card {
   position: relative;
-  background: linear-gradient(135deg, rgba(212, 175, 80, 0.05) 0%, rgba(12, 11, 20, 0.6) 100%);
-  border: 1px solid rgba(212, 175, 80, 0.18);
+  background: var(--color-card, #1A1828);
+  border: 1px solid var(--border, rgba(212, 175, 80, 0.12));
   border-left: 3px solid var(--color-gold2, #E8CC78);
   padding: 1rem 1.4rem;
   max-width: 380px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    border-color: rgba(212, 175, 80, 0.35);
+    border-color: var(--color-gold, #D4AF50);
     transform: translateY(-2px);
     box-shadow: 0 15px 35px rgba(212, 175, 80, 0.08);
   }

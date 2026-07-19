@@ -379,3 +379,49 @@ nav.nav-scrolled {
     display: flex;
   }
 }
+
+/* Overrides to ensure high readability over dark Hero overlay in Light Mode when NOT scrolled */
+nav:not(.nav-scrolled) {
+  .nav-center a {
+    color: rgba(255, 255, 255, 0.75) !important;
+    &:hover {
+      color: var(--color-gold2, #E8CC78) !important;
+    }
+  }
+
+  .nav-logo-sub {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .nav-tel {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .login-text-btn, .logout-text-btn {
+    color: rgba(255, 255, 255, 0.75) !important;
+    &:hover {
+      color: var(--color-gold2, #E8CC78) !important;
+    }
+  }
+
+  .profile-name {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  .lang-toggle-btn, .theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: var(--color-gold2, #E8CC78) !important;
+
+    &:hover {
+      border-color: var(--color-gold2, #E8CC78) !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}
+
+/* Scrolled Navbar Background & Border in Light Mode */
+html.light-mode nav.nav-scrolled {
+  background: rgba(253, 251, 247, 0.97) !important;
+  border-bottom-color: rgba(184, 144, 40, 0.25) !important;
+}

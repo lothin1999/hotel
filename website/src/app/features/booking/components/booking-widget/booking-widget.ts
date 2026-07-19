@@ -7,6 +7,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { DataService, SuiteItem, BikeItem } from '../../../../core/services/data.service';
 import { daysBetween, fmtMoney } from '../../../../core/helpers/utils';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { HlmDialogService } from '../../../../components/ui/dialog/src';
 import { AuthModalComponent } from '../../../auth/components/auth-modal/auth-modal';
 import { environment } from '../../../../../environments/environment';
@@ -14,7 +15,7 @@ import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-booking-widget',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePickerComponent],
+  imports: [CommonModule, FormsModule, DatePickerComponent, TranslatePipe],
   providers: [HlmDialogService],
   templateUrl: './booking-widget.html',
   styleUrls: ['./booking-widget.scss']

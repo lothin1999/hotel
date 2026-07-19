@@ -5,11 +5,11 @@
       <div class="booking-left">
         <div class="chip">
           <div class="chip-ornament"><span></span><span></span><span></span></div>
-          <span class="chip-text">Reservations</span>
+          <span class="chip-text">{{ 'booking.chip' | translate }}</span>
         </div>
-        <h2 class="section-title">Secure a<br><em>Sanctuary</em></h2>
+        <h2 class="section-title" [innerHTML]="'booking.title' | translate"></h2>
         <div class="gold-line"></div>
-        <p class="section-body" style="max-width:340px;">Select your stay dates, preferred villa, or motorcycle. Stays of 3 nights or more receive premium concierge allocation. Combined packages automatically receive a 15% rate reduction.</p>
+        <p class="section-body" style="max-width:340px;">{{ 'booking.desc' | translate }}</p>
         
         <!-- Live Costs Summary (If form is valid and showing form/kyc step) -->
         <div *ngIf="(checkoutStep === 'form' || checkoutStep === 'guest_kyc') && isFormValid" class="cost-summary-card animate__animated animate__fadeIn">

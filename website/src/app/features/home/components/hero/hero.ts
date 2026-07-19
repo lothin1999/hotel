@@ -2,11 +2,12 @@ import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ElementRef, View
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { DataService, HeroData } from '../../../../core/services/data.service';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './hero.html',
   styleUrls: ['./hero.scss']
 })

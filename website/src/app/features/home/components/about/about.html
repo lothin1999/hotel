@@ -11,7 +11,7 @@
           <div class="intro-img-corner bl"></div>
           <div class="intro-img-corner br"></div>
           <div class="intro-img-label">
-            <div class="intro-img-label-sup">Established</div>
+            <div class="intro-img-label-sup">{{ 'about.established' | translate }}</div>
             <div class="intro-img-label-num">{{ aboutData?.establishedYear || '2009' }}</div>
           </div>
         </div>
@@ -22,25 +22,25 @@
         </div>
         <div class="about-exp-badge">
           <div class="aeb-num">{{ aboutData?.yearsExperience || 15 }}</div>
-          <div class="aeb-text">Years of Privileged Hospitality</div>
+          <div class="aeb-text">{{ 'about.yearsText' | translate }}</div>
         </div>
       </div>
       
       <div class="about-right">
         <div class="chip">
           <div class="chip-ornament"><span></span><span></span><span></span></div>
-          <span class="chip-text">{{ aboutData?.chipText || 'The Ankor Book Story' }}</span>
+          <span class="chip-text">{{ 'about.chipText' | translate }}</span>
         </div>
-        <h2 class="section-title">{{ aboutData?.title || 'A Sanctuary Built for the Discerning Few' }}</h2>
+        <h2 class="section-title">{{ 'about.title' | translate }}</h2>
         <div class="gold-line"></div>
-        <p class="section-body">{{ aboutData?.body1 }}</p>
-        <p class="section-body" style="margin-top:1rem">{{ aboutData?.body2 }}</p>
+        <p class="section-body">{{ 'about.body1' | translate }}</p>
+        <p class="section-body" style="margin-top:1rem">{{ 'about.body2' | translate }}</p>
         
         <div class="intro-pillars about-pillars-trigger" *ngIf="aboutData?.pillars">
-          <div *ngFor="let pillar of aboutData!.pillars" class="pillar about-pillar-card">
+          <div *ngFor="let pillar of aboutData!.pillars; let idx = index" class="pillar about-pillar-card">
             <span class="pillar-icon">{{ pillar.icon }}</span>
-            <div class="pillar-name">{{ pillar.name }}</div>
-            <div class="pillar-desc">{{ pillar.desc }}</div>
+            <div class="pillar-name">{{ ('about.pillars.' + idx + '.name') | translate }}</div>
+            <div class="pillar-desc">{{ ('about.pillars.' + idx + '.desc') | translate }}</div>
           </div>
         </div>
       </div>

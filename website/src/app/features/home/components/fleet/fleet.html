@@ -4,14 +4,12 @@
       <div>
         <div class="chip">
           <div class="chip-ornament"><span></span><span></span><span></span></div>
-          <span class="chip-text">Ankor Book Stable</span>
+          <span class="chip-text">{{ 'fleet.chip' | translate }}</span>
         </div>
-        <h2 class="section-title">The <em>Motorcycle</em> Fleet</h2>
+        <h2 class="section-title">{{ 'fleet.titlePart1' | translate }} <em>{{ 'fleet.titleGold' | translate }}</em> {{ 'fleet.titlePart2' | translate }}</h2>
       </div>
       <div class="header-desc-card">
-        <p class="header-desc-text">
-          <strong>16 machines of pure adrenaline</strong>, maintained to competition standards. Prepared for your command.
-        </p>
+        <p class="header-desc-text" [innerHTML]="'fleet.desc' | translate"></p>
       </div>
     </div>
     
@@ -21,7 +19,7 @@
               class="filter-btn cursor-pointer" 
               [class.active]="selectedCategory === cat.id" 
               (click)="filterBikes(cat.id)">
-        {{ cat.label }}
+        {{ (cat.id === 'all' ? 'booking.combo' : cat.label) | translate }}
       </button>
     </div>
     
@@ -31,31 +29,31 @@
         <div class="moto-card-img-wrap">
           <img [src]="bike.image" [alt]="bike.name">
           <div class="moto-card-overlay"></div>
-          <div *ngIf="bike.badge" class="moto-card-badge">{{ bike.badge }}</div>
+          <div *ngIf="bike.badge" class="moto-card-badge">{{ bike.badge | translate }}</div>
         </div>
         
         <div class="moto-card-body">
-          <div class="moto-card-cat">{{ bike.category | uppercase }}</div>
-          <div class="moto-card-name">{{ bike.name }}</div>
+          <div class="moto-card-cat">{{ (bike.category | translate) | uppercase }}</div>
+          <div class="moto-card-name">{{ bike.name | translate }}</div>
           
           <div class="moto-card-specs">
             <div>
               <div class="moto-spec-val">{{ bike.engine }}</div>
-              <div class="moto-spec-label">Engine</div>
+              <div class="moto-spec-label">{{ 'fleet.engine' | translate }}</div>
             </div>
             <div>
               <div class="moto-spec-val">{{ bike.power }}</div>
-              <div class="moto-spec-label">Power</div>
+              <div class="moto-spec-label">{{ 'fleet.power' | translate }}</div>
             </div>
           </div>
           
           <div class="moto-card-footer">
             <div class="moto-card-price">
               <span class="moto-price-num">${{ bike.price }}</span>
-              <span class="moto-price-per">/ day</span>
+              <span class="moto-price-per">{{ 'fleet.perDay' | translate }}</span>
             </div>
             <button (click)="reserveBike(bike)" class="moto-reserve-btn cursor-pointer">
-              Book Rider <span>→</span>
+              {{ 'fleet.bookRider' | translate }} <span>→</span>
             </button>
           </div>
         </div>

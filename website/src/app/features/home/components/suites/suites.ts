@@ -2,11 +2,12 @@ import { Component, OnInit, Inject, PLATFORM_ID, HostListener } from '@angular/c
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { BookingService } from '../../../../core/services/booking.service';
 import { DataService, SuiteItem } from '../../../../core/services/data.service';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-suites',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './suites.html',
   styleUrls: ['./suites.scss']
 })

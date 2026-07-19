@@ -17,22 +17,54 @@
     "description": "An invitation-only estate nestled above a private coastline — where 48 curated suites and 16 motorcycles await those who seek perfection without compromise.",
     "requestStay": "Request a Stay",
     "exploreSuites": "Explore Suites",
-    "discover": "Discover"
+    "discover": "Discover",
+    "stats": {
+      "forbes": "Forbes Rated",
+      "years": "Years of Excellence"
+    }
+  },
+  "about": {
+    "established": "Established",
+    "yearsText": "Years of Privileged Hospitality",
+    "chipText": "The Ankor Book Story",
+    "title": "A Sanctuary Built for the Discerning Few",
+    "body1": "Born from the belief that true luxury is not decoration but sensation — Ankor Book was conceived on 18 acres of volcanic coastline as a sanctuary for those who have experienced everything, yet seek something more profound.",
+    "body2": "Our fleet of 16 hand-selected motorcycles offers a dimension of freedom rarely associated with five-star hospitality. Here, the journey is as curated as the destination.",
+    "pillars": {
+      "0": {
+        "name": "Private Shoreline",
+        "desc": "1.2km of exclusive white sand, reserved for guests only."
+      },
+      "1": {
+        "name": "3-Star Cuisine",
+        "desc": "Chef Théodore Blanc's nightly tasting menu."
+      },
+      "2": {
+        "name": "Moto Fleet",
+        "desc": "16 premium bikes, guided routes, full gear."
+      },
+      "3": {
+        "name": "Onsen Sanctuary",
+        "desc": "Volcanic stone villas with private thermal pools."
+      }
+    }
   },
   "suites": {
     "chip": "Accommodations",
     "titlePart1": "Curated",
     "titleGold": "Sanctuaries",
-    "desc": "Each suite is a private sanctuary, conceived by Pritzker-winning architects using materials sourced within 100 miles.",
+    "desc": "Each suite is a <em>private sanctuary</em>, conceived by Pritzker-winning architects using materials sourced within 100 miles.",
     "perNight": "/ night",
-    "reserve": "Reserve Suite"
+    "reserve": "Reserve This Suite"
   },
   "fleet": {
     "chip": "Ankor Book Stable",
     "titlePart1": "The",
     "titleGold": "Motorcycle",
     "titlePart2": "Fleet",
-    "desc": "16 machines of pure adrenaline, maintained to competition standards. Prepared for your command.",
+    "desc": "<strong>16 machines of pure adrenaline</strong>, maintained to competition standards. Prepared for your command.",
+    "engine": "Engine",
+    "power": "Power",
     "perDay": "/ day",
     "bookRider": "Book Rider"
   },
@@ -58,6 +90,30 @@
     "passport": "Passport Number",
     "riderHelmet": "Rider Helmet Size"
   },
+  "footer": {
+    "top": {
+      "desc": "A sanctuary where silence is the ultimate luxury and the open road is always just outside your door. 48 suites, 16 motorcycles, one extraordinary world."
+    },
+    "col": {
+      "stay": "Stay",
+      "exp": "Experiences",
+      "contact": "Contact"
+    },
+    "copy": "© 2026 Ankor Book Estates & Motorworks. All rights reserved.",
+    "legal": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Stay",
+      "cookie": "Cookie Policy",
+      "accessibility": "Accessibility"
+    },
+    "awards": {
+      "forbes": "Forbes Five Star",
+      "greenKey": "Green Key Certified",
+      "condeNast": "Condé Nast Gold List",
+      "michelin": "Michelin Three Star",
+      "bestMoto": "Best Moto Resort"
+    }
+  },
   "chat": {
     "title": "Ankor Book Concierge",
     "greeting": "Welcome to Ankor Book Estates & Motorworks 🏛️✨ I am Isabelle, your Private Concierge. How may I assist with your stay, villa selection, or motorcycle fleet today?",
@@ -67,5 +123,25 @@
   "theme": {
     "dark": "Dark Mode",
     "light": "Light Mode"
+  },
+  "dynamic": {
+    "Obsidian Garden": "Obsidian Garden",
+    "Horizon Ocean Villa": "Horizon Ocean Villa",
+    "Clifftop Penthouse": "Clifftop Penthouse",
+    "Overwater Lagoon Villa": "Overwater Lagoon Villa",
+    "Canopy Forest Retreat": "Canopy Forest Retreat",
+    "Imperial Residence": "Imperial Residence",
+    "60m² · Garden & Pool View": "60m² · Garden & Pool View",
+    "110m² · Oceanfront": "110m² · Oceanfront",
+    "200m² · 360° Views": "200m² · 360° Views",
+    "130m² · Above the Lagoon": "130m² · Above the Lagoon",
+    "80m² · Treetop Level": "80m² · Treetop Level",
+    "400m² · Private Estate": "400m² · Private Estate",
+    "Most Popular": "Most Popular",
+    "Signature": "Signature",
+    "scrambler": "Scrambler",
+    "cruiser": "Cruiser",
+    "touring": "Touring",
+    "adventure": "Adventure"
   }
 }

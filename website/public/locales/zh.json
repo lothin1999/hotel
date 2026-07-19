@@ -17,22 +17,54 @@
     "description": "坐落于私密海岸线上的邀请制庄园 — 48间定制套房与16台顶级重型摩托车等待着追求极致的您。",
     "requestStay": "预订入住",
     "exploreSuites": "探索套房",
-    "discover": "探索发现"
+    "discover": "探索发现",
+    "stats": {
+      "forbes": "福布斯星级评级",
+      "years": "卓越历程"
+    }
+  },
+  "about": {
+    "established": "始建于",
+    "yearsText": "十五载尊贵奢华款待",
+    "chipText": "吴哥布克品牌传奇",
+    "title": "专为极少数先贤打造的避世隐所",
+    "body1": "源自“真正的奢华不是装饰，而是感官体验”的笃定信念 — 吴哥布克诞生于18英亩的原生态火山海岸之上，为阅尽千帆的您打造一处更加深邃洗练的静谧世界。",
+    "body2": "我们精心臻选的16台重型摩托车车队，为您解锁五星级奢华款待中罕见的自由骑行新维度。在这里，旅途即是终点本身。",
+    "pillars": {
+      "0": {
+        "name": "私享海岸线",
+        "desc": "1.2公里专属白沙滩，仅对住店宾客开放。"
+      },
+      "1": {
+        "name": "米其林三星美馔",
+        "desc": "主厨 Théodore Blanc 呈献的每晚特制赏味菜单。"
+      },
+      "2": {
+        "name": "顶级重机车队",
+        "desc": "16台高性能竞技座驾，提供专属规划线路与全套专业骑行装备。"
+      },
+      "3": {
+        "name": "火山温泉圣所",
+        "desc": "火山岩奢华别墅，配备私人天然地热温泉池。"
+      }
+    }
   },
   "suites": {
     "chip": "臻选住宿",
     "titlePart1": "精心雕琢的",
     "titleGold": "私密避世圣所",
-    "desc": "每间套房皆为独立的私密世界，由普利兹克奖获奖建筑师精心构思打造。",
+    "desc": "每间套房皆为独立的 <em>私密世界</em>，由普利筑克奖获奖建筑师精心构思打造。",
     "perNight": "/ 每晚",
-    "reserve": "预订套房"
+    "reserve": "预订此间套房"
   },
   "fleet": {
     "chip": "吴哥车队马厩",
     "titlePart1": "极致竞技",
     "titleGold": "摩托车队",
     "titlePart2": "",
-    "desc": "16台性能强悍的顶尖坐骑，按赛事标准维保，随时听候您的调遣。",
+    "desc": "<strong>16台性能强悍的顶尖坐骑</strong>，按赛事标准维保，随时听候您的调遣。",
+    "engine": "发动机",
+    "power": "最大马力",
     "perDay": "/ 每天",
     "bookRider": "预约骑行"
   },
@@ -58,6 +90,30 @@
     "passport": "护照号码",
     "riderHelmet": "头盔尺寸"
   },
+  "footer": {
+    "top": {
+      "desc": "一处以安静为极致奢华的隐逸庄园，引擎轰鸣的大道随时静候于您的门外。48间套房，16台重机，一个超凡脱俗的世界。"
+    },
+    "col": {
+      "stay": "奢华客房",
+      "exp": "专属体验",
+      "contact": "联系我们"
+    },
+    "copy": "© 2026 吴哥布克庄园与重机俱乐部。保留所有权利。",
+    "legal": {
+      "privacy": "隐私政策",
+      "terms": "入住条款",
+      "cookie": "Cookie政策",
+      "accessibility": "无障碍服务"
+    },
+    "awards": {
+      "forbes": "福布斯五星大奖",
+      "greenKey": "金钥匙绿色认证",
+      "condeNast": "悦游金榜推荐",
+      "michelin": "米其林三星餐厅",
+      "bestMoto": "最佳重机度假庄园"
+    }
+  },
   "chat": {
     "title": "吴哥布克私人管家",
     "greeting": "欢迎光临吴哥布克庄园 🏛️✨ 我是您的首席管家 Isabelle。请问今天有什么可以为您效劳的？",
@@ -67,5 +123,25 @@
   "theme": {
     "dark": "暗夜奢华 (Dark)",
     "light": "璀璨珍珠 (Light)"
+  },
+  "dynamic": {
+    "Obsidian Garden": "黑曜石花园套房",
+    "Horizon Ocean Villa": "地平线海景别墅",
+    "Clifftop Penthouse": "峭壁之巅阁楼",
+    "Overwater Lagoon Villa": "水上泻湖别墅",
+    "Canopy Forest Retreat": "林冠森林隐逸所",
+    "Imperial Residence": "皇家至尊府邸",
+    "60m² · Garden & Pool View": "60m² · 花园与泳池景观",
+    "110m² · Oceanfront": "110m² · 临海一线海景",
+    "200m² · 360° Views": "200m² · 360度全景视野",
+    "130m² · Above the Lagoon": "130m² · 泻湖之上水上屋",
+    "80m² · Treetop Level": "80m² · 树冠层高度自然景观",
+    "400m² · Private Estate": "400m² · 私人庄园领地",
+    "Most Popular": "最受欢迎",
+    "Signature": "臻选代表作",
+    "scrambler": "攀爬者系列 (Scrambler)",
+    "cruiser": "巡航巡洋系列 (Cruiser)",
+    "touring": "休旅旅行系列 (Touring)",
+    "adventure": "拉力探险系列 (Adventure)"
   }
 }

@@ -5,15 +5,13 @@
       <div>
         <div class="chip">
           <div class="chip-ornament"><span></span><span></span><span></span></div>
-          <span class="chip-text">Accommodations</span>
+          <span class="chip-text">{{ 'suites.chip' | translate }}</span>
         </div>
-        <h2 class="section-title">Curated <em>Sanctuaries</em></h2>
+        <h2 class="section-title">{{ 'suites.titlePart1' | translate }} <em>{{ 'suites.titleGold' | translate }}</em></h2>
       </div>
       <div class="suites-header-right">
         <div class="header-desc-card">
-          <p class="header-desc-text">
-            Each suite is a <em>private sanctuary</em>, conceived by Pritzker-winning architects using materials sourced within 100 miles.
-          </p>
+          <p class="header-desc-text" [innerHTML]="'suites.desc' | translate"></p>
         </div>
         <div class="suites-control-bar">
           <div class="suites-counter">
@@ -45,22 +43,22 @@
             <div class="suite-card-overlay"></div>
           </div>
           <div class="suite-card-no">{{ suite.no }}</div>
-          <div *ngIf="suite.badge" class="suite-card-badge">{{ suite.badge }}</div>
+          <div *ngIf="suite.badge" class="suite-card-badge">{{ suite.badge | translate }}</div>
           
           <div class="suite-card-body">
-            <div class="suite-card-name" [innerHTML]="suite.name.replace(' ', '<br>')"></div>
-            <div class="suite-card-size">{{ suite.size }}</div>
+            <div class="suite-card-name" [innerHTML]="(suite.name | translate).replace(' ', '<br>')"></div>
+            <div class="suite-card-size">{{ suite.size | translate }}</div>
             <div class="suite-card-price">
               <span class="suite-price-num">${{ suite.price }}</span>
-              <span class="suite-price-per">/ night</span>
+              <span class="suite-price-per">{{ 'suites.perNight' | translate }}</span>
             </div>
             
             <div class="suite-card-expand">
               <div class="suite-tags">
-                <span *ngFor="let tag of suite.tags" class="suite-tag">{{ tag }}</span>
+                <span *ngFor="let tag of suite.tags" class="suite-tag">{{ tag | translate }}</span>
               </div>
               <button class="suite-reserve-btn cursor-pointer" (click)="reserveSuite(suite)">
-                Reserve This Suite <span class="suite-reserve-arrow">⟶</span>
+                {{ 'suites.reserve' | translate }} <span class="suite-reserve-arrow">⟶</span>
               </button>
             </div>
           </div>
