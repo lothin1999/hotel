@@ -1,16 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../../../core/services/booking.service';
-
-interface BikeItem {
-  name: string;
-  category: 'adventure' | 'scrambler' | 'naked' | 'sport' | 'touring';
-  engine: string;
-  power: string;
-  price: number;
-  image: string;
-  badge?: string;
-}
+import { DataService, BikeItem } from '../../../../core/services/data.service';
 
 @Component({
   selector: 'app-fleet',
@@ -19,64 +10,20 @@ interface BikeItem {
   templateUrl: './fleet.html',
   styleUrls: ['./fleet.scss']
 })
-export class FleetComponent {
+export class FleetComponent implements OnInit {
   selectedCategory: string = 'all';
+  bikes: BikeItem[] = [];
 
-  bikes: BikeItem[] = [
-    {
-      name: 'Ducati Scrambler 800',
-      category: 'scrambler',
-      engine: '803 cc · L-Twin',
-      power: '73 HP',
-      price: 150,
-      image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&q=80&auto=format&fit=crop',
-      badge: 'Guest Favorite'
-    },
-    {
-      name: 'Harley-Davidson Pan America',
-      category: 'adventure',
-      engine: '1252 cc · V-Twin',
-      power: '150 HP',
-      price: 240,
-      image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&q=80&auto=format&fit=crop'
-    },
-    {
-      name: 'Honda CB500F',
-      category: 'naked',
-      engine: '471 cc · Parallel Twin',
-      power: '47 HP',
-      price: 90,
-      image: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=600&q=80&auto=format&fit=crop'
-    },
-    {
-      name: 'Kawasaki Ninja 400',
-      category: 'sport',
-      engine: '399 cc · Parallel Twin',
-      power: '49 HP',
-      price: 110,
-      image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&q=80&auto=format&fit=crop',
-      badge: 'Track Prep'
-    },
-    {
-      name: 'BMW G310GS',
-      category: 'adventure',
-      engine: '313 cc · Single Cylinder',
-      power: '34 HP',
-      price: 120,
-      image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&q=80&auto=format&fit=crop'
-    },
-    {
-      name: 'Triumph Tiger 1200',
-      category: 'touring',
-      engine: '1160 cc · Inline 3',
-      power: '147 HP',
-      price: 280,
-      image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&q=80&auto=format&fit=crop',
-      badge: 'Ultimate Cruiser'
-    }
-  ];
+  constructor(
+    private bookingService: BookingService,
+    private dataService: DataService
+  ) {}
 
-  constructor(private bookingService: BookingService) {}
+  ngOnInit(): void {
+    this.dataService.getBikes().subscribe(data => {
+      this.bikes = data;
+    });
+  }
 
   filterBikes(category: string): void {
     this.selectedCategory = category;

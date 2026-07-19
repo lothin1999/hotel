@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { BookingService, BookingItem, PaymentDetails } from '../../../../core/services/booking.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { DataService, SuiteItem, BikeItem } from '../../../../core/services/data.service';
 import { daysBetween, fmtMoney } from '../../../../core/helpers/utils';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker';
 import { HlmDialogService } from '../../../../components/ui/dialog/src';
@@ -68,24 +69,9 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   private draftSubscription?: Subscription;
   private isBrowser: boolean;
 
-  // Options lists
-  suitesOptions = [
-    { name: 'Obsidian Garden', price: 190, detail: '60m² · Garden & Pool View' },
-    { name: 'Horizon Ocean Villa', price: 340, detail: '110m² · Oceanfront' },
-    { name: 'Clifftop Penthouse', price: 520, detail: '200m² · 360° Views' },
-    { name: 'Overwater Lagoon Villa', price: 440, detail: '130m² · Above the Lagoon' },
-    { name: 'Canopy Forest Retreat', price: 260, detail: '80m² · Treetop Level' },
-    { name: 'Imperial Residence', price: 780, detail: '320m² · Premium Estate' }
-  ];
-
-  bikesOptions = [
-    { name: 'Ducati Scrambler 800', price: 150, detail: '803cc · Desert Sled' },
-    { name: 'Harley-Davidson Pan America', price: 240, detail: '1250cc · Adventure Touring' },
-    { name: 'Honda CB500F', price: 90, detail: '471cc · Urban Roadster' },
-    { name: 'Kawasaki Ninja 400', price: 110, detail: '399cc · Lightweight Sport' },
-    { name: 'BMW G310GS', price: 120, detail: '313cc · Light Trail' },
-    { name: 'Triumph Tiger 1200', price: 280, detail: '1160cc · Explorer Edition' }
-  ];
+  // Options lists loaded dynamically from DataService
+  suitesOptions: { name: string; price: number; detail: string }[] = [];
+  bikesOptions: { name: string; price: number; detail: string }[] = [];
 
   // Custom Select Dropdown open/close states
   hotelSuiteOpen = false;
@@ -142,6 +128,7 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   constructor(
     private bookingService: BookingService,
     private authService: AuthService,
+    private dataService: DataService,
     private dialogService: HlmDialogService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -149,6 +136,23 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Load suites and bikes dynamically from DataService API
+    this.dataService.getSuites().subscribe(suites => {
+      this.suitesOptions = suites.map(s => ({
+        name: s.name,
+        price: s.price,
+        detail: s.detail || s.size
+      }));
+    });
+
+    this.dataService.getBikes().subscribe(bikes => {
+      this.bikesOptions = bikes.map(b => ({
+        name: b.name,
+        price: b.price,
+        detail: b.detail || `${b.engine} · ${b.power}`
+      }));
+    });
+
     // Watch for incoming selections from other components (e.g. clicking Reserve in Suites or Fleet)
     this.draftSubscription = this.bookingService.activeBooking$.subscribe(draft => {
       if (draft) {
