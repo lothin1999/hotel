@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="100" fill="#04030A"/>
+  <g fill="#E8CC78" stroke="#E8CC78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Base Platform -->
+    <rect x="56" y="380" width="400" height="24" rx="4"/>
+    <rect x="80" y="350" width="352" height="30" rx="3"/>
+    <rect x="110" y="320" width="292" height="30" rx="2"/>
+    
+    <!-- Central Main Lotus Spire -->
+    <path d="M 256 90 C 250 130, 240 170, 230 210 L 230 320 L 282 320 L 282 210 C 272 170, 262 130, 256 90 Z" fill="#E8CC78"/>
+    <path d="M 256 70 L 256 90" stroke="#E8CC78" stroke-width="6"/>
+    <polygon points="256,60 252,72 260,72" fill="#E8CC78"/>
+
+    <!-- Mid Left Spire -->
+    <path d="M 175 160 C 170 195, 162 230, 154 265 L 154 320 L 196 320 L 196 265 C 188 230, 180 195, 175 160 Z" fill="#E8CC78"/>
+    <polygon points="175,135 172,148 178,148" fill="#E8CC78"/>
+
+    <!-- Mid Right Spire -->
+    <path d="M 337 160 C 332 195, 324 230, 316 265 L 316 320 L 358 320 L 358 265 C 350 230, 342 195, 337 160 Z" fill="#E8CC78"/>
+    <polygon points="337,135 334,148 340,148" fill="#E8CC78"/>
+
+    <!-- Outer Left Spire -->
+    <path d="M 115 220 C 111 245, 105 270, 100 295 L 100 320 L 130 320 L 130 295 C 125 270, 119 245, 115 220 Z" fill="#E8CC78"/>
+
+    <!-- Outer Right Spire -->
+    <path d="M 397 220 C 393 245, 387 270, 382 295 L 382 320 L 412 320 L 412 295 C 407 270, 401 245, 397 220 Z" fill="#E8CC78"/>
+
+    <!-- Gallery Windows / Entry Portals -->
+    <rect x="244" y="340" width="24" height="40" rx="12" fill="#04030A"/>
+    <rect x="166" y="355" width="18" height="25" rx="9" fill="#04030A"/>
+    <rect x="328" y="355" width="18" height="25" rx="9" fill="#04030A"/>
+  </g>
+</svg>
