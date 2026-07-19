@@ -15,4 +15,6 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: npx ng serve --host 0.0.0.0 --poll 1000 --allowed-hosts
     restart: unless-stopped

@@ -6,7 +6,7 @@ FROM node:22-alpine AS builder
 WORKDIR /app/website
 
 COPY website/package*.json ./
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 COPY website/ ./
 RUN npm run build
@@ -20,7 +20,7 @@ WORKDIR /app/website
 COPY --from=builder /app/website/dist ./dist
 COPY --from=builder /app/website/package*.json ./
 
-RUN npm ci --only=production
+RUN npm install --legacy-peer-deps --omit=dev
 
 ENV NODE_ENV=production
 ENV PORT=4000
