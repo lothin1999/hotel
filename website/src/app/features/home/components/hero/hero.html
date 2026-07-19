@@ -1,6 +1,6 @@
 <section class="hero" id="home">
   <div class="hero-bg" #heroBg>
-    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=90&auto=format&fit=crop"
+    <img [src]="heroData?.bgImage || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=90&auto=format&fit=crop'"
       alt="Ankor Book Estate">
   </div>
   <div class="hero-overlay"></div>
@@ -21,15 +21,14 @@
     <div class="hero-overline">
       <div class="hero-overline-line"></div>
       <div class="hero-overline-diamond"></div>
-      <span class="hero-overline-text">The World's Most Private Retreat</span>
+      <span class="hero-overline-text">{{ heroData?.overline || "The World's Most Private Retreat" }}</span>
     </div>
     <h1 class="hero-title">
-      <span class="hl">Where</span>
-      <span class="hl">Silence is <span class="gold-italic">Luxury</span></span>
-      <span class="hl">Reborn</span>
+      <span class="hl">{{ heroData?.titlePart1 || 'Where' }}</span>
+      <span class="hl">{{ heroData?.titlePart2 || 'Silence is' }} <span class="gold-italic">{{ heroData?.titleGold || 'Luxury' }}</span></span>
+      <span class="hl">{{ heroData?.titlePart3 || 'Reborn' }}</span>
     </h1>
-    <p class="hero-desc">An invitation-only estate nestled above a private coastline — where 48 curated suites and 16
-      motorcycles await those who seek perfection without compromise.</p>
+    <p class="hero-desc">{{ heroData?.description }}</p>
     <div class="hero-actions">
       <button class="btn-primary cursor-pointer" (click)="scrollToBooking()">
         <span>Request a Stay</span>
@@ -39,26 +38,14 @@
     </div>
   </div>
   
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <span class="hero-stat-num">48</span>
-      <span class="hero-stat-label">Private Suites</span>
-    </div>
-    <div class="hero-stat-sep"></div>
-    <div class="hero-stat">
-      <span class="hero-stat-num">16</span>
-      <span class="hero-stat-label">Motorcycles</span>
-    </div>
-    <div class="hero-stat-sep"></div>
-    <div class="hero-stat">
-      <span class="hero-stat-num">5★</span>
-      <span class="hero-stat-label">Forbes Rated</span>
-    </div>
-    <div class="hero-stat-sep"></div>
-    <div class="hero-stat">
-      <span class="hero-stat-num">15</span>
-      <span class="hero-stat-label">Years of Excellence</span>
-    </div>
+  <div class="hero-stats" *ngIf="heroData?.stats">
+    <ng-container *ngFor="let stat of heroData!.stats; let last = last; let i = index">
+      <div class="hero-stat">
+        <span class="hero-stat-num">{{ stat.num }}</span>
+        <span class="hero-stat-label">{{ stat.label }}</span>
+      </div>
+      <div *ngIf="i < heroData!.stats.length - 1" class="hero-stat-sep"></div>
+    </ng-container>
   </div>
   
   <div class="hero-scroll-indicator">
@@ -68,13 +55,13 @@
     </div>
   </div>
   
-  <div class="hero-award-card">
+  <div class="hero-award-card" *ngIf="heroData?.awardCard">
     <div class="award-stars">
       <span class="award-star">★</span><span class="award-star">★</span><span class="award-star">★</span><span
         class="award-star">★</span><span class="award-star">★</span>
     </div>
-    <div class="award-title">"A destination that<br>transcends hospitality"</div>
-    <div class="award-source">Condé Nast Traveller · 2024</div>
-    <div class="award-badge">World's Best Resort</div>
+    <div class="award-title" [innerText]="heroData!.awardCard.title"></div>
+    <div class="award-source">{{ heroData!.awardCard.source }}</div>
+    <div class="award-badge">{{ heroData!.awardCard.badge }}</div>
   </div>
 </section>

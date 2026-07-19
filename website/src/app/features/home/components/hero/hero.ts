@@ -1,19 +1,32 @@
-import { Component, AfterViewInit, Inject, PLATFORM_ID, ElementRef, ViewChild, OnDestroy } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
+import { DataService, HeroData } from '../../../../core/services/data.service';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './hero.html',
   styleUrls: ['./hero.scss']
 })
-export class HeroComponent implements AfterViewInit, OnDestroy {
+export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('heroBg', { static: true }) heroBg!: ElementRef<HTMLDivElement>;
   private isBrowser: boolean;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  heroData?: HeroData;
+
+  constructor(
+    private dataService: DataService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  ngOnInit(): void {
+    this.dataService.getHeroData().subscribe(data => {
+      this.heroData = data;
+    });
   }
 
   ngAfterViewInit(): void {

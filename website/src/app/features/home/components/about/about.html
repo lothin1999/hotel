@@ -3,8 +3,8 @@
     <div class="intro-grid">
       <div class="intro-media about-media-trigger">
         <div class="intro-img-main">
-          <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=900&q=90&auto=format&fit=crop"
-            alt="Velour Estate Pool">
+          <img [src]="aboutData?.mainImage || 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=900&q=90&auto=format&fit=crop'"
+            alt="Ankor Book Estate Pool">
           <div class="intro-img-frame"></div>
           <div class="intro-img-corner tl"></div>
           <div class="intro-img-corner tr"></div>
@@ -12,16 +12,16 @@
           <div class="intro-img-corner br"></div>
           <div class="intro-img-label">
             <div class="intro-img-label-sup">Established</div>
-            <div class="intro-img-label-num">2009</div>
+            <div class="intro-img-label-num">{{ aboutData?.establishedYear || '2009' }}</div>
           </div>
         </div>
         <div class="intro-img-secondary">
-          <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80&auto=format&fit=crop"
-            alt="Ankor Book Estate Pool">
+          <img [src]="aboutData?.secondaryImage || 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80&auto=format&fit=crop'"
+            alt="Ankor Book Estate Detail">
           <div class="about-img-frame"></div>
         </div>
         <div class="about-exp-badge">
-          <div class="aeb-num">15</div>
+          <div class="aeb-num">{{ aboutData?.yearsExperience || 15 }}</div>
           <div class="aeb-text">Years of Privileged Hospitality</div>
         </div>
       </div>
@@ -29,47 +29,18 @@
       <div class="about-right">
         <div class="chip">
           <div class="chip-ornament"><span></span><span></span><span></span></div>
-          <span class="chip-text">The Ankor Book Story</span>
+          <span class="chip-text">{{ aboutData?.chipText || 'The Ankor Book Story' }}</span>
         </div>
-        <h2 class="section-title">A Sanctuary Built for the <em>Discerning</em> Few</h2>
+        <h2 class="section-title">{{ aboutData?.title || 'A Sanctuary Built for the Discerning Few' }}</h2>
         <div class="gold-line"></div>
-        <p class="section-body">Born from the belief that true luxury is not decoration but sensation — Ankor Book was
-          conceived on 18 acres of volcanic coastline as a sanctuary for those who have experienced everything, yet
-          seek something more profound.</p>
-        <p class="section-body" style="margin-top:1rem">Our fleet of 16 hand-selected motorcycles offers a dimension
-          of freedom rarely associated with five-star hospitality. Here, the journey is as curated as the destination.
-        </p>
+        <p class="section-body">{{ aboutData?.body1 }}</p>
+        <p class="section-body" style="margin-top:1rem">{{ aboutData?.body2 }}</p>
         
-        <div class="intro-pillars about-pillars-trigger">
-          <div class="pillar about-pillar-card">
-            <span class="pillar-icon">🌊</span>
-            <div class="pillar-name">Private Shoreline</div>
-            <div class="pillar-desc">1.2km of exclusive white sand, reserved for guests only.</div>
-          </div>
-          <div class="pillar about-pillar-card">
-            <span class="pillar-icon">🍾</span>
-            <div class="pillar-name">3-Star Cuisine</div>
-            <div class="pillar-desc">Chef Théodore Blanc's nightly tasting menu.</div>
-          </div>
-          <div class="pillar about-pillar-card">
-            <span class="pillar-icon">🏍️</span>
-            <div class="pillar-name">Moto Fleet</div>
-            <div class="pillar-desc">16 premium bikes, guided routes, full gear.</div>
-          </div>
-          <div class="pillar about-pillar-card">
-            <span class="pillar-icon">💆</span>
-            <div class="pillar-name">Onsen Sanctuary</div>
-            <div class="pillar-desc">Volcanic stone villas with private thermal pools.</div>
-          </div>
-          <div class="pillar about-pillar-card">
-            <span class="pillar-icon">🚁</span>
-            <div class="pillar-name">Helipad Access</div>
-            <div class="pillar-desc">Private arrival for those who prefer the sky.</div>
-          </div>
-          <div class="pillar about-pillar-card">
-            <span class="pillar-icon">⚓</span>
-            <div class="pillar-name">Yacht Charter</div>
-            <div class="pillar-desc">Personal superyacht available for island excursions.</div>
+        <div class="intro-pillars about-pillars-trigger" *ngIf="aboutData?.pillars">
+          <div *ngFor="let pillar of aboutData!.pillars" class="pillar about-pillar-card">
+            <span class="pillar-icon">{{ pillar.icon }}</span>
+            <div class="pillar-name">{{ pillar.name }}</div>
+            <div class="pillar-desc">{{ pillar.desc }}</div>
           </div>
         </div>
       </div>

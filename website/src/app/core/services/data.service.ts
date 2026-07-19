@@ -1,6 +1,48 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
+export interface HeroStat {
+  num: string;
+  label: string;
+}
+
+export interface HeroAwardCard {
+  stars: number;
+  title: string;
+  source: string;
+  badge: string;
+}
+
+export interface HeroData {
+  overline: string;
+  titlePart1: string;
+  titlePart2: string;
+  titleGold: string;
+  titlePart3: string;
+  description: string;
+  bgImage: string;
+  stats: HeroStat[];
+  awardCard: HeroAwardCard;
+}
+
+export interface PillarItem {
+  icon: string;
+  name: string;
+  desc: string;
+}
+
+export interface AboutData {
+  chipText: string;
+  title: string;
+  body1: string;
+  body2: string;
+  mainImage: string;
+  secondaryImage: string;
+  establishedYear: string;
+  yearsExperience: number;
+  pillars: PillarItem[];
+}
+
 export interface SuiteItem {
   no: string;
   name: string;
@@ -31,6 +73,64 @@ export interface RouteItem {
   badge?: string;
 }
 
+export interface ExperienceItem {
+  tag: string;
+  name: string;
+  desc: string;
+  image: string;
+  alt: string;
+}
+
+export interface ExperiencesData {
+  chipText: string;
+  title: string;
+  items: ExperienceItem[];
+}
+
+export interface ChefInfo {
+  name: string;
+  title: string;
+  quote: string;
+  avatar: string;
+}
+
+export interface DiningOffer {
+  name: string;
+  details: string;
+  price?: number;
+}
+
+export interface MichelinBadge {
+  stars: string;
+  label: string;
+  sub: string;
+}
+
+export interface DiningData {
+  chipText: string;
+  title: string;
+  body1: string;
+  body2: string;
+  chef: ChefInfo;
+  offers: DiningOffer[];
+  mainImage: string;
+  dishOverlayImage: string;
+  michelinBadge: MichelinBadge;
+}
+
+export interface GalleryItem {
+  label: string;
+  image: string;
+  alt: string;
+}
+
+export interface GalleryData {
+  chipText: string;
+  title: string;
+  description: string;
+  items: GalleryItem[];
+}
+
 export interface TestimonialItem {
   name: string;
   location: string;
@@ -46,6 +146,47 @@ export interface TestimonialItem {
   providedIn: 'root'
 })
 export class DataService {
+
+  private heroData: HeroData = {
+    overline: "The World's Most Private Retreat",
+    titlePart1: 'Where',
+    titlePart2: 'Silence is',
+    titleGold: 'Luxury',
+    titlePart3: 'Reborn',
+    description: 'An invitation-only estate nestled above a private coastline — where 48 curated suites and 16 motorcycles await those who seek perfection without compromise.',
+    bgImage: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=90&auto=format&fit=crop',
+    stats: [
+      { num: '48', label: 'Private Suites' },
+      { num: '16', label: 'Motorcycles' },
+      { num: '5★', label: 'Forbes Rated' },
+      { num: '15', label: 'Years of Excellence' }
+    ],
+    awardCard: {
+      stars: 5,
+      title: '"A destination that\ntranscends hospitality"',
+      source: 'Condé Nast Traveller · 2024',
+      badge: "World's Best Resort"
+    }
+  };
+
+  private aboutData: AboutData = {
+    chipText: 'The Ankor Book Story',
+    title: 'A Sanctuary Built for the Discerning Few',
+    body1: 'Born from the belief that true luxury is not decoration but sensation — Ankor Book was conceived on 18 acres of volcanic coastline as a sanctuary for those who have experienced everything, yet seek something more profound.',
+    body2: 'Our fleet of 16 hand-selected motorcycles offers a dimension of freedom rarely associated with five-star hospitality. Here, the journey is as curated as the destination.',
+    mainImage: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=900&q=90&auto=format&fit=crop',
+    secondaryImage: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80&auto=format&fit=crop',
+    establishedYear: '2009',
+    yearsExperience: 15,
+    pillars: [
+      { icon: '🌊', name: 'Private Shoreline', desc: '1.2km of exclusive white sand, reserved for guests only.' },
+      { icon: '🍾', name: '3-Star Cuisine', desc: "Chef Théodore Blanc's nightly tasting menu." },
+      { icon: '🏍️', name: 'Moto Fleet', desc: '16 premium bikes, guided routes, full gear.' },
+      { icon: '💆', name: 'Onsen Sanctuary', desc: 'Volcanic stone villas with private thermal pools.' },
+      { icon: '🚁', name: 'Helipad Access', desc: 'Private arrival for those who prefer the sky.' },
+      { icon: '⚓', name: 'Yacht Charter', desc: 'Personal superyacht available for island excursions.' }
+    ]
+  };
 
   private suites: SuiteItem[] = [
     {
@@ -194,6 +335,72 @@ export class DataService {
     }
   ];
 
+  private experiencesData: ExperiencesData = {
+    chipText: 'Life at Ankor Book',
+    title: 'Moments Beyond the Ordinary',
+    items: [
+      {
+        tag: 'Wellness',
+        name: 'Suspended Infinity Pool & Thermal Onsen',
+        desc: 'Float at the literal edge of the world in our gravity-defying pool, then descend into volcanic stone thermal chambers for transcendent restoration.',
+        image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1000&q=90&auto=format&fit=crop',
+        alt: 'Infinity Pool'
+      },
+      {
+        tag: 'Gastronomy',
+        name: 'Three-Star Experience',
+        desc: "Chef Théodore Blanc's seasonal tasting menus, with produce harvested that same morning.",
+        image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=85&auto=format&fit=crop',
+        alt: 'Dining'
+      },
+      {
+        tag: 'Adventure',
+        name: 'Coastal Moto Freedom',
+        desc: '16 premium bikes, curated cliff roads, and the horizon as your only constraint.',
+        image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=85&auto=format&fit=crop',
+        alt: 'Motorcycles'
+      }
+    ]
+  };
+
+  private diningData: DiningData = {
+    chipText: 'Gastronomy',
+    title: 'Three Stars, One Island',
+    body1: "Chef Théodore Blanc arrived at Ankor Book in 2019, bringing his third Michelin star and an obsessive devotion to the island's native produce. The result is a nightly tasting experience unlike any in the world.",
+    body2: 'Every ingredient is sourced within 48 kilometres. Every plate is a conversation between the chef and the coastline. Dining here is not a meal — it is a confrontation with beauty.',
+    chef: {
+      name: 'Chef Théodore Blanc',
+      title: '★★★ Michelin · Executive Chef',
+      quote: '"I cook the sea, the cliff and the forest."',
+      avatar: 'https://images.unsplash.com/photo-1583394293214-8bcc2f2d282b?w=200&q=80&auto=format&fit=crop'
+    },
+    offers: [
+      { name: '7-Course Coastal Tasting', details: 'Wine pairing included · 3 hrs', price: 380 },
+      { name: 'Sunrise Breakfast Ritual', details: 'Cliff terrace · Seasonal · Included for suites' },
+      { name: 'In-Suite Private Dinner', details: 'Terrace · Personal sommelier · Fully bespoke', price: 250 }
+    ],
+    mainImage: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=90&auto=format&fit=crop',
+    dishOverlayImage: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=300&q=80&auto=format&fit=crop',
+    michelinBadge: {
+      stars: '★★★',
+      label: 'Michelin Stars',
+      sub: 'Since 2021'
+    }
+  };
+
+  private galleryData: GalleryData = {
+    chipText: 'The Estate',
+    title: 'Every Frame a Memory',
+    description: 'Ankor Book was designed to be seen, felt, and photographed. Light changes everything here.',
+    items: [
+      { label: 'The Main Estate', image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=900&q=85&auto=format&fit=crop', alt: 'Resort' },
+      { label: 'Infinity Pool', image: 'https://images.unsplash.com/photo-1549294413-26f195200c16?w=700&q=85&auto=format&fit=crop', alt: 'Pool' },
+      { label: 'Private Beach', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=85&auto=format&fit=crop', alt: 'Beach' },
+      { label: 'Imperial Suite', image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=700&q=85&auto=format&fit=crop', alt: 'Suite' },
+      { label: 'Overwater Villa', image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&q=85&auto=format&fit=crop', alt: 'Overwater' }
+    ]
+  };
+
   private testimonials: TestimonialItem[] = [
     {
       name: 'Isabelle Moreau',
@@ -238,8 +445,16 @@ export class DataService {
   ];
 
   /**
-   * API methods returning Observables (ready to replace with HttpClient.get() in production)
+   * API simulation getters (returns Observables ready for HTTP backend replacement)
    */
+  getHeroData(): Observable<HeroData> {
+    return of(this.heroData);
+  }
+
+  getAboutData(): Observable<AboutData> {
+    return of(this.aboutData);
+  }
+
   getSuites(): Observable<SuiteItem[]> {
     return of(this.suites);
   }
@@ -250,6 +465,18 @@ export class DataService {
 
   getRoutes(): Observable<RouteItem[]> {
     return of(this.routes);
+  }
+
+  getExperiencesData(): Observable<ExperiencesData> {
+    return of(this.experiencesData);
+  }
+
+  getDiningData(): Observable<DiningData> {
+    return of(this.diningData);
+  }
+
+  getGalleryData(): Observable<GalleryData> {
+    return of(this.galleryData);
   }
 
   getTestimonials(): Observable<TestimonialItem[]> {

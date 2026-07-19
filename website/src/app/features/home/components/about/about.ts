@@ -1,77 +1,22 @@
-import { Component, AfterViewInit, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DataService, AboutData } from '../../../../core/services/data.service';
 
 @Component({
   selector: 'app-about',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './about.html',
   styleUrls: ['./about.scss']
 })
-export class AboutComponent implements AfterViewInit, OnDestroy {
-  private isBrowser: boolean;
+export class AboutComponent implements OnInit {
+  aboutData?: AboutData;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
+  constructor(private dataService: DataService) {}
 
-  ngAfterViewInit(): void {
-    if (this.isBrowser) {
-      gsap.registerPlugin(ScrollTrigger);
-
-      // Animate the image frame on the left
-      gsap.fromTo('.about-media-trigger', 
-        { opacity: 0, x: -60 }, 
-        {
-          opacity: 1, 
-          x: 0, 
-          duration: 1.2, 
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.about-media-trigger',
-            start: 'top 85%'
-          }
-        }
-      );
-
-      // Animate the text description on the right
-      gsap.fromTo('.about-text-trigger', 
-        { opacity: 0, x: 60 }, 
-        {
-          opacity: 1, 
-          x: 0, 
-          duration: 1.2, 
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.about-text-trigger',
-            start: 'top 85%'
-          }
-        }
-      );
-
-      // Stagger animate the columns/pillars list
-      gsap.fromTo('.about-pillar-card', 
-        { opacity: 0, y: 40 }, 
-        {
-          opacity: 1, 
-          y: 0, 
-          duration: 0.8, 
-          stagger: 0.15,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.about-pillars-trigger',
-            start: 'top 80%'
-          }
-        }
-      );
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.isBrowser) {
-      // Clean up triggers to prevent leaks
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    }
+  ngOnInit(): void {
+    this.dataService.getAboutData().subscribe(data => {
+      this.aboutData = data;
+    });
   }
 }

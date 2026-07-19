@@ -5,33 +5,28 @@
       <div>
         <div class="chip">
           <div class="chip-ornament"><span></span><span></span><span></span></div>
-          <span class="chip-text">Gastronomy</span>
+          <span class="chip-text">{{ diningData?.chipText || 'Gastronomy' }}</span>
         </div>
-        <h2 class="section-title">Three Stars,<br>One <em>Island</em></h2>
+        <h2 class="section-title">{{ diningData?.title || 'Three Stars, One Island' }}</h2>
         <div class="gold-line"></div>
-        <p class="section-body">Chef Théodore Blanc arrived at Ankor Book in 2019, bringing his third Michelin star and an
-          obsessive devotion to the island's native produce. The result is a nightly tasting experience unlike any in
-          the world.</p>
-        <p class="section-body" style="margin-top:1rem">Every ingredient is sourced within 48 kilometres. Every plate
-          is a conversation between the chef and the coastline. Dining here is not a meal — it is a confrontation with
-          beauty.</p>
+        <p class="section-body">{{ diningData?.body1 }}</p>
+        <p class="section-body" style="margin-top:1rem">{{ diningData?.body2 }}</p>
           
         <!-- Chef profile signature -->
-        <div class="chef-card">
+        <div class="chef-card" *ngIf="diningData?.chef">
           <div class="chef-avatar">
-            <img src="https://images.unsplash.com/photo-1583394293214-8bcc2f2d282b?w=200&q=80&auto=format&fit=crop"
-              alt="Chef">
+            <img [src]="diningData!.chef.avatar" alt="Chef">
           </div>
           <div>
-            <div class="chef-name">Chef Théodore Blanc</div>
-            <div class="chef-title">★★★ Michelin · Executive Chef</div>
-            <div class="chef-quote">"I cook the sea, the cliff and the forest."</div>
+            <div class="chef-name">{{ diningData!.chef.name }}</div>
+            <div class="chef-title">{{ diningData!.chef.title }}</div>
+            <div class="chef-quote">{{ diningData!.chef.quote }}</div>
           </div>
         </div>
         
         <!-- Dining offerings list -->
-        <div class="dining-offers-list">
-          <div *ngFor="let item of offers" class="dining-offer">
+        <div class="dining-offers-list" *ngIf="diningData?.offers">
+          <div *ngFor="let item of diningData!.offers" class="dining-offer">
             <div>
               <div class="offer-name">{{ item.name }}</div>
               <div class="offer-details">{{ item.details }}</div>
@@ -47,19 +42,18 @@
       <div class="dining-right-visual">
         <div style="position:relative;">
           <div class="dining-main-img-wrap">
-            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=90&auto=format&fit=crop"
+            <img [src]="diningData?.mainImage || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=90&auto=format&fit=crop'"
               alt="Dining">
           </div>
-          <!-- Award star badge -->
-          <div class="dining-badge-overlay">
-            <div class="stars-display">★★★</div>
-            <div class="stars-label">Michelin Stars</div>
-            <div class="stars-sub">Since 2021</div>
+          <!-- Michelin star badge overlay -->
+          <div class="dining-badge-overlay" *ngIf="diningData?.michelinBadge">
+            <div class="stars-display">{{ diningData!.michelinBadge.stars }}</div>
+            <div class="stars-label">{{ diningData!.michelinBadge.label }}</div>
+            <div class="stars-sub">{{ diningData!.michelinBadge.sub }}</div>
           </div>
           <!-- Secondary overlay dish image -->
-          <div class="dining-dish-overlay">
-            <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=300&q=80&auto=format&fit=crop"
-              alt="Dish">
+          <div class="dining-dish-overlay" *ngIf="diningData?.dishOverlayImage">
+            <img [src]="diningData!.dishOverlayImage" alt="Dish">
           </div>
         </div>
       </div>
