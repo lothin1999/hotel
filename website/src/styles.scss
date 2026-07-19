@@ -121,6 +121,7 @@ body.lang-kh, body.lang-km,
 
   button, input, select, textarea, p, span, h1, h2, h3, h4, h5, h6, a, div {
     font-family: 'Noto Sans Khmer', 'DM Sans', sans-serif !important;
+    letter-spacing: normal !important;
   }
 }
 
@@ -128,19 +129,19 @@ body.lang-kh, body.lang-km,
 html.lang-kh, html.lang-km {
   .nav-center a {
     font-size: 0.85rem !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: normal !important;
     font-weight: 500 !important;
   }
   
   .nav-btn span, .login-text-btn, .logout-text-btn {
     font-size: 0.82rem !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: normal !important;
     font-weight: 500 !important;
   }
 
   .mobile-nav a {
     font-size: 2rem !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: normal !important;
   }
 
   .hero-title {
@@ -153,7 +154,7 @@ html.lang-kh, html.lang-km {
 
   .hero-overline-text {
     font-size: 0.82rem !important;
-    letter-spacing: 0.1em !important;
+    letter-spacing: normal !important;
   }
 
   .hero-desc {
@@ -163,22 +164,46 @@ html.lang-kh, html.lang-km {
 
   .btn-primary, .btn-outline {
     font-size: 0.82rem !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: normal !important;
   }
 
   .hero-stat-label {
     font-size: 0.72rem !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: normal !important;
   }
 
   .chip-text {
     font-size: 0.78rem !important;
-    letter-spacing: 0.1em !important;
+    letter-spacing: normal !important;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4.5vw, 4.2rem) !important;
+    line-height: 1.4 !important;
+    letter-spacing: normal !important;
   }
 
   .header-desc-card p {
     font-size: 1.1rem !important;
-    line-height: 1.7 !important;
+    line-height: 1.85 !important;
+  }
+
+  .filter-btn {
+    font-size: 0.85rem !important;
+    letter-spacing: normal !important;
+    font-weight: 500 !important;
+  }
+
+  .suite-card-name {
+    line-height: 1.35 !important;
+  }
+
+  .suite-card-size, .suite-card-badge, .moto-card-badge, .moto-card-cat, .moto-spec-label, .exp-tag, .route-name, .route-badge {
+    letter-spacing: normal !important;
+  }
+
+  .exp-name {
+    line-height: 1.4 !important;
   }
 
   .booking-widget-wrap {
@@ -187,7 +212,7 @@ html.lang-kh, html.lang-km {
     }
     label {
       font-size: 0.85rem !important;
-      letter-spacing: 0.02em !important;
+      letter-spacing: normal !important;
     }
     button, input, select {
       font-size: 0.85rem !important;
