@@ -29,10 +29,9 @@
       <span class="footer-brand-logo">Ankor Book</span>
       <p class="footer-brand-desc">{{ 'footer.top.desc' | translate }}</p>
       <div class="footer-brand-socials">
-        <a href="#" class="footer-social">𝕏</a>
-        <a href="#" class="footer-social">in</a>
-        <a href="#" class="footer-social">ig</a>
-        <a href="#" class="footer-social">yt</a>
+        <a *ngFor="let link of socialLinks" [href]="link.url" target="_blank" class="footer-social" [attr.title]="link.title">
+          <img [src]="link.image" [alt]="link.title" />
+        </a>
       </div>
     </div>
     

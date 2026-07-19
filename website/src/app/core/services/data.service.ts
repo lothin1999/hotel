@@ -159,6 +159,12 @@ export interface GalleryData {
   items: GalleryItem[];
 }
 
+export interface SocialLinkItem {
+  image: string;
+  url: string;
+  title: string;
+}
+
 export interface TestimonialItem {
   name: string;
   location: string;
@@ -553,6 +559,29 @@ export class DataService {
     { en: 'Helipad Access', kh: 'ចំណតឧទ្ធម្ភាគចក្រ', zh: '直升机停机坪' }
   ];
 
+  private rawSocialLinks = [
+    {
+      image: 'social/x.svg',
+      url: 'https://x.com/ankorbook',
+      title: { en: 'Follow us on X', kh: 'តាមដានយើងនៅលើ X', zh: '在X上关注我们' }
+    },
+    {
+      image: 'social/linkedin.svg',
+      url: 'https://linkedin.com/company/ankorbook',
+      title: { en: 'Connect on LinkedIn', kh: 'ភ្ជាប់ទំនាក់ទំនងនៅលើ LinkedIn', zh: '在LinkedIn上建立联系' }
+    },
+    {
+      image: 'social/instagram.svg',
+      url: 'https://instagram.com/ankorbook',
+      title: { en: 'Follow us on Instagram', kh: 'តាមដានយើងនៅលើ Instagram', zh: '在Instagram上关注我们' }
+    },
+    {
+      image: 'social/youtube.svg',
+      url: 'https://youtube.com/ankorbook',
+      title: { en: 'Subscribe on YouTube', kh: 'ជាវនៅលើ YouTube', zh: '在YouTube上订阅我们' }
+    }
+  ];
+
   private getTranslatedData<T>(raw: any): T {
     return this.langService.translateObj(raw) as T;
   }
@@ -626,6 +655,12 @@ export class DataService {
   getWellnessData(): Observable<WellnessData> {
     return this.langService.currentLang$.pipe(
       map(() => this.getTranslatedData<WellnessData>(this.rawWellnessData))
+    );
+  }
+
+  getSocialLinks(): Observable<SocialLinkItem[]> {
+    return this.langService.currentLang$.pipe(
+      map(() => this.getTranslatedData<SocialLinkItem[]>(this.rawSocialLinks))
     );
   }
 }
