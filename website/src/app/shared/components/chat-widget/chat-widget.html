@@ -7,8 +7,8 @@
       <span class="online-dot"></span>
     </div>
     <div class="tooltip-text-content">
-      <div class="tooltip-title">Ankor Book Concierge</div>
-      <p class="tooltip-desc">"How may I assist your stay or motorcycle fleet today?"</p>
+      <div class="tooltip-title">{{ 'chat.title' | translate }}</div>
+      <p class="tooltip-desc">{{ 'chat.greeting' | translate }}</p>
     </div>
     <button (click)="closeChat(); $event.stopPropagation()" class="tooltip-close-btn">&times;</button>
   </div>
@@ -33,8 +33,8 @@
         <span class="online-status-dot"></span>
       </div>
       <div>
-        <div class="header-name">Isabelle Moreau</div>
-        <div class="header-status">Chief Private Concierge · Online 24/7</div>
+        <div class="header-name">{{ 'chat.typing' | translate }}</div>
+        <div class="header-status">{{ 'chat.online' | translate }}</div>
       </div>
     </div>
     <div class="header-actions">
@@ -44,25 +44,25 @@
 
   <!-- Messages Scroll Area -->
   <div #chatScrollContainer class="chat-body">
-    <div class="chat-time-divider">Today · Live Concierge Desk</div>
+    <div class="chat-time-divider">{{ 'chat.today' | translate }}</div>
 
     <div *ngFor="let msg of messages" class="message-row" [class.customer]="msg.sender === 'customer'" [class.hotel]="msg.sender === 'hotel'">
       <!-- Hotel Avatar -->
       <img *ngIf="msg.sender === 'hotel'" [src]="msg.avatar" [alt]="msg.senderName" class="msg-avatar">
 
       <div class="msg-bubble-group">
-        <div class="msg-sender-name">{{ msg.senderName }}</div>
+        <div class="msg-sender-name">{{ msg.senderNameKey ? (msg.senderNameKey | translate) : msg.senderName }}</div>
         <div class="msg-bubble">
-          <p class="msg-text">{{ msg.text }}</p>
+          <p class="msg-text">{{ msg.textKey ? (msg.textKey | translate) : msg.text }}</p>
           <span class="msg-time">{{ msg.timestamp }}</span>
         </div>
 
         <!-- Quick Reply Chips -->
         <div *ngIf="msg.quickReplies && msg.quickReplies.length > 0" class="quick-replies-wrap">
-          <button *ngFor="let qr of msg.quickReplies" 
-                  (click)="sendQuickReply(qr)" 
+          <button *ngFor="let qr of msg.quickReplies; let qIdx = index" 
+                  (click)="sendQuickReply(qr, msg.quickRepliesKeys ? msg.quickRepliesKeys[qIdx] : undefined)" 
                   class="quick-reply-btn cursor-pointer">
-            {{ qr }}
+            {{ msg.quickRepliesKeys ? (msg.quickRepliesKeys[qIdx] | translate) : qr }}
           </button>
         </div>
       </div>
@@ -72,7 +72,7 @@
     <div *ngIf="isTyping" class="message-row hotel animate__animated animate__fadeIn">
       <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80&auto=format&fit=crop" alt="Concierge" class="msg-avatar">
       <div class="msg-bubble-group">
-        <div class="msg-sender-name">Isabelle Moreau</div>
+        <div class="msg-sender-name">{{ 'chat.typing' | translate }}</div>
         <div class="msg-bubble typing-bubble">
           <span class="typing-dot"></span>
           <span class="typing-dot"></span>
@@ -87,7 +87,7 @@
     <input type="text" 
            [(ngModel)]="userMessageText" 
            (keyup.enter)="sendMessage()" 
-           placeholder="Ask Concierge about stay, bikes, transfers..." 
+           placeholder="{{ 'chat.placeholder' | translate }}" 
            class="chat-input">
     <button (click)="sendMessage()" [disabled]="!userMessageText.trim()" class="chat-send-btn cursor-pointer">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

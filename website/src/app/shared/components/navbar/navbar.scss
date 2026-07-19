@@ -222,7 +222,7 @@ nav.nav-scrolled {
   top: 100%;
   right: 0;
   margin-top: 0.4rem;
-  background: #0A0814;
+  background: var(--color-card, #0A0814);
   border: 1px solid var(--color-gold2, #E8CC78);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
   z-index: 100;
