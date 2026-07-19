@@ -84,7 +84,7 @@
                            [class.selected]="hotelSuite === s.name"
                            (click)="selectHotelSuite(s.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name" [style.color]="hotelSuite === s.name ? '#E8CC78' : '#F8F6FF'">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
+                          <span class="custom-opt-name">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
                           <span class="custom-opt-detail">{{ s.detail }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(s.price) }}</span>
@@ -147,7 +147,7 @@
                            [class.selected]="motoBike === b.name"
                            (click)="selectMotoBike(b.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name" [style.color]="motoBike === b.name ? '#E8CC78' : '#F8F6FF'">{{ b.name }}</span>
+                          <span class="custom-opt-name">{{ b.name }}</span>
                           <span class="custom-opt-detail">{{ b.detail }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(b.price) }}</span>
@@ -191,7 +191,7 @@
                            [class.selected]="comboSuite === s.name"
                            (click)="selectComboSuite(s.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name" [style.color]="comboSuite === s.name ? '#E8CC78' : '#F8F6FF'">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
+                          <span class="custom-opt-name">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
                           <span class="custom-opt-detail">{{ s.detail }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(s.price) }}</span>
@@ -212,7 +212,7 @@
                            [class.selected]="comboBike === b.name"
                            (click)="selectComboBike(b.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name" [style.color]="comboBike === b.name ? '#E8CC78' : '#F8F6FF'">{{ b.name }}</span>
+                          <span class="custom-opt-name">{{ b.name }}</span>
                           <span class="custom-opt-detail">{{ b.detail }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(b.price) }}</span>

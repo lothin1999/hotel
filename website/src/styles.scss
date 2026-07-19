@@ -87,6 +87,12 @@ html.light-mode {
   --color-text2: #3A364F;
   --color-lighter: #1A1828;
   --color-white: #F8F6FF; /* Preserved crisp white token for dark elements */
+
+  /* Scrolled Navbar Background & Border in Light Mode */
+  nav.nav-scrolled {
+    background: rgba(253, 251, 247, 0.97) !important;
+    border-bottom-color: rgba(184, 144, 40, 0.25) !important;
+  }
 }
 
 /* Base resets & styles */

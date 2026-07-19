@@ -1,7 +1,10 @@
 <section class="hero" id="home">
   <div class="hero-bg" #heroBg>
-    <img [src]="heroData?.bgImage || 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1920&q=90&auto=format&fit=crop'"
-      alt="Angkor Wat Temple Sanctuary">
+    <img *ngFor="let img of activeImages(); let idx = index" 
+         [src]="img"
+         class="hero-slide-img" 
+         [class.active-slide]="currentSlideIndex === idx"
+         alt="Angkor Wat Temple Sanctuary">
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-art-lines">

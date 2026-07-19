@@ -31,11 +31,11 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 0.78rem;
   font-weight: 400;
-  color: #F8F6FF;
+  color: var(--color-lighter, #DDD9EC);
   letter-spacing: 0.04em;
 
   &.placeholder {
-    color: #7A7590;
+    color: var(--color-text, #7A7590);
     font-size: 0.75rem;
   }
 }
@@ -60,7 +60,7 @@
   left: 0;
   z-index: 600;
   width: 300px;
-  background: #1A1828;
+  background: var(--color-card, #1A1828);
   border: 1px solid rgba(212, 175, 80, 0.25);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 175, 80, 0.05);
   animation: dpSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -142,7 +142,7 @@
   aspect-ratio: 1;
   background: transparent;
   border: 1px solid transparent;
-  color: #C8C3D8;
+  color: var(--color-lighter, #C8C3D8);
   font-family: 'DM Sans', sans-serif;
   font-size: 0.72rem;
   cursor: pointer;

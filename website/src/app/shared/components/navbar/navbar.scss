@@ -389,6 +389,10 @@ nav:not(.nav-scrolled) {
     }
   }
 
+  .nav-logo-main {
+    color: #E8CC78 !important;
+  }
+
   .nav-logo-sub {
     color: rgba(255, 255, 255, 0.5) !important;
   }
@@ -418,10 +422,4 @@ nav:not(.nav-scrolled) {
       background: rgba(255, 255, 255, 0.1) !important;
     }
   }
-}
-
-/* Scrolled Navbar Background & Border in Light Mode */
-html.light-mode nav.nav-scrolled {
-  background: rgba(253, 251, 247, 0.97) !important;
-  border-bottom-color: rgba(184, 144, 40, 0.25) !important;
 }

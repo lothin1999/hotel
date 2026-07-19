@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ElementRef, ViewChild, OnDestroy, computed } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { DataService, HeroData } from '../../../../core/services/data.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-hero',
@@ -17,8 +18,29 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
 
   heroData?: HeroData;
 
+  darkImages: string[] = [
+    'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1920&q=90&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1920&q=90&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=1920&q=90&auto=format&fit=crop'
+  ];
+
+  lightImages: string[] = [
+    'https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=1920&q=90&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=1920&q=90&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=90&auto=format&fit=crop'
+  ];
+
+  currentSlideIndex = 0;
+  private carouselInterval: any;
+
+  activeImages = computed(() => {
+    const isDark = this.themeService.currentThemeSignal() === 'dark';
+    return isDark ? this.darkImages : this.lightImages;
+  });
+
   constructor(
     private dataService: DataService,
+    public themeService: ThemeService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -28,6 +50,15 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataService.getHeroData().subscribe(data => {
       this.heroData = data;
     });
+    this.startCarousel();
+  }
+
+  private startCarousel(): void {
+    if (this.isBrowser) {
+      this.carouselInterval = setInterval(() => {
+        this.currentSlideIndex = (this.currentSlideIndex + 1) % this.activeImages().length;
+      }, 6000);
+    }
   }
 
   getStarsArray(count?: number): number[] {
@@ -82,6 +113,9 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.isBrowser) {
       window.removeEventListener('scroll', this.onScroll);
+    }
+    if (this.carouselInterval) {
+      clearInterval(this.carouselInterval);
     }
   }
 
