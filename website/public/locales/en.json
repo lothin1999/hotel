@@ -225,7 +225,32 @@
     "title": "Ankor Book Concierge",
     "greeting": "Welcome to Ankor Book Estates & Motorworks 🏛️✨ I am Isabelle, your Private Concierge. How may I assist with your stay, villa selection, or motorcycle fleet today?",
     "placeholder": "Ask Concierge about stay, bikes, transfers...",
-    "online": "Chief Private Concierge · Online 24/7"
+    "online": "Chief Private Concierge · Online 24/7",
+    "name": "Isabelle Moreau · Chief Concierge",
+    "today": "Today · Live Concierge Desk",
+    "guest": "Valued Guest",
+    "typing": "Isabelle Moreau",
+    "qr": {
+      "reserve": "Reserve a Luxury Suite 🛋️",
+      "fleet": "Motorcycle Fleet & Requirements 🏍️",
+      "helipad": "Helipad & Yacht Transfer 🚁",
+      "dining": "Michelin Gastronomy Dining 🍽️"
+    },
+    "responses": {
+      "default": "Thank you for contacting Ankor Book Concierge! Our team is dedicated to providing an extraordinary sanctuary experience. How else may I assist your itinerary today?",
+      "defaultQr": ["Reserve a Suite 🛋️", "Motorcycle Fleet 🏍️", "Contact Front Desk ☎️"],
+      "suites": "Our resort features 6 handcrafted luxury sanctuaries ranging from our Obsidian Garden Suite to the 400m² Imperial Residence. Would you like me to direct you to our live reservation widget?",
+      "suitesQr": ["Go to Booking Widget 📅", "View Suites Catalog 🏛️"],
+      "moto": "Our stable features 16 competition-grade motorcycles including Ducati Scrambler 800 and Harley-Davidson Pan America. For motor rentals, guests present a valid Driver’s License and Khmer ID or Passport. Complimentary helmets are sized at check-in.",
+      "motoQr": ["View Fleet Machines 🏍️", "Reserve Moto Stay 🔑"],
+      "transfer": "We provide bespoke arrivals via Rolls-Royce Phantom chauffeur, private yacht from ocean ports, or direct landing at our Private Helipad. Our concierge team manages all flight and marine logistics.",
+      "transferQr": ["Request Private Transfer 🚁", "Contact Concierge Desk 📞"],
+      "dining": "Executive Chef Jean-Luc Vasquez curates Michelin-starred Khmer-French gastronomy at L’Ankor Dining Room. Complimentary table allocations are reserved for all stay guests.",
+      "diningQr": ["View Dining Menu 🍽️", "Reserve Table 🥂"],
+      "scrollBooking": "Sailing to our secure reservation widget now! You can configure your stay dates, villa choice, or motorcycle package right away.",
+      "scrollFleet": "Scrolling to our Motorcycle Fleet stable!",
+      "scrollSuites": "Escorting you to our Curated Sanctuaries gallery!"
+    }
   },
   "theme": {
     "dark": "Dark Mode",
