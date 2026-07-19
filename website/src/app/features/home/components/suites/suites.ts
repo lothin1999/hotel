@@ -32,6 +32,23 @@ export class SuitesComponent implements OnInit {
       this.suites = data;
       this.totalCards = data.length;
     });
+
+    if (this.isBrowser) {
+      this.updateCardWidth();
+    }
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    if (this.isBrowser) {
+      this.updateCardWidth();
+    }
+  }
+
+  private updateCardWidth(): void {
+    if (typeof window !== 'undefined') {
+      this.cardWidth = window.innerWidth <= 640 ? 316 : 396;
+    }
   }
 
   goTo(idx: number): void {
@@ -39,11 +56,19 @@ export class SuitesComponent implements OnInit {
   }
 
   next(): void {
-    this.goTo((this.currentIndex + 1) % this.totalCards);
+    if (this.currentIndex < this.totalCards - 1) {
+      this.goTo(this.currentIndex + 1);
+    } else {
+      this.goTo(0);
+    }
   }
 
   prev(): void {
-    this.goTo((this.currentIndex - 1 + this.totalCards) % this.totalCards);
+    if (this.currentIndex > 0) {
+      this.goTo(this.currentIndex - 1);
+    } else {
+      this.goTo(this.totalCards - 1);
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -66,7 +91,6 @@ export class SuitesComponent implements OnInit {
   }
 
   reserveSuite(suite: SuiteItem): void {
-    // Set active draft in booking service and scroll to booking form
     this.bookingService.setActiveDraft({
       type: 'hotel',
       title: suite.name,

@@ -9,6 +9,7 @@ import { daysBetween, fmtMoney } from '../../../../core/helpers/utils';
 import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker';
 import { HlmDialogService } from '../../../../components/ui/dialog/src';
 import { AuthModalComponent } from '../../../auth/components/auth-modal/auth-modal';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-booking-widget',
@@ -47,9 +48,28 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
 
   // Checkout flow state
   isCheckingOut = false;
-  checkoutStep: 'form' | 'payment' | 'success' = 'form';
+  // Step flow: 'form' (step 1) -> 'guest_kyc' (step 2) -> 'payment' (step 3) -> 'success'
+  checkoutStep: 'form' | 'guest_kyc' | 'payment' | 'success' = 'form';
   selectedPaymentMethod: 'hotel' | 'online' = 'online';
   selectedPaymentChannel: BookingItem['paymentChannel'] = 'bakong';
+
+  // Step 2 Guest KYC & Prerequisites
+  guestFullName = '';
+  guestEmail = '';
+  guestPhone = '+855 ';
+  nationality: 'khmer' | 'foreigner' = 'khmer';
+  idNumber = '';
+  idPhotoPreview: string | null = null;
+  idPhotoFileName = '';
+
+  // Moto Prerequisites
+  driverLicenseNumber = '';
+  licensePhotoPreview: string | null = null;
+  licensePhotoFileName = '';
+  helmetSizeRider: 'S' | 'M' | 'L' | 'XL' = 'M';
+  helmetSizePassenger: 'none' | 'S' | 'M' | 'L' | 'XL' = 'none';
+  ridingExperience: 'novice' | 'intermediate' | 'expert' = 'intermediate';
+  transferRequest: 'none' | 'helipad' | 'yacht' | 'car' = 'none';
   
   // Online payment card details
   cardNumber = '';
@@ -153,6 +173,14 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
       }));
     });
 
+    // Sync auth user details when logged in
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        this.guestFullName = user.displayName || this.guestFullName;
+        this.guestEmail = user.email || this.guestEmail;
+      }
+    });
+
     // Watch for incoming selections from other components (e.g. clicking Reserve in Suites or Fleet)
     this.draftSubscription = this.bookingService.activeBooking$.subscribe(draft => {
       if (draft) {
@@ -182,6 +210,115 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
       this.hotelCheckIn = this.motoCheckIn = this.comboCheckIn = fmt(today);
       this.hotelCheckOut = this.motoCheckOut = this.comboCheckOut = fmt(tomorrow);
     }
+  }
+
+  // Document Upload File Handlers
+  onIdPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      this.idPhotoFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.idPhotoPreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onLicensePhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      this.licensePhotoFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.licensePhotoPreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeIdPhoto(): void {
+    this.idPhotoPreview = null;
+    this.idPhotoFileName = '';
+  }
+
+  removeLicensePhoto(): void {
+    this.licensePhotoPreview = null;
+    this.licensePhotoFileName = '';
+  }
+
+  setNationality(nat: 'khmer' | 'foreigner'): void {
+    this.nationality = nat;
+    this.idNumber = '';
+    this.idPhotoPreview = null;
+    this.idPhotoFileName = '';
+  }
+
+  setHelmetRider(size: any): void {
+    this.helmetSizeRider = size;
+  }
+
+  setHelmetPassenger(size: any): void {
+    this.helmetSizePassenger = size;
+  }
+
+  setExperience(exp: 'novice' | 'intermediate' | 'expert'): void {
+    this.ridingExperience = exp;
+  }
+
+  // ── Step Navigation & Validation ──────────────────────────────────
+  proceedToCheckout(): void {
+    if (!this.isFormValid) return;
+
+    // ── Auth Gate ──────────────────────────────────────────────
+    if (!this.authService.currentUser) {
+      const dialogRef = this.dialogService.open(AuthModalComponent, {
+        contentClass: 'max-w-4xl w-full border-none bg-transparent shadow-none',
+        showCloseButton: false
+      });
+
+      const authSub = this.authService.currentUser$.subscribe(user => {
+        if (user) {
+          authSub.unsubscribe();
+          setTimeout(() => {
+            this.guestFullName = user.displayName || this.guestFullName;
+            this.guestEmail = user.email || this.guestEmail;
+            this.checkoutStep = 'guest_kyc';
+          }, 400);
+        }
+      });
+      return;
+    }
+
+    const u = this.authService.currentUser;
+    if (u) {
+      this.guestFullName = u.displayName || this.guestFullName;
+      this.guestEmail = u.email || this.guestEmail;
+    }
+
+    // Move to Step 2: Guest Information & KYC Upload
+    this.checkoutStep = 'guest_kyc';
+  }
+
+  proceedToPayment(): void {
+    if (!this.guestFullName || !this.guestEmail) return;
+    this.checkoutStep = 'payment';
+    this.startQrTimer();
+  }
+
+  cancelCheckout(): void {
+    this.checkoutStep = 'form';
+    if (this.countdownInterval) clearInterval(this.countdownInterval);
+  }
+
+  backToSelection(): void {
+    this.checkoutStep = 'form';
+  }
+
+  backToKyc(): void {
+    this.checkoutStep = 'guest_kyc';
   }
 
   ngOnDestroy(): void {
@@ -272,41 +409,6 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
     return fmtMoney(val);
   }
 
-  proceedToCheckout(): void {
-    if (!this.isFormValid) return;
-
-    // ── Auth Gate ──────────────────────────────────────────────
-    if (!this.authService.currentUser) {
-      // Open the auth modal
-      const dialogRef = this.dialogService.open(AuthModalComponent, {
-        contentClass: 'max-w-4xl w-full border-none bg-transparent shadow-none',
-        showCloseButton: false
-      });
-
-      // After modal closes, check if user is now authenticated and auto-proceed
-      const authSub = this.authService.currentUser$.subscribe(user => {
-        if (user) {
-          authSub.unsubscribe();
-          // Small delay to let modal close animation finish
-          setTimeout(() => {
-            this.checkoutStep = 'payment';
-            this.startQrTimer();
-          }, 400);
-        }
-      });
-      return;
-    }
-
-    // User is authenticated — proceed directly
-    this.checkoutStep = 'payment';
-    this.startQrTimer();
-  }
-
-  cancelCheckout(): void {
-    this.checkoutStep = 'form';
-    if (this.countdownInterval) clearInterval(this.countdownInterval);
-  }
-
   selectPaymentMethod(method: 'hotel' | 'online'): void {
     this.selectedPaymentMethod = method;
   }
@@ -320,9 +422,10 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
     if (this.countdownInterval) clearInterval(this.countdownInterval);
     this.countdownSeconds = 120;
     
-    // Create simulated KHQR / ABA deep-link string
-    const ref = 'VEL' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    this.qrPayloadUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bakong://pay?ref=${ref}&amount=${this.totalCost}&merchant=ANKORBOOK`;
+    // Create simulated KHQR / ABA deep-link string using environment keys
+    const ref = 'ANKOR' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const merchant = environment.bakong.merchantId;
+    this.qrPayloadUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=bakong://pay?ref=${ref}&amount=${this.totalCost}&merchant=${merchant}`;
 
     this.countdownInterval = setInterval(() => {
       if (this.countdownSeconds > 0) {
@@ -334,14 +437,14 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Finalizes reservation and runs simulated cryptographic HMAC validation on server/client outputs.
+   * Finalizes reservation with KYC documents, helmet sizes, and payment verification.
    */
   async submitReservation(): Promise<void> {
     if (this.isProcessingPayment) return;
     
     const user = this.authService.currentUser;
-    const guestName = user?.displayName || 'Guest User';
-    const guestEmail = user?.email || 'guest@ankorbook.com';
+    const name = this.guestFullName || user?.displayName || 'Guest User';
+    const email = this.guestEmail || user?.email || 'guest@ankorbook.com';
     
     const start = this.activeTab === 'hotel' ? this.hotelCheckIn : this.activeTab === 'moto' ? this.motoCheckIn : this.comboCheckIn;
     const end = this.activeTab === 'hotel' ? this.hotelCheckOut : this.activeTab === 'moto' ? this.motoCheckOut : this.comboCheckOut;
@@ -361,8 +464,19 @@ export class BookingWidgetComponent implements OnInit, OnDestroy {
         subTotal: this.subTotal,
         discount: this.discount,
         total: this.totalCost,
-        guestName,
-        guestEmail
+        guestName: name,
+        guestEmail: email,
+        guestPhone: this.guestPhone,
+        nationality: this.nationality,
+        idDocumentType: this.nationality === 'khmer' ? 'khmer_id' : 'passport',
+        idDocumentNumber: this.idNumber,
+        idDocumentPhotoUrl: this.idPhotoPreview || undefined,
+        driverLicenseNumber: this.driverLicenseNumber || undefined,
+        driverLicensePhotoUrl: this.licensePhotoPreview || undefined,
+        helmetSizeRider: (this.activeTab === 'moto' || this.activeTab === 'combo') ? this.helmetSizeRider : undefined,
+        helmetSizePassenger: (this.activeTab === 'moto' || this.activeTab === 'combo') ? this.helmetSizePassenger : undefined,
+        ridingExperience: (this.activeTab === 'moto' || this.activeTab === 'combo') ? this.ridingExperience : undefined,
+        transferRequest: this.transferRequest
       };
 
       if (this.selectedPaymentMethod === 'online') {

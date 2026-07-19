@@ -10,18 +10,34 @@
         <h2 class="section-title">Curated <em>Sanctuaries</em></h2>
       </div>
       <div class="suites-header-right">
-        <p class="section-body">Each suite is a private world,
-          conceived by Pritzker-winning architects using only materials sourced within 100 miles.</p>
-        <div class="suites-nav-btns">
-          <button class="suite-nav-btn cursor-pointer" (click)="prev()" aria-label="Previous">←</button>
-          <button class="suite-nav-btn cursor-pointer" (click)="next()" aria-label="Next">→</button>
+        <p class="section-body">
+          Each suite is a private world, conceived by Pritzker-winning architects using only materials sourced within 100 miles.
+        </p>
+        <div class="suites-control-bar">
+          <div class="suites-counter">
+            <span class="curr-num">0{{ currentIndex + 1 }}</span>
+            <span class="num-sep">/</span>
+            <span class="total-num">0{{ totalCards }}</span>
+          </div>
+          <div class="suites-nav-btns">
+            <button class="suite-nav-btn cursor-pointer" (click)="prev()" aria-label="Previous Suite">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button class="suite-nav-btn cursor-pointer" (click)="next()" aria-label="Next Suite">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
     
     <div class="suites-scroll-container" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
       <div class="suites-track" [style.transform]="'translateX(-' + (currentIndex * cardWidth) + 'px)'">
-        <div *ngFor="let suite of suites; let i = index" class="suite-card">
+        <div *ngFor="let suite of suites; let i = index" class="suite-card" [class.active-card]="currentIndex === i">
           <div class="suite-card-img-wrap">
             <img [src]="suite.image" [alt]="suite.name">
             <div class="suite-card-overlay"></div>
@@ -55,6 +71,7 @@
            class="suite-page-dot cursor-pointer" 
            [class.active]="currentIndex === idx"
            (click)="goTo(idx)">
+        <span class="dot-line"></span>
       </div>
     </div>
   </div>

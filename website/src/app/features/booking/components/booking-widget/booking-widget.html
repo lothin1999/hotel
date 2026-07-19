@@ -11,8 +11,8 @@
         <div class="gold-line"></div>
         <p class="section-body" style="max-width:340px;">Select your stay dates, preferred villa, or motorcycle. Stays of 3 nights or more receive premium concierge allocation. Combined packages automatically receive a 15% rate reduction.</p>
         
-        <!-- Live Costs Summary (If form is valid and showing form step) -->
-        <div *ngIf="checkoutStep === 'form' && isFormValid" class="cost-summary-card animate__animated animate__fadeIn">
+        <!-- Live Costs Summary (If form is valid and showing form/kyc step) -->
+        <div *ngIf="(checkoutStep === 'form' || checkoutStep === 'guest_kyc') && isFormValid" class="cost-summary-card animate__animated animate__fadeIn">
           <div class="csc-title">Reservation Summary</div>
           <div class="csc-row">
             <span>{{ checkoutTitle }}</span>
@@ -42,6 +42,24 @@
       <!-- Right Panel: Dynamic Forms / Checkout -->
       <div class="booking-right">
         <div class="booking-card">
+          <!-- Stepper Navigation Bar -->
+          <div class="booking-stepper-bar">
+            <div class="stepper-step" [class.active]="checkoutStep === 'form'" [class.completed]="checkoutStep === 'guest_kyc' || checkoutStep === 'payment' || checkoutStep === 'success'">
+              <span class="step-num">1</span>
+              <span class="step-label">Selection</span>
+            </div>
+            <div class="stepper-connector" [class.active]="checkoutStep === 'guest_kyc' || checkoutStep === 'payment' || checkoutStep === 'success'"></div>
+            <div class="stepper-step" [class.active]="checkoutStep === 'guest_kyc'" [class.completed]="checkoutStep === 'payment' || checkoutStep === 'success'">
+              <span class="step-num">2</span>
+              <span class="step-label">Verification</span>
+            </div>
+            <div class="stepper-connector" [class.active]="checkoutStep === 'payment' || checkoutStep === 'success'"></div>
+            <div class="stepper-step" [class.active]="checkoutStep === 'payment' || checkoutStep === 'success'">
+              <span class="step-num">3</span>
+              <span class="step-label">Payment</span>
+            </div>
+          </div>
+
           <!-- Step 1: Form Inputs -->
           <ng-container *ngIf="checkoutStep === 'form'">
             <!-- Tab Headers -->
@@ -95,26 +113,24 @@
                   </div>
                 </div>
 
-
                 <div class="f-row-guests">
                   <div>
                     <label class="f-label">Adults</label>
                     <div class="f-stepper">
-                      <button (click)="decrementGuest('adults')" class="stepper-btn">-</button>
+                      <button (click)="decrementGuest('adults')" class="stepper-btn cursor-pointer">-</button>
                       <span class="stepper-val">{{ hotelAdults }}</span>
-                      <button (click)="incrementGuest('adults')" class="stepper-btn">+</button>
+                      <button (click)="incrementGuest('adults')" class="stepper-btn cursor-pointer">+</button>
                     </div>
                   </div>
                   <div>
                     <label class="f-label">Children</label>
                     <div class="f-stepper">
-                      <button (click)="decrementGuest('children')" class="stepper-btn">-</button>
+                      <button (click)="decrementGuest('children')" class="stepper-btn cursor-pointer">-</button>
                       <span class="stepper-val">{{ hotelChildren }}</span>
-                      <button (click)="incrementGuest('children')" class="stepper-btn">+</button>
+                      <button (click)="incrementGuest('children')" class="stepper-btn cursor-pointer">+</button>
                     </div>
                   </div>
                 </div>
-
               </div>
 
               <!-- MOTO TAB -->
@@ -228,17 +244,165 @@
 
               <div class="booking-action-row" style="margin-top: 2rem;">
                 <button [disabled]="!isFormValid" (click)="proceedToCheckout()" class="btn-primary w-full cursor-pointer justify-center" style="display:flex;">
-                  <span>Proceed to Checkout</span>
+                  <span>Proceed to Guest Details</span>
                   <span>→</span>
                 </button>
               </div>
             </div>
           </ng-container>
 
-          <!-- Step 2: Payment Selector & Simulators -->
+          <!-- Step 2: Guest Details, Nationality & Document Upload (KYC) -->
+          <ng-container *ngIf="checkoutStep === 'guest_kyc'">
+            <div class="checkout-header">
+              <button (click)="backToSelection()" class="checkout-back-btn cursor-pointer">← Back to Selection</button>
+              <div class="checkout-title">Guest Details &amp; Verification</div>
+            </div>
+
+            <div class="checkout-body">
+              <!-- Full Name & Email -->
+              <div class="f-group">
+                <label class="f-label">Full Legal Name (as on ID / Passport) <span class="f-required">*</span></label>
+                <input type="text" class="f-input" [(ngModel)]="guestFullName" placeholder="e.g. Sokha Chan">
+              </div>
+
+              <div class="f-row">
+                <div class="f-group">
+                  <label class="f-label">Email Address <span class="f-required">*</span></label>
+                  <input type="email" class="f-input" [(ngModel)]="guestEmail" placeholder="e.g. guest@domain.com">
+                </div>
+                <div class="f-group">
+                  <label class="f-label">Phone Number <span class="f-required">*</span></label>
+                  <input type="tel" class="f-input" [(ngModel)]="guestPhone" placeholder="+855 12 345 678">
+                </div>
+              </div>
+
+              <!-- Nationality Toggle -->
+              <div class="f-group" style="margin-top: 1rem;">
+                <label class="f-label">Nationality <span class="f-required">*</span></label>
+                <div class="nationality-toggle-row">
+                  <button type="button" class="nat-pill-btn cursor-pointer" [class.active]="nationality === 'khmer'" (click)="setNationality('khmer')">
+                    <span>🇰🇭 Cambodian (Khmer)</span>
+                  </button>
+                  <button type="button" class="nat-pill-btn cursor-pointer" [class.active]="nationality === 'foreigner'" (click)="setNationality('foreigner')">
+                    <span>🌐 Foreigner / International</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Cambodian ID Document Upload -->
+              <div *ngIf="nationality === 'khmer'" class="f-group document-upload-card animate__animated animate__fadeIn">
+                <label class="f-label">National ID Card Number <span class="f-required">*</span></label>
+                <input type="text" class="f-input" [(ngModel)]="idNumber" placeholder="e.g. 182049281">
+                
+                <div class="upload-dropzone-label">Upload National ID Card Photo (Front &amp; Back)</div>
+                
+                <div *ngIf="!idPhotoPreview" class="upload-dropzone cursor-pointer" (click)="idFileInput.click()">
+                  <input #idFileInput type="file" accept="image/*" (change)="onIdPhotoSelected($event)" style="display:none">
+                  <div class="upload-icon">📄</div>
+                  <div class="upload-text">Click to upload Khmer National ID photo</div>
+                  <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
+                </div>
+
+                <div *ngIf="idPhotoPreview" class="file-preview-card">
+                  <img [src]="idPhotoPreview" alt="ID Card Preview" class="preview-img">
+                  <div class="preview-info">
+                    <span class="preview-name">{{ idPhotoFileName }}</span>
+                    <button type="button" (click)="removeIdPhoto()" class="preview-remove-btn cursor-pointer">Remove Photo</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Foreigner Passport Document Upload -->
+              <div *ngIf="nationality === 'foreigner'" class="f-group document-upload-card animate__animated animate__fadeIn">
+                <label class="f-label">Passport Number <span class="f-required">*</span></label>
+                <input type="text" class="f-input" [(ngModel)]="idNumber" placeholder="e.g. N92847291">
+                
+                <div class="upload-dropzone-label">Upload Passport Information Page Photo</div>
+                
+                <div *ngIf="!idPhotoPreview" class="upload-dropzone cursor-pointer" (click)="passportFileInput.click()">
+                  <input #passportFileInput type="file" accept="image/*" (change)="onIdPhotoSelected($event)" style="display:none">
+                  <div class="upload-icon">🛂</div>
+                  <div class="upload-text">Click to upload Passport info page photo</div>
+                  <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
+                </div>
+
+                <div *ngIf="idPhotoPreview" class="file-preview-card">
+                  <img [src]="idPhotoPreview" alt="Passport Preview" class="preview-img">
+                  <div class="preview-info">
+                    <span class="preview-name">{{ idPhotoFileName }}</span>
+                    <button type="button" (click)="removeIdPhoto()" class="preview-remove-btn cursor-pointer">Remove Photo</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- MOTORCYCLE SPECIFIC PREREQUISITES (Moto & Combo Stays) -->
+              <div *ngIf="activeTab === 'moto' || activeTab === 'combo'" class="moto-prerequisites-card animate__animated animate__fadeIn">
+                <div class="moto-prereq-title">🏍️ Riding License &amp; Safety Sizing</div>
+                
+                <!-- Driver License Upload -->
+                <div class="f-group">
+                  <label class="f-label">Driver's License Number (Class A / International Driving Permit)</label>
+                  <input type="text" class="f-input" [(ngModel)]="driverLicenseNumber" placeholder="e.g. DL-98214-KH">
+                </div>
+
+                <div *ngIf="!licensePhotoPreview" class="upload-dropzone cursor-pointer" (click)="licenseFileInput.click()" style="margin-bottom: 1.2rem;">
+                  <input #licenseFileInput type="file" accept="image/*" (change)="onLicensePhotoSelected($event)" style="display:none">
+                  <div class="upload-icon">🪪</div>
+                  <div class="upload-text">Click to upload Driver's License photo</div>
+                  <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
+                </div>
+
+                <div *ngIf="licensePhotoPreview" class="file-preview-card" style="margin-bottom: 1.2rem;">
+                  <img [src]="licensePhotoPreview" alt="Driver License Preview" class="preview-img">
+                  <div class="preview-info">
+                    <span class="preview-name">{{ licensePhotoFileName }}</span>
+                    <button type="button" (click)="removeLicensePhoto()" class="preview-remove-btn cursor-pointer">Remove Photo</button>
+                  </div>
+                </div>
+
+                <!-- Helmet Size Sizing -->
+                <div class="f-group">
+                  <label class="f-label">Primary Rider Helmet Size <span class="f-required">*</span></label>
+                  <div class="size-pill-grid">
+                    <button type="button" *ngFor="let s of ['S', 'M', 'L', 'XL']" 
+                            class="size-btn cursor-pointer" 
+                            [class.active]="helmetSizeRider === s" 
+                            (click)="setHelmetRider(s)">{{ s }}</button>
+                  </div>
+                </div>
+
+                <div class="f-group" style="margin-top: 0.8rem;">
+                  <label class="f-label">Passenger Helmet Size (Optional)</label>
+                  <div class="size-pill-grid">
+                    <button type="button" class="size-btn cursor-pointer" [class.active]="helmetSizePassenger === 'none'" (click)="setHelmetPassenger('none')">None</button>
+                    <button type="button" *ngFor="let s of ['S', 'M', 'L', 'XL']" 
+                            class="size-btn cursor-pointer" 
+                            [class.active]="helmetSizePassenger === s" 
+                            (click)="setHelmetPassenger(s)">{{ s }}</button>
+                  </div>
+                </div>
+
+                <!-- Security Deposit Notice -->
+                <div class="security-deposit-notice">
+                  <span class="sd-icon">🔒</span>
+                  <span>Refundable Security Deposit of <strong>$200–$500</strong> pre-authorized at vehicle handover.</span>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="booking-action-row" style="margin-top: 1.5rem;">
+                <button [disabled]="!guestFullName || !guestEmail || !idNumber" (click)="proceedToPayment()" class="btn-primary w-full justify-center cursor-pointer" style="display:flex;">
+                  <span>Proceed to Payment</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Step 3: Payment Selector & Simulators -->
           <ng-container *ngIf="checkoutStep === 'payment'">
             <div class="checkout-header">
-              <button (click)="cancelCheckout()" class="checkout-back-btn">← Back to Form</button>
+              <button (click)="backToKyc()" class="checkout-back-btn cursor-pointer">← Back to Guest Details</button>
               <div class="checkout-title">Secured Gateway</div>
             </div>
 
@@ -253,9 +417,18 @@
               <div *ngIf="selectedPaymentMethod === 'online'">
                 <div class="channel-select-label">Select Payment Channel</div>
                 <div class="payment-channels">
-                  <button (click)="selectPaymentChannel('bakong')" [class.active]="selectedPaymentChannel === 'bakong'" class="pc-btn cursor-pointer">Bakong KHQR</button>
-                  <button (click)="selectPaymentChannel('aba')" [class.active]="selectedPaymentChannel === 'aba'" class="pc-btn cursor-pointer">ABA Pay</button>
-                  <button (click)="selectPaymentChannel('card')" [class.active]="selectedPaymentChannel === 'card'" class="pc-btn cursor-pointer">Credit Card</button>
+                  <button (click)="selectPaymentChannel('bakong')" [class.active]="selectedPaymentChannel === 'bakong'" class="pc-btn cursor-pointer">
+                    <span class="pc-badge">KHQR</span>
+                    <span>Bakong KHQR</span>
+                  </button>
+                  <button (click)="selectPaymentChannel('aba')" [class.active]="selectedPaymentChannel === 'aba'" class="pc-btn cursor-pointer">
+                    <span class="pc-badge">ABA</span>
+                    <span>ABA Pay</span>
+                  </button>
+                  <button (click)="selectPaymentChannel('card')" [class.active]="selectedPaymentChannel === 'card'" class="pc-btn cursor-pointer">
+                    <span class="pc-badge">CARD</span>
+                    <span>Credit Card</span>
+                  </button>
                 </div>
 
                 <div class="channel-separator"></div>
@@ -268,7 +441,7 @@
                   </div>
                   <div class="qr-instructions">
                     <div class="qr-instructions-title">Scan to Pay via {{ selectedPaymentChannel === 'bakong' ? 'Bakong KHQR' : 'ABA Pay' }}</div>
-                    <p class="qr-instructions-desc">Open your banking app, scan this KHQR, and complete the secure payment. Once scanned, the booking will auto-confirm.</p>
+                    <p class="qr-instructions-desc">Open your mobile banking app, scan this KHQR code, and authorize payment. The transaction will auto-verify securely.</p>
                     <div class="qr-timer">Expires in: <strong>{{ countdownSeconds }}s</strong></div>
                   </div>
                 </div>
@@ -277,7 +450,7 @@
                 <div *ngIf="selectedPaymentChannel === 'card'" class="card-inputs-form animate__animated animate__fadeIn">
                   <div class="f-group">
                     <label class="f-label">Cardholder Name</label>
-                    <input type="text" class="f-input" placeholder="e.g. Isabelle Moreau">
+                    <input type="text" class="f-input" [value]="guestFullName" placeholder="e.g. Isabelle Moreau">
                   </div>
                   <div class="f-group">
                     <label class="f-label">Card Number</label>
@@ -300,7 +473,7 @@
               <div *ngIf="selectedPaymentMethod === 'hotel'" class="hotel-instructions animate__animated animate__fadeIn">
                 <div class="hotel-inst-icon">🏨</div>
                 <div class="hotel-inst-title">Reservation Deposit-Free</div>
-                <p class="hotel-inst-desc">Your stay will be reserved under the guest profile. No online payment is required today. The invoice will be settled at the hotel check-in desk.</p>
+                <p class="hotel-inst-desc">Your stay will be reserved under your verified profile. No online payment is required today. The invoice will be settled at the hotel check-in desk.</p>
               </div>
 
               <!-- Total Cost Box -->
@@ -317,7 +490,7 @@
             </div>
           </ng-container>
 
-          <!-- Step 3: Success Confirmation Page -->
+          <!-- Step 4: Success Confirmation Page -->
           <ng-container *ngIf="checkoutStep === 'success'">
             <div class="success-screen animate__animated animate__zoomIn">
               <div class="success-icon">✓</div>
@@ -335,8 +508,16 @@
                   <span>Guest</span>
                   <strong>{{ completedBooking?.guestName }}</strong>
                 </div>
+                <div class="rd-row" *ngIf="completedBooking?.idDocumentNumber">
+                  <span>ID / Passport</span>
+                  <strong>{{ completedBooking?.idDocumentNumber }} ({{ completedBooking?.nationality === 'khmer' ? 'Khmer ID' : 'Passport' }})</strong>
+                </div>
+                <div class="rd-row" *ngIf="completedBooking?.helmetSizeRider">
+                  <span>Rider Helmet</span>
+                  <strong class="text-gold">Size {{ completedBooking?.helmetSizeRider }}</strong>
+                </div>
                 <div class="rd-row">
-                  <span>Stay</span>
+                  <span>Stay / Bike</span>
                   <strong>{{ completedBooking?.title }}</strong>
                 </div>
                 <div class="rd-row">
@@ -353,7 +534,7 @@
                 </div>
               </div>
 
-              <button (click)="resetWidget()" class="btn-outline w-full justify-center mt-6">Book Another Stay</button>
+              <button (click)="resetWidget()" class="btn-outline w-full justify-center mt-6 cursor-pointer">Book Another Stay</button>
             </div>
           </ng-container>
         </div>

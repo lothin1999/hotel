@@ -18,6 +18,17 @@ export interface BookingItem {
   total: number;
   guestName: string;
   guestEmail: string;
+  guestPhone?: string;
+  nationality?: 'khmer' | 'foreigner';
+  idDocumentType?: 'khmer_id' | 'passport';
+  idDocumentNumber?: string;
+  idDocumentPhotoUrl?: string;
+  driverLicenseNumber?: string;
+  driverLicensePhotoUrl?: string;
+  helmetSizeRider?: 'S' | 'M' | 'L' | 'XL';
+  helmetSizePassenger?: 'none' | 'S' | 'M' | 'L' | 'XL';
+  ridingExperience?: 'novice' | 'intermediate' | 'expert';
+  transferRequest?: 'none' | 'helipad' | 'yacht' | 'car';
   status: 'active' | 'completed' | 'cancelled';
   createdAt: string;
   paymentMethod?: 'hotel' | 'online';
