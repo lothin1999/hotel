@@ -1,8 +1,8 @@
 :host {
   position: fixed;
   inset: 0;
-  pointer-events: none;
-  z-index: 999999;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
 }
 
 .cursor-dot {
@@ -14,8 +14,8 @@
   transform: translate(-50%, -50%);
   transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), height 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s, opacity 0.25s;
   box-shadow: 0 0 8px var(--color-gold2, #E8CC78);
-  z-index: 99999;
-  pointer-events: none;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
 }
 
 .cursor-ring {
@@ -26,8 +26,8 @@
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.5s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1), border-color 0.3s, opacity 0.3s, background 0.3s;
-  z-index: 99998;
-  pointer-events: none;
+  z-index: 2147483646 !important;
+  pointer-events: none !important;
 }
 
 .cursor-trail {
@@ -37,8 +37,8 @@
   background: radial-gradient(circle, rgba(212, 175, 80, 0.04) 0%, transparent 70%);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  z-index: 99997;
-  pointer-events: none;
+  z-index: 2147483645 !important;
+  pointer-events: none !important;
 }
 
 /* Host body classes injected dynamically */

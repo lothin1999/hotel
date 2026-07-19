@@ -265,12 +265,16 @@ body.loading {
   body.use-custom-cursor *,
   .cdk-overlay-container,
   .cdk-overlay-container * {
-    cursor: none !important;
+    // cursor: none !important;
   }
 }
 
-.cdk-overlay-container {
-  z-index: 99900 !important; /* lower than custom cursor host z-index: 999999 */
+.cdk-overlay-container,
+.cdk-overlay-backdrop,
+.cdk-overlay-pane,
+hlm-dialog-overlay,
+.hlm-dialog-overlay {
+  z-index: 99900 !important;
 }
 
 app-custom-cursor {
@@ -434,7 +438,7 @@ button.hlm-btn {
 
 .hlm-dialog-content {
   border-radius: 0px !important;
-  background-color: #1A1828 !important;
+  background-color: var(--color-card, #1A1828) !important;
   border-color: rgba(212, 175, 80, 0.22) !important;
 }
 

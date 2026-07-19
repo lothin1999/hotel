@@ -58,6 +58,11 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     if (!this.isBrowser) return;
     this.cx = e.clientX;
     this.cy = e.clientY;
+    
+    // Proactively keep the custom cursor at the end of body children list to overlay dialogs
+    if (this.document.body.lastChild !== this.elementRef.nativeElement) {
+      this.document.body.appendChild(this.elementRef.nativeElement);
+    }
   }
 
   @HostListener('window:mousedown')
