@@ -20,8 +20,8 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
     });
   }
 
-  transform(key: string): string {
-    return this.langService.translate(key);
+  transform(value: any): string {
+    return this.langService.translateObj(value);
   }
 
   ngOnDestroy(): void {

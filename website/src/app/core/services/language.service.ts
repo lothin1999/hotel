@@ -110,4 +110,26 @@ export class LanguageService {
 
     return typeof val === 'string' ? val : key;
   }
+
+  translateObj(obj: any): any {
+    if (!obj) return obj;
+    if (typeof obj === 'object') {
+      if ('en' in obj || 'kh' in obj || 'zh' in obj) {
+        const lang = this.currentLang;
+        return obj[lang] || obj['kh'] || obj['en'] || '';
+      }
+      if (Array.isArray(obj)) {
+        return obj.map(item => this.translateObj(item));
+      }
+      const result: any = {};
+      for (const key of Object.keys(obj)) {
+        result[key] = this.translateObj(obj[key]);
+      }
+      return result;
+    }
+    if (typeof obj === 'string') {
+      return this.translate(obj);
+    }
+    return obj;
+  }
 }

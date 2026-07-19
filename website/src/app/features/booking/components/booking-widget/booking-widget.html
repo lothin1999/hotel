@@ -13,27 +13,27 @@
         
         <!-- Live Costs Summary (If form is valid and showing form/kyc step) -->
         <div *ngIf="(checkoutStep === 'form' || checkoutStep === 'guest_kyc') && isFormValid" class="cost-summary-card animate__animated animate__fadeIn">
-          <div class="csc-title">Reservation Summary</div>
+          <div class="csc-title">{{ 'booking.costSummaryTitle' | translate }}</div>
           <div class="csc-row">
-            <span>{{ checkoutTitle }}</span>
-            <span>{{ formatVal(ratePerUnit) }} / unit</span>
+            <span>{{ checkoutTitle | translate }}</span>
+            <span>{{ formatVal(ratePerUnit) }} / {{ 'booking.ratePerUnit' | translate }}</span>
           </div>
           <div class="csc-row">
-            <span>Duration</span>
-            <span>{{ calculatedUnits }} Nights / Days</span>
+            <span>{{ 'booking.duration' | translate }}</span>
+            <span>{{ calculatedUnits }} {{ 'booking.nightsDays' | translate }}</span>
           </div>
           <div class="csc-divider"></div>
           <div class="csc-row">
-            <span>Subtotal</span>
+            <span>{{ 'booking.subtotal' | translate }}</span>
             <span>{{ formatVal(subTotal) }}</span>
           </div>
           <div *ngIf="discount > 0" class="csc-row text-gold">
-            <span>Package Discount (15%)</span>
+            <span>{{ 'booking.discountLabel' | translate }}</span>
             <span>-{{ formatVal(discount) }}</span>
           </div>
           <div class="csc-divider2"></div>
           <div class="csc-row csc-total">
-            <span>Estimated Total</span>
+            <span>{{ 'booking.estimatedTotal' | translate }}</span>
             <span class="text-gold">{{ formatVal(totalCost) }}</span>
           </div>
         </div>
@@ -46,17 +46,17 @@
           <div class="booking-stepper-bar">
             <div class="stepper-step" [class.active]="checkoutStep === 'form'" [class.completed]="checkoutStep === 'guest_kyc' || checkoutStep === 'payment' || checkoutStep === 'success'">
               <span class="step-num">1</span>
-              <span class="step-label">Selection</span>
+              <span class="step-label">{{ 'booking.step.selection' | translate }}</span>
             </div>
             <div class="stepper-connector" [class.active]="checkoutStep === 'guest_kyc' || checkoutStep === 'payment' || checkoutStep === 'success'"></div>
             <div class="stepper-step" [class.active]="checkoutStep === 'guest_kyc'" [class.completed]="checkoutStep === 'payment' || checkoutStep === 'success'">
               <span class="step-num">2</span>
-              <span class="step-label">Verification</span>
+              <span class="step-label">{{ 'booking.step.verification' | translate }}</span>
             </div>
             <div class="stepper-connector" [class.active]="checkoutStep === 'payment' || checkoutStep === 'success'"></div>
             <div class="stepper-step" [class.active]="checkoutStep === 'payment' || checkoutStep === 'success'">
               <span class="step-num">3</span>
-              <span class="step-label">Payment</span>
+              <span class="step-label">{{ 'booking.step.payment' | translate }}</span>
             </div>
           </div>
 
@@ -64,19 +64,19 @@
           <ng-container *ngIf="checkoutStep === 'form'">
             <!-- Tab Headers -->
             <div class="booking-tabs">
-              <button (click)="setTab('hotel')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'hotel'">Stay</button>
-              <button (click)="setTab('moto')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'moto'">Moto</button>
-              <button (click)="setTab('combo')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'combo'">Combo</button>
+              <button (click)="setTab('hotel')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'hotel'">{{ 'booking.stay' | translate }}</button>
+              <button (click)="setTab('moto')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'moto'">{{ 'booking.moto' | translate }}</button>
+              <button (click)="setTab('combo')" class="tab-btn cursor-pointer" [class.active]="activeTab === 'combo'">{{ 'booking.combo' | translate }}</button>
             </div>
 
             <div class="booking-tab-content">
               <!-- HOTEL TAB -->
               <div *ngIf="activeTab === 'hotel'">
                 <div class="f-group">
-                  <label class="f-label">Select Suite <span class="f-required">*</span></label>
+                  <label class="f-label">{{ 'booking.selectSuite' | translate }} <span class="f-required">*</span></label>
                   <div class="custom-select" [class.open]="hotelSuiteOpen">
                     <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('hotelSuite'); $event.stopPropagation()">
-                      <span>{{ hotelSuite ? (hotelSuite === 'Obsidian Garden' ? 'Obsidian Garden Suite' : hotelSuite) + ' — ' + formatVal(hotelSuitePrice) + '/night' : 'Choose a sanctuary...' }}</span>
+                      <span>{{ hotelSuite ? (hotelSuite | translate) + ' — ' + formatVal(hotelSuitePrice) + '/night' : ('booking.chooseSanctuary' | translate) }}</span>
                     </div>
                     <div class="custom-dropdown">
                       <div *ngFor="let s of suitesOptions" 
@@ -84,8 +84,8 @@
                            [class.selected]="hotelSuite === s.name"
                            (click)="selectHotelSuite(s.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
-                          <span class="custom-opt-detail">{{ s.detail }}</span>
+                          <span class="custom-opt-name">{{ s.name | translate }}</span>
+                          <span class="custom-opt-detail">{{ s.detail | translate }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(s.price) }}</span>
                       </div>
@@ -95,18 +95,18 @@
 
                 <div class="f-row">
                   <div class="f-group">
-                    <label class="f-label">Check In <span class="f-required">*</span></label>
+                    <label class="f-label">{{ 'booking.checkIn' | translate }} <span class="f-required">*</span></label>
                     <app-date-picker
                       [value]="hotelCheckIn"
-                      placeholder="Select check-in date"
+                      placeholder="{{ 'booking.selectCheckInDate' | translate }}"
                       (valueChange)="hotelCheckIn = $event">
                     </app-date-picker>
                   </div>
                   <div class="f-group">
-                    <label class="f-label">Check Out <span class="f-required">*</span></label>
+                    <label class="f-label">{{ 'booking.checkOut' | translate }} <span class="f-required">*</span></label>
                     <app-date-picker
                       [value]="hotelCheckOut"
-                      placeholder="Select check-out date"
+                      placeholder="{{ 'booking.selectCheckOutDate' | translate }}"
                       [minDate]="hotelCheckIn"
                       (valueChange)="hotelCheckOut = $event">
                     </app-date-picker>
@@ -115,7 +115,7 @@
 
                 <div class="f-row-guests">
                   <div>
-                    <label class="f-label">Adults</label>
+                    <label class="f-label">{{ 'booking.adults' | translate }}</label>
                     <div class="f-stepper">
                       <button (click)="decrementGuest('adults')" class="stepper-btn cursor-pointer">-</button>
                       <span class="stepper-val">{{ hotelAdults }}</span>
@@ -123,7 +123,7 @@
                     </div>
                   </div>
                   <div>
-                    <label class="f-label">Children</label>
+                    <label class="f-label">{{ 'booking.children' | translate }}</label>
                     <div class="f-stepper">
                       <button (click)="decrementGuest('children')" class="stepper-btn cursor-pointer">-</button>
                       <span class="stepper-val">{{ hotelChildren }}</span>
@@ -136,10 +136,10 @@
               <!-- MOTO TAB -->
               <div *ngIf="activeTab === 'moto'">
                 <div class="f-group">
-                  <label class="f-label">Select Machine <span class="f-required">*</span></label>
+                  <label class="f-label">{{ 'booking.selectMachine' | translate }} <span class="f-required">*</span></label>
                   <div class="custom-select" [class.open]="motoBikeOpen">
                     <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('motoBike'); $event.stopPropagation()">
-                      <span>{{ motoBike ? motoBike + ' — ' + formatVal(motoBikePrice) + '/day' : 'Choose a rider...' }}</span>
+                      <span>{{ motoBike ? (motoBike | translate) + ' — ' + formatVal(motoBikePrice) + '/day' : ('booking.chooseRider' | translate) }}</span>
                     </div>
                     <div class="custom-dropdown">
                       <div *ngFor="let b of bikesOptions" 
@@ -147,8 +147,8 @@
                            [class.selected]="motoBike === b.name"
                            (click)="selectMotoBike(b.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name">{{ b.name }}</span>
-                          <span class="custom-opt-detail">{{ b.detail }}</span>
+                          <span class="custom-opt-name">{{ b.name | translate }}</span>
+                          <span class="custom-opt-detail">{{ b.detail | translate }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(b.price) }}</span>
                       </div>
@@ -158,18 +158,18 @@
 
                 <div class="f-row">
                   <div class="f-group">
-                    <label class="f-label">Start Date <span class="f-required">*</span></label>
+                    <label class="f-label">{{ 'booking.startDate' | translate }} <span class="f-required">*</span></label>
                     <app-date-picker
                       [value]="motoCheckIn"
-                      placeholder="Select start date"
+                      placeholder="{{ 'booking.selectStartDate' | translate }}"
                       (valueChange)="motoCheckIn = $event">
                     </app-date-picker>
                   </div>
                   <div class="f-group">
-                    <label class="f-label">End Date <span class="f-required">*</span></label>
+                    <label class="f-label">{{ 'booking.endDate' | translate }} <span class="f-required">*</span></label>
                     <app-date-picker
                       [value]="motoCheckOut"
-                      placeholder="Select end date"
+                      placeholder="{{ 'booking.selectEndDate' | translate }}"
                       [minDate]="motoCheckIn"
                       (valueChange)="motoCheckOut = $event">
                     </app-date-picker>
@@ -180,10 +180,10 @@
               <!-- COMBO TAB -->
               <div *ngIf="activeTab === 'combo'">
                 <div class="f-group">
-                  <label class="f-label">Select Suite <span class="f-required">*</span></label>
+                  <label class="f-label">{{ 'booking.selectSuite' | translate }} <span class="f-required">*</span></label>
                   <div class="custom-select" [class.open]="comboSuiteOpen">
                     <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('comboSuite'); $event.stopPropagation()">
-                      <span>{{ comboSuite ? (comboSuite === 'Obsidian Garden' ? 'Obsidian Garden Suite' : comboSuite) + ' — ' + formatVal(comboSuitePrice) + '/night' : 'Choose a sanctuary...' }}</span>
+                      <span>{{ comboSuite ? (comboSuite | translate) + ' — ' + formatVal(comboSuitePrice) + '/night' : ('booking.chooseSanctuary' | translate) }}</span>
                     </div>
                     <div class="custom-dropdown">
                       <div *ngFor="let s of suitesOptions" 
@@ -191,8 +191,8 @@
                            [class.selected]="comboSuite === s.name"
                            (click)="selectComboSuite(s.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name">{{ s.name === 'Obsidian Garden' ? 'Obsidian Garden Suite' : s.name }}</span>
-                          <span class="custom-opt-detail">{{ s.detail }}</span>
+                          <span class="custom-opt-name">{{ s.name | translate }}</span>
+                          <span class="custom-opt-detail">{{ s.detail | translate }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(s.price) }}</span>
                       </div>
@@ -201,10 +201,10 @@
                 </div>
 
                 <div class="f-group">
-                  <label class="f-label">Select Machine <span class="f-required">*</span></label>
+                  <label class="f-label">{{ 'booking.selectMachine' | translate }} <span class="f-required">*</span></label>
                   <div class="custom-select" [class.open]="comboBikeOpen">
                     <div class="custom-select-display cursor-pointer" (click)="toggleDropdown('comboBike'); $event.stopPropagation()">
-                      <span>{{ comboBike ? comboBike + ' — ' + formatVal(comboBikePrice) + '/day' : 'Choose a rider...' }}</span>
+                      <span>{{ comboBike ? (comboBike | translate) + ' — ' + formatVal(comboBikePrice) + '/day' : ('booking.chooseRider' | translate) }}</span>
                     </div>
                     <div class="custom-dropdown">
                       <div *ngFor="let b of bikesOptions" 
@@ -212,8 +212,8 @@
                            [class.selected]="comboBike === b.name"
                            (click)="selectComboBike(b.name); $event.stopPropagation()">
                         <div>
-                          <span class="custom-opt-name">{{ b.name }}</span>
-                          <span class="custom-opt-detail">{{ b.detail }}</span>
+                          <span class="custom-opt-name">{{ b.name | translate }}</span>
+                          <span class="custom-opt-detail">{{ b.detail | translate }}</span>
                         </div>
                         <span class="custom-opt-price">{{ formatVal(b.price) }}</span>
                       </div>
@@ -223,18 +223,18 @@
 
                 <div class="f-row">
                   <div class="f-group">
-                    <label class="f-label">Start Date <span class="f-required">*</span></label>
+                    <label class="f-label">{{ 'booking.startDate' | translate }} <span class="f-required">*</span></label>
                     <app-date-picker
                       [value]="comboCheckIn"
-                      placeholder="Select start date"
+                      placeholder="{{ 'booking.selectStartDate' | translate }}"
                       (valueChange)="comboCheckIn = $event">
                     </app-date-picker>
                   </div>
                   <div class="f-group">
-                    <label class="f-label">End Date <span class="f-required">*</span></label>
+                    <label class="f-label">{{ 'booking.endDate' | translate }} <span class="f-required">*</span></label>
                     <app-date-picker
                       [value]="comboCheckOut"
-                      placeholder="Select end date"
+                      placeholder="{{ 'booking.selectEndDate' | translate }}"
                       [minDate]="comboCheckIn"
                       (valueChange)="comboCheckOut = $event">
                     </app-date-picker>
@@ -244,7 +244,7 @@
 
               <div class="booking-action-row" style="margin-top: 2rem;">
                 <button [disabled]="!isFormValid" (click)="proceedToCheckout()" class="btn-primary w-full cursor-pointer justify-center" style="display:flex;">
-                  <span>Proceed to Guest Details</span>
+                  <span>{{ 'booking.proceedToKyc' | translate }}</span>
                   <span>→</span>
                 </button>
               </div>
@@ -254,52 +254,52 @@
           <!-- Step 2: Guest Details, Nationality & Document Upload (KYC) -->
           <ng-container *ngIf="checkoutStep === 'guest_kyc'">
             <div class="checkout-header">
-              <button (click)="backToSelection()" class="checkout-back-btn cursor-pointer">← Back to Selection</button>
-              <div class="checkout-title">Guest Details &amp; Verification</div>
+              <button (click)="backToSelection()" class="checkout-back-btn cursor-pointer">← {{ 'booking.backToSelection' | translate }}</button>
+              <div class="checkout-title">{{ 'booking.guestVerification' | translate }}</div>
             </div>
 
             <div class="checkout-body">
               <!-- Full Name & Email -->
               <div class="f-group">
-                <label class="f-label">Full Legal Name (as on ID / Passport) <span class="f-required">*</span></label>
+                <label class="f-label">{{ 'booking.fullNameLabel' | translate }} <span class="f-required">*</span></label>
                 <input type="text" class="f-input" [(ngModel)]="guestFullName" placeholder="e.g. Sokha Chan">
               </div>
 
               <div class="f-row">
                 <div class="f-group">
-                  <label class="f-label">Email Address <span class="f-required">*</span></label>
+                  <label class="f-label">{{ 'booking.emailLabel' | translate }} <span class="f-required">*</span></label>
                   <input type="email" class="f-input" [(ngModel)]="guestEmail" placeholder="e.g. guest@domain.com">
                 </div>
                 <div class="f-group">
-                  <label class="f-label">Phone Number <span class="f-required">*</span></label>
+                  <label class="f-label">{{ 'booking.phoneLabel' | translate }} <span class="f-required">*</span></label>
                   <input type="tel" class="f-input" [(ngModel)]="guestPhone" placeholder="+855 12 345 678">
                 </div>
               </div>
 
               <!-- Nationality Toggle -->
               <div class="f-group" style="margin-top: 1rem;">
-                <label class="f-label">Nationality <span class="f-required">*</span></label>
+                <label class="f-label">{{ 'booking.nationalityLabel' | translate }} <span class="f-required">*</span></label>
                 <div class="nationality-toggle-row">
                   <button type="button" class="nat-pill-btn cursor-pointer" [class.active]="nationality === 'khmer'" (click)="setNationality('khmer')">
-                    <span>🇰🇭 Cambodian (Khmer)</span>
+                    <span>🇰🇭 {{ 'booking.khmer' | translate }}</span>
                   </button>
                   <button type="button" class="nat-pill-btn cursor-pointer" [class.active]="nationality === 'foreigner'" (click)="setNationality('foreigner')">
-                    <span>🌐 Foreigner / International</span>
+                    <span>🌐 {{ 'booking.foreigner' | translate }}</span>
                   </button>
                 </div>
               </div>
 
               <!-- Cambodian ID Document Upload -->
               <div *ngIf="nationality === 'khmer'" class="f-group document-upload-card animate__animated animate__fadeIn">
-                <label class="f-label">National ID Card Number <span class="f-required">*</span></label>
+                <label class="f-label">{{ 'booking.nationalId' | translate }} <span class="f-required">*</span></label>
                 <input type="text" class="f-input" [(ngModel)]="idNumber" placeholder="e.g. 182049281">
                 
-                <div class="upload-dropzone-label">Upload National ID Card Photo (Front &amp; Back)</div>
+                <div class="upload-dropzone-label">{{ 'booking.uploadKhmerId' | translate }}</div>
                 
                 <div *ngIf="!idPhotoPreview" class="upload-dropzone cursor-pointer" (click)="idFileInput.click()">
                   <input #idFileInput type="file" accept="image/*" (change)="onIdPhotoSelected($event)" style="display:none">
                   <div class="upload-icon">📄</div>
-                  <div class="upload-text">Click to upload Khmer National ID photo</div>
+                  <div class="upload-text">{{ 'booking.clickUploadId' | translate }}</div>
                   <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
                 </div>
 
@@ -307,22 +307,22 @@
                   <img [src]="idPhotoPreview" alt="ID Card Preview" class="preview-img">
                   <div class="preview-info">
                     <span class="preview-name">{{ idPhotoFileName }}</span>
-                    <button type="button" (click)="removeIdPhoto()" class="preview-remove-btn cursor-pointer">Remove Photo</button>
+                    <button type="button" (click)="removeIdPhoto()" class="preview-remove-btn cursor-pointer">{{ 'booking.removePhoto' | translate }}</button>
                   </div>
                 </div>
               </div>
 
               <!-- Foreigner Passport Document Upload -->
               <div *ngIf="nationality === 'foreigner'" class="f-group document-upload-card animate__animated animate__fadeIn">
-                <label class="f-label">Passport Number <span class="f-required">*</span></label>
+                <label class="f-label">{{ 'booking.passport' | translate }} <span class="f-required">*</span></label>
                 <input type="text" class="f-input" [(ngModel)]="idNumber" placeholder="e.g. N92847291">
                 
-                <div class="upload-dropzone-label">Upload Passport Information Page Photo</div>
+                <div class="upload-dropzone-label">{{ 'booking.uploadPassport' | translate }}</div>
                 
                 <div *ngIf="!idPhotoPreview" class="upload-dropzone cursor-pointer" (click)="passportFileInput.click()">
                   <input #passportFileInput type="file" accept="image/*" (change)="onIdPhotoSelected($event)" style="display:none">
                   <div class="upload-icon">🛂</div>
-                  <div class="upload-text">Click to upload Passport info page photo</div>
+                  <div class="upload-text">{{ 'booking.clickUploadPassport' | translate }}</div>
                   <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
                 </div>
 
@@ -330,25 +330,25 @@
                   <img [src]="idPhotoPreview" alt="Passport Preview" class="preview-img">
                   <div class="preview-info">
                     <span class="preview-name">{{ idPhotoFileName }}</span>
-                    <button type="button" (click)="removeIdPhoto()" class="preview-remove-btn cursor-pointer">Remove Photo</button>
+                    <button type="button" (click)="removeIdPhoto()" class="preview-remove-btn cursor-pointer">{{ 'booking.removePhoto' | translate }}</button>
                   </div>
                 </div>
               </div>
 
               <!-- MOTORCYCLE SPECIFIC PREREQUISITES (Moto & Combo Stays) -->
               <div *ngIf="activeTab === 'moto' || activeTab === 'combo'" class="moto-prerequisites-card animate__animated animate__fadeIn">
-                <div class="moto-prereq-title">🏍️ Riding License &amp; Safety Sizing</div>
+                <div class="moto-prereq-title">🏍️ {{ 'booking.ridingLicenseTitle' | translate }}</div>
                 
                 <!-- Driver License Upload -->
                 <div class="f-group">
-                  <label class="f-label">Driver's License Number (Class A / International Driving Permit)</label>
+                  <label class="f-label">{{ 'booking.licenseNumberLabel' | translate }}</label>
                   <input type="text" class="f-input" [(ngModel)]="driverLicenseNumber" placeholder="e.g. DL-98214-KH">
                 </div>
 
                 <div *ngIf="!licensePhotoPreview" class="upload-dropzone cursor-pointer" (click)="licenseFileInput.click()" style="margin-bottom: 1.2rem;">
                   <input #licenseFileInput type="file" accept="image/*" (change)="onLicensePhotoSelected($event)" style="display:none">
                   <div class="upload-icon">🪪</div>
-                  <div class="upload-text">Click to upload Driver's License photo</div>
+                  <div class="upload-text">{{ 'booking.clickUploadLicense' | translate }}</div>
                   <div class="upload-sub">JPG, PNG, WEBP (Max 5MB)</div>
                 </div>
 
@@ -356,13 +356,13 @@
                   <img [src]="licensePhotoPreview" alt="Driver License Preview" class="preview-img">
                   <div class="preview-info">
                     <span class="preview-name">{{ licensePhotoFileName }}</span>
-                    <button type="button" (click)="removeLicensePhoto()" class="preview-remove-btn cursor-pointer">Remove Photo</button>
+                    <button type="button" (click)="removeLicensePhoto()" class="preview-remove-btn cursor-pointer">{{ 'booking.removePhoto' | translate }}</button>
                   </div>
                 </div>
 
                 <!-- Helmet Size Sizing -->
                 <div class="f-group">
-                  <label class="f-label">Primary Rider Helmet Size <span class="f-required">*</span></label>
+                  <label class="f-label">{{ 'booking.riderHelmetLabel' | translate }} <span class="f-required">*</span></label>
                   <div class="size-pill-grid">
                     <button type="button" *ngFor="let s of ['S', 'M', 'L', 'XL']" 
                             class="size-btn cursor-pointer" 
@@ -372,9 +372,9 @@
                 </div>
 
                 <div class="f-group" style="margin-top: 0.8rem;">
-                  <label class="f-label">Passenger Helmet Size (Optional)</label>
+                  <label class="f-label">{{ 'booking.passengerHelmetLabel' | translate }}</label>
                   <div class="size-pill-grid">
-                    <button type="button" class="size-btn cursor-pointer" [class.active]="helmetSizePassenger === 'none'" (click)="setHelmetPassenger('none')">None</button>
+                    <button type="button" class="size-btn cursor-pointer" [class.active]="helmetSizePassenger === 'none'" (click)="setHelmetPassenger('none')">{{ 'booking.none' | translate }}</button>
                     <button type="button" *ngFor="let s of ['S', 'M', 'L', 'XL']" 
                             class="size-btn cursor-pointer" 
                             [class.active]="helmetSizePassenger === s" 
@@ -385,14 +385,14 @@
                 <!-- Security Deposit Notice -->
                 <div class="security-deposit-notice">
                   <span class="sd-icon">🔒</span>
-                  <span>Refundable Security Deposit of <strong>$200–$500</strong> pre-authorized at vehicle handover.</span>
+                  <span>{{ 'booking.securityDepositNotice' | translate }}</span>
                 </div>
               </div>
 
               <!-- Actions -->
               <div class="booking-action-row" style="margin-top: 1.5rem;">
                 <button [disabled]="!guestFullName || !guestEmail || !idNumber" (click)="proceedToPayment()" class="btn-primary w-full justify-center cursor-pointer" style="display:flex;">
-                  <span>Proceed to Payment</span>
+                  <span>{{ 'booking.proceedToPayment' | translate }}</span>
                   <span>→</span>
                 </button>
               </div>
@@ -402,20 +402,20 @@
           <!-- Step 3: Payment Selector & Simulators -->
           <ng-container *ngIf="checkoutStep === 'payment'">
             <div class="checkout-header">
-              <button (click)="backToKyc()" class="checkout-back-btn cursor-pointer">← Back to Guest Details</button>
-              <div class="checkout-title">Secured Gateway</div>
+              <button (click)="backToKyc()" class="checkout-back-btn cursor-pointer">← {{ 'booking.backToKyc' | translate }}</button>
+              <div class="checkout-title">{{ 'booking.securedGateway' | translate }}</div>
             </div>
 
             <!-- Method Selection -->
             <div class="method-toggle">
-              <button (click)="selectPaymentMethod('online')" [class.active]="selectedPaymentMethod === 'online'" class="mt-btn cursor-pointer">Online Payment</button>
-              <button (click)="selectPaymentMethod('hotel')" [class.active]="selectedPaymentMethod === 'hotel'" class="mt-btn cursor-pointer">Pay at Hotel</button>
+              <button (click)="selectPaymentMethod('online')" [class.active]="selectedPaymentMethod === 'online'" class="mt-btn cursor-pointer">{{ 'booking.onlinePayment' | translate }}</button>
+              <button (click)="selectPaymentMethod('hotel')" [class.active]="selectedPaymentMethod === 'hotel'" class="mt-btn cursor-pointer">{{ 'booking.payAtHotel' | translate }}</button>
             </div>
 
             <div class="checkout-body">
               <!-- ONLINE PAYMENT METHOD -->
               <div *ngIf="selectedPaymentMethod === 'online'">
-                <div class="channel-select-label">Select Payment Channel</div>
+                <div class="channel-select-label">{{ 'booking.selectChannel' | translate }}</div>
                 <div class="payment-channels">
                   <button (click)="selectPaymentChannel('bakong')" [class.active]="selectedPaymentChannel === 'bakong'" class="pc-btn cursor-pointer">
                     <span class="pc-badge">KHQR</span>
@@ -427,7 +427,7 @@
                   </button>
                   <button (click)="selectPaymentChannel('card')" [class.active]="selectedPaymentChannel === 'card'" class="pc-btn cursor-pointer">
                     <span class="pc-badge">CARD</span>
-                    <span>Credit Card</span>
+                    <span>{{ 'booking.onlinePayment' | translate }}</span>
                   </button>
                 </div>
 
@@ -440,29 +440,29 @@
                     <div class="qr-scan-line"></div>
                   </div>
                   <div class="qr-instructions">
-                    <div class="qr-instructions-title">Scan to Pay via {{ selectedPaymentChannel === 'bakong' ? 'Bakong KHQR' : 'ABA Pay' }}</div>
-                    <p class="qr-instructions-desc">Open your mobile banking app, scan this KHQR code, and authorize payment. The transaction will auto-verify securely.</p>
-                    <div class="qr-timer">Expires in: <strong>{{ countdownSeconds }}s</strong></div>
+                    <div class="qr-instructions-title">{{ 'booking.scanToPay' | translate }} {{ selectedPaymentChannel === 'bakong' ? 'Bakong KHQR' : 'ABA Pay' }}</div>
+                    <p class="qr-instructions-desc">{{ 'booking.scanInstructions' | translate }}</p>
+                    <div class="qr-timer">{{ 'booking.expiresIn' | translate }}: <strong>{{ countdownSeconds }}s</strong></div>
                   </div>
                 </div>
 
                 <!-- Credit Card Secure Inputs -->
                 <div *ngIf="selectedPaymentChannel === 'card'" class="card-inputs-form animate__animated animate__fadeIn">
                   <div class="f-group">
-                    <label class="f-label">Cardholder Name</label>
+                    <label class="f-label">{{ 'booking.cardholderName' | translate }}</label>
                     <input type="text" class="f-input" [value]="guestFullName" placeholder="e.g. Isabelle Moreau">
                   </div>
                   <div class="f-group">
-                    <label class="f-label">Card Number</label>
+                    <label class="f-label">{{ 'booking.cardNumber' | translate }}</label>
                     <input type="text" class="f-input" [(ngModel)]="cardNumber" placeholder="4111 2222 3333 4444">
                   </div>
                   <div class="f-row">
                     <div class="f-group">
-                      <label class="f-label">Expiry Date</label>
+                      <label class="f-label">{{ 'booking.expiryDate' | translate }}</label>
                       <input type="text" class="f-input" [(ngModel)]="cardExpiry" placeholder="MM/YY">
                     </div>
                     <div class="f-group">
-                      <label class="f-label">CVV</label>
+                      <label class="f-label">{{ 'booking.cvv' | translate }}</label>
                       <input type="password" class="f-input" [(ngModel)]="cardCvv" placeholder="•••">
                     </div>
                   </div>
@@ -472,20 +472,20 @@
               <!-- PAY AT HOTEL METHOD -->
               <div *ngIf="selectedPaymentMethod === 'hotel'" class="hotel-instructions animate__animated animate__fadeIn">
                 <div class="hotel-inst-icon">🏨</div>
-                <div class="hotel-inst-title">Reservation Deposit-Free</div>
-                <p class="hotel-inst-desc">Your stay will be reserved under your verified profile. No online payment is required today. The invoice will be settled at the hotel check-in desk.</p>
+                <div class="hotel-inst-title">{{ 'booking.hotelInstTitle' | translate }}</div>
+                <p class="hotel-inst-desc">{{ 'booking.hotelInstDesc' | translate }}</p>
               </div>
 
               <!-- Total Cost Box -->
               <div class="checkout-total-banner">
-                <span class="ctb-label">Total to Settle:</span>
+                <span class="ctb-label">{{ 'booking.totalToSettle' | translate }}</span>
                 <span class="ctb-val">{{ formatVal(totalCost) }}</span>
               </div>
 
               <!-- Actions -->
               <button [disabled]="isProcessingPayment" (click)="submitReservation()" class="btn-primary w-full justify-center cursor-pointer mt-4" style="display:flex;">
-                <span *ngIf="!isProcessingPayment">Confirm Reservation</span>
-                <span *ngIf="isProcessingPayment" class="processing-spinner">Processing Secure Payment...</span>
+                <span *ngIf="!isProcessingPayment">{{ 'booking.confirm' | translate }}</span>
+                <span *ngIf="isProcessingPayment" class="processing-spinner">{{ 'booking.processingPayment' | translate }}</span>
               </button>
             </div>
           </ng-container>
@@ -494,47 +494,47 @@
           <ng-container *ngIf="checkoutStep === 'success'">
             <div class="success-screen animate__animated animate__zoomIn">
               <div class="success-icon">✓</div>
-              <h3 class="success-title">Sanctuary Reserved</h3>
-              <p class="success-desc">Your booking is confirmed. A receipt and digital key guide have been dispatched to your email address.</p>
+              <h3 class="success-title">{{ 'booking.successTitle' | translate }}</h3>
+              <p class="success-desc">{{ 'booking.successDesc' | translate }}</p>
               
               <div class="reference-box">
-                <div class="ref-label">Booking Reference</div>
+                <div class="ref-label">{{ 'booking.bookingRef' | translate }}</div>
                 <div class="ref-val">{{ completedBooking?.reference }}</div>
-                <button (click)="copyReference()" class="ref-copy-btn cursor-pointer">Copy Ref Code</button>
+                <button (click)="copyReference()" class="ref-copy-btn cursor-pointer">{{ 'booking.copyRef' | translate }}</button>
               </div>
 
               <div class="receipt-details">
                 <div class="rd-row">
-                  <span>Guest</span>
+                  <span>{{ 'booking.guest' | translate }}</span>
                   <strong>{{ completedBooking?.guestName }}</strong>
                 </div>
                 <div class="rd-row" *ngIf="completedBooking?.idDocumentNumber">
-                  <span>ID / Passport</span>
-                  <strong>{{ completedBooking?.idDocumentNumber }} ({{ completedBooking?.nationality === 'khmer' ? 'Khmer ID' : 'Passport' }})</strong>
+                  <span>{{ (completedBooking?.nationality === 'khmer' ? 'booking.nationalId' : 'booking.passport') | translate }}</span>
+                  <strong>{{ completedBooking?.idDocumentNumber }} ({{ (completedBooking?.nationality === 'khmer' ? 'booking.khmer' : 'booking.foreigner') | translate }})</strong>
                 </div>
                 <div class="rd-row" *ngIf="completedBooking?.helmetSizeRider">
-                  <span>Rider Helmet</span>
+                  <span>{{ 'booking.riderHelmetSummary' | translate }}</span>
                   <strong class="text-gold">Size {{ completedBooking?.helmetSizeRider }}</strong>
                 </div>
                 <div class="rd-row">
-                  <span>Stay / Bike</span>
-                  <strong>{{ completedBooking?.title }}</strong>
+                  <span>{{ 'booking.stayBike' | translate }}</span>
+                  <strong>{{ completedBooking?.title | translate }}</strong>
                 </div>
                 <div class="rd-row">
-                  <span>Dates</span>
+                  <span>{{ 'booking.dates' | translate }}</span>
                   <strong>{{ completedBooking?.startDate }} to {{ completedBooking?.endDate }}</strong>
                 </div>
                 <div class="rd-row">
-                  <span>Total Settled</span>
+                  <span>{{ 'booking.totalSettled' | translate }}</span>
                   <strong class="text-gold">{{ formatVal(completedBooking?.total || 0) }}</strong>
                 </div>
                 <div class="rd-row">
-                  <span>Status</span>
+                  <span>{{ 'booking.status' | translate }}</span>
                   <strong class="text-gold" style="text-transform: uppercase;">{{ completedBooking?.paymentStatus }}</strong>
                 </div>
               </div>
 
-              <button (click)="resetWidget()" class="btn-outline w-full justify-center mt-6 cursor-pointer">Book Another Stay</button>
+              <button (click)="resetWidget()" class="btn-outline w-full justify-center mt-6 cursor-pointer">{{ 'booking.bookAnother' | translate }}</button>
             </div>
           </ng-container>
         </div>

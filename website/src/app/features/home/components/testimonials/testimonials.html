@@ -5,9 +5,9 @@
     <div style="text-align:center;margin-bottom:5rem">
       <div class="chip" style="justify-content:center">
         <div class="chip-ornament"><span></span><span></span><span></span></div>
-        <span class="chip-text">Guest Voices</span>
+        <span class="chip-text">{{ 'testimonials.chip' | translate }}</span>
       </div>
-      <h2 class="section-title">What Our <em>Guests</em><br>Will Never Forget</h2>
+      <h2 class="section-title" [innerHTML]="'testimonials.title' | translate"></h2>
     </div>
     <div class="testi-grid">
       <div class="testi-avatars">

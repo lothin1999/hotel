@@ -39,8 +39,8 @@
         <div class="intro-pillars about-pillars-trigger" *ngIf="aboutData?.pillars">
           <div *ngFor="let pillar of aboutData!.pillars; let idx = index" class="pillar about-pillar-card">
             <span class="pillar-icon">{{ pillar.icon }}</span>
-            <div class="pillar-name">{{ ('about.pillars.' + idx + '.name') | translate }}</div>
-            <div class="pillar-desc">{{ ('about.pillars.' + idx + '.desc') | translate }}</div>
+            <div class="pillar-name">{{ pillar.name }}</div>
+            <div class="pillar-desc">{{ pillar.desc }}</div>
           </div>
         </div>
       </div>

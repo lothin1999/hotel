@@ -4,12 +4,10 @@
     <div style="text-align:center;margin-bottom:5rem;">
       <div class="chip" style="justify-content:center;">
         <div class="chip-ornament"><span></span><span></span><span></span></div>
-        <span class="chip-text">Onsen Sanctuary</span>
+        <span class="chip-text">{{ wellnessData?.chipText || 'Onsen Sanctuary' }}</span>
       </div>
-      <h2 class="section-title">Thermal <em>Transcendence</em></h2>
-      <p class="section-body" style="margin:1.5rem auto 0;text-align:center;">Our geothermal onsen facility draws from
-        the island's volcanic aquifers — water that has filtered through lava rock for centuries before reaching your
-        body.</p>
+      <h2 class="section-title" [innerHTML]="wellnessData?.title || 'Thermal <em>Transcendence</em>'"></h2>
+      <p class="section-body" style="margin:1.5rem auto 0;text-align:center;">{{ wellnessData?.desc }}</p>
     </div>
     
     <!-- Spa treatments grid -->
@@ -25,22 +23,10 @@
     </div>
     
     <!-- Spa stats bar -->
-    <div class="spa-stats-bar">
-      <div class="spa-stat-box">
-        <div class="spa-stat-num">8</div>
-        <div class="spa-stat-label">Private Villas</div>
-      </div>
-      <div class="spa-stat-box">
-        <div class="spa-stat-num">14</div>
-        <div class="spa-stat-label">Treatments</div>
-      </div>
-      <div class="spa-stat-box">
-        <div class="spa-stat-num">40°</div>
-        <div class="spa-stat-label">Thermal Pools</div>
-      </div>
-      <div class="spa-stat-box">
-        <div class="spa-stat-num">∞</div>
-        <div class="spa-stat-label">Tranquility</div>
+    <div class="spa-stats-bar" *ngIf="wellnessData?.stats">
+      <div *ngFor="let stat of wellnessData!.stats" class="spa-stat-box">
+        <div class="spa-stat-num">{{ stat.num }}</div>
+        <div class="spa-stat-label">{{ stat.label }}</div>
       </div>
     </div>
   </div>

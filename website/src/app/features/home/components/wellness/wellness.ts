@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface SpaCard {
-  icon: string;
-  name: string;
-  duration: string;
-  desc: string;
-  price: number;
-}
+import { DataService, WellnessData, SpaCard } from '../../../../core/services/data.service';
 
 @Component({
   selector: 'app-wellness',
@@ -16,28 +9,16 @@ interface SpaCard {
   templateUrl: './wellness.html',
   styleUrls: ['./wellness.scss']
 })
-export class WellnessComponent {
-  treatments: SpaCard[] = [
-    {
-      icon: '♨️',
-      name: 'Volcanic Stone Ritual',
-      duration: '90 Minutes',
-      desc: 'Basalt stones heated to 60°C are placed along the meridians of the body, drawing toxins while restoring deep muscular equilibrium.',
-      price: 220
-    },
-    {
-      icon: '🌿',
-      name: 'Forest Botanical Wrap',
-      duration: '75 Minutes',
-      desc: "A full-body envelopment in native botanical extracts sourced from the island's interior forest, followed by a hydration mask application.",
-      price: 180
-    },
-    {
-      icon: '🌊',
-      name: 'Thalassotherapy',
-      duration: '120 Minutes',
-      desc: 'A marine therapy programme using seaweed, sea salts, and algae extracts drawn fresh from the adjacent private coastline each morning.',
-      price: 280
-    }
-  ];
+export class WellnessComponent implements OnInit {
+  wellnessData?: WellnessData;
+  treatments: SpaCard[] = [];
+
+  constructor(private dataService: DataService) {}
+
+  ngOnInit(): void {
+    this.dataService.getWellnessData().subscribe(data => {
+      this.wellnessData = data;
+      this.treatments = data?.treatments || [];
+    });
+  }
 }
