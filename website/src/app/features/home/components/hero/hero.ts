@@ -29,6 +29,10 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  getStarsArray(count?: number): number[] {
+    return Array(count || 5).fill(0);
+  }
+
   ngAfterViewInit(): void {
     if (this.isBrowser) {
       // GSAP entrance timeline matching load transition
