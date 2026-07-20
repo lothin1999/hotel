@@ -1,0 +1,49 @@
+<div class="products-wrapper">
+  <div class="page-header">
+    <div>
+      <h2>Products Inventory</h2>
+      <p>Unified catalog of available luxury suites, villas, and rental motorcycles.</p>
+    </div>
+  </div>
+
+  <div class="filter-bar spartan-card">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (ngModelChange)="applyFilters()" 
+        placeholder="Filter products by name or spec..."
+        class="spartan-input"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label>Product Type:</label>
+      <select [(ngModel)]="typeFilter" (ngModelChange)="applyFilters()" class="spartan-input">
+        <option value="all">All Products</option>
+        <option value="suite">Suites & Villas</option>
+        <option value="bike">Rental Bikes</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="products-grid" *ngIf="!loading">
+    <div class="product-card spartan-card" *ngFor="let p of filteredProducts">
+      <img [src]="p.image" class="product-img" alt="Product image" />
+      <div class="product-info">
+        <div class="type-tag" [class]="p.type">{{ p.type === 'suite' ? '🏨 Suite' : '🏍️ Rental Bike' }}</div>
+        <h3 class="product-title">{{ p.name }}</h3>
+        <p class="product-desc">{{ p.details }}</p>
+        <div class="product-footer">
+          <span class="product-price">${{ p.price }} <small>/ {{ p.type === 'suite' ? 'night' : 'day' }}</small></span>
+          <span class="status-pill">{{ p.status }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="page-spinner"></div>
+  </div>
+</div>

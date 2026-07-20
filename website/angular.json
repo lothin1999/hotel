@@ -34,7 +34,7 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
-              "allowedHosts": []
+              "allowedHosts": ["all"]
             },
             "ssr": {
               "entry": "src/server.ts"
@@ -73,7 +73,7 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "allowedHosts": ["all"]
+            "allowedHosts": true
           },
           "configurations": {
             "production": {

@@ -1,0 +1,122 @@
+<div class="bikes-wrapper">
+  <div class="page-header">
+    <div>
+      <h2>Manage Rental Bikes</h2>
+      <p>Configure motorcycles description, specs, categories, and photos.</p>
+    </div>
+    <button class="spartan-btn-primary" (click)="openAddForm()" *ngIf="!showForm">
+      + Add New Bike
+    </button>
+  </div>
+
+  <!-- Form modal/panel -->
+  <div class="form-card spartan-card" *ngIf="showForm">
+    <div class="card-header">
+      <h3>{{ editingBike ? 'Modify Bike Specs' : 'Register New Bike' }}</h3>
+      <button class="close-btn" (click)="closeForm()">Cancel</button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="admin-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Bike Model Name</label>
+          <input type="text" [(ngModel)]="name" name="name" placeholder="Ducati Scrambler 800" class="spartan-input" required />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select [(ngModel)]="category" name="category" class="spartan-input" required>
+            <option value="adventure">Adventure</option>
+            <option value="scrambler">Scrambler</option>
+            <option value="naked">Naked</option>
+            <option value="sport">Sport</option>
+            <option value="touring">Touring</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Engine Capacity</label>
+          <input type="text" [(ngModel)]="engine" name="engine" placeholder="803 cc" class="spartan-input" required />
+        </div>
+        <div class="form-group">
+          <label>Engine Power</label>
+          <input type="text" [(ngModel)]="power" name="power" placeholder="73 HP" class="spartan-input" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Daily Rental Price (USD)</label>
+          <input type="number" [(ngModel)]="price" name="price" class="spartan-input" required />
+        </div>
+        <div class="form-group">
+          <label>Badge / Special Tag</label>
+          <input type="text" [(ngModel)]="badge" name="badge" placeholder="Guest Favorite" class="spartan-input" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Photo URL</label>
+        <input type="text" [(ngModel)]="image" name="image" placeholder="https://images.unsplash.com/..." class="spartan-input" required />
+      </div>
+
+      <div class="form-group">
+        <label>Specs Details (Optional)</label>
+        <input type="text" [(ngModel)]="detail" name="detail" placeholder="803cc · Desert Sled variant" class="spartan-input" />
+      </div>
+
+      <button type="submit" class="spartan-btn-primary">
+        {{ editingBike ? 'Save Specifications' : 'Register Bike' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Bikes List -->
+  <div class="list-card spartan-card" *ngIf="!showForm && !loading">
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Specs (Engine / Power)</th>
+            <th>Daily Rate</th>
+            <th>Tag</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bike of bikes">
+            <td>
+              <img [src]="bike.image" class="thumb" alt="Bike preview" />
+            </td>
+            <td class="bold-text">{{ bike.name }}</td>
+            <td>
+              <span class="category-badge">{{ bike.category }}</span>
+            </td>
+            <td>{{ $any(bike).engine || '800cc' }} / {{ $any(bike).power || '75 HP' }}</td>
+            <td class="price-col">${{ bike.pricePerDay || $any(bike).price }}/day</td>
+            <td>
+              <span class="tag-badge" *ngIf="$any(bike).badge">{{ $any(bike).badge }}</span>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="edit-btn" (click)="openEditForm(bike)">Edit</button>
+                <button class="delete-btn" (click)="deleteBike(bike.id)">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="bikes.length === 0">
+            <td colspan="7" class="empty-state">No rental bikes registered. Click "Add New Bike" to begin.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="page-spinner"></div>
+  </div>
+</div>

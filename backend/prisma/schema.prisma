@@ -1,0 +1,505 @@
+// Complete Prisma schema with multi-tenant Company and Branch relationships for all tables
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Company {
+  id           Int             @id @default(autoincrement())
+  name         String
+  code         String          @unique
+  logo         String?
+  phone        String?
+  email        String?
+  address      String?
+  status       Int             @default(1)
+  branches     Branch[]
+  users        User[]
+  roles        Role[]
+  customers    Customer[]
+  heroes       Hero[]
+  abouts       About[]
+  wellness     Wellness[]
+  treatments   Treatment[]
+  suites       Suite[]
+  motorCats    MotorCategory[]
+  bikes        Bike[]
+  bookings     Booking[]
+  experiences  Experience[]
+  dinings      Dining[]
+  diningOffers DiningOffer[]
+  galleries    Gallery[]
+  socialLinks  SocialLink[]
+  testimonials Testimonial[]
+  scenicRoutes ScenicRoute[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@map("companies")
+}
+
+model Branch {
+  id          Int          @id @default(autoincrement())
+  companyId   Int
+  company     Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name        String
+  code        String?
+  phone       String?
+  email       String?
+  address     String?
+  status      Int          @default(1)
+  users       User[]
+  roles       Role[]
+  customers   Customer[]
+  suites      Suite[]
+  bikes       Bike[]
+  bookings    Booking[]
+  experiences Experience[]
+  dinings     Dining[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("branches")
+}
+
+model User {
+  id                 Int          @id @default(autoincrement())
+  username           String?      @unique
+  password           String
+  fullName           String?
+  name               String?
+  image              String?
+  email              String?      @unique
+  phone              String?
+  roleId             Int?
+  role               Role?        @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  roleName           String?      @default("USER")
+  userTypeId         Int?
+  userType           UserType?    @relation(fields: [userTypeId], references: [id], onDelete: SetNull)
+  companyId          Int?
+  company            Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId           Int?
+  branch             Branch?      @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  token              String?
+  status             Int          @default(1)
+  checkUser          Int?         @default(0)
+  createdBy          Int?         @default(1)
+  gender             String?
+  nationality        String?
+  idDocumentType     String?
+  idDocumentNumber   String?
+  idDocumentPhotoUrl String?
+  bookings           Booking[]
+  devices            UserDevice[]
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  deletedAt          DateTime?
+
+  @@map("users")
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  roleName    String       @unique
+  roleDesc    String?
+  userTypeId  Int?
+  userType    UserType?    @relation(fields: [userTypeId], references: [id], onDelete: SetNull)
+  companyId   Int?
+  company     Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId    Int?
+  branch      Branch?      @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  createdBy   Int?         @default(1)
+  users       User[]
+  roleModules RoleModule[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+
+  @@map("roles")
+}
+
+model UserType {
+  id        Int      @id @default(autoincrement())
+  type      String   @unique
+  level     Int      @default(1)
+  users     User[]
+  roles     Role[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_types")
+}
+
+model Module {
+  id          Int          @id @default(autoincrement())
+  moduleName  String
+  moduleKey   String       @unique
+  featured    Int?         @default(0)
+  permission  String?
+  sequence    Int?         @default(0)
+  menuTitle   String?
+  permissions Permission[]
+  roleModules RoleModule[]
+
+  @@map("modules")
+}
+
+model Permission {
+  id             Int          @id @default(autoincrement())
+  moduleId       Int
+  module         Module       @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  permissionName String
+  roleModules    RoleModule[]
+
+  @@map("permissions")
+}
+
+model RoleModule {
+  id           Int         @id @default(autoincrement())
+  roleId       Int
+  role         Role        @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  moduleId     Int
+  module       Module      @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  permissionId Int?
+  permission   Permission? @relation(fields: [permissionId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("role_modules")
+}
+
+model UserDevice {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceId  String
+  fcmToken  String
+  isLogin   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_devices")
+}
+
+model Customer {
+  id                    Int       @id @default(autoincrement())
+  email                 String?   @unique
+  password              String?
+  displayName           String
+  phoneNumber           String?   @unique
+  avatarUrl             String?
+  provider              String    @default("email")
+  providerId            String?
+  gender                String?
+  nationality           String?
+  specificNationality   String?
+  idDocumentType        String?
+  idDocumentNumber      String?
+  idDocumentPhotoUrl    String?
+  driverLicenseNumber   String?
+  driverLicensePhotoUrl String?
+  helmetSizeRider       String?
+  helmetSizePassenger   String?
+  ridingExperience      String?
+  transferRequest       String?
+  companyId             Int?
+  company               Company?  @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId              Int?
+  branch                Branch?   @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  bookings              Booking[]
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("customers")
+}
+
+model Hero {
+  id          Int      @id @default(autoincrement())
+  overline    String   @default("{}")
+  titlePart1  String   @default("{}")
+  titlePart2  String   @default("{}")
+  titleGold   String   @default("{}")
+  titlePart3  String   @default("{}")
+  description String   @default("{}")
+  bgImage     String
+  stats       String   @default("[]")
+  awardCard   String   @default("{}")
+  companyId   Int?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("heroes")
+}
+
+model About {
+  id              Int      @id @default(autoincrement())
+  chipText        String   @default("{}")
+  title           String   @default("{}")
+  body1           String   @default("{}")
+  body2           String   @default("{}")
+  mainImage       String
+  secondaryImage  String
+  establishedYear String   @default("2009")
+  yearsExperience Int      @default(15)
+  pillars         String   @default("[]")
+  companyId       Int?
+  company         Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("abouts")
+}
+
+model Wellness {
+  id        Int      @id @default(autoincrement())
+  chipText  String   @default("{}")
+  title     String   @default("{}")
+  desc      String   @default("{}")
+  stats     String   @default("[]")
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("wellness")
+}
+
+model Treatment {
+  id        Int      @id @default(autoincrement())
+  icon      String
+  name      String
+  duration  String
+  desc      String
+  price     Float
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("treatments")
+}
+
+model Suite {
+  id          Int       @id @default(autoincrement())
+  no          String
+  name        String
+  size        String
+  price       Float
+  image       String
+  badge       String?
+  tags        String    @default("[]")
+  detail      String?
+  description String?
+  companyId   Int?
+  company     Company?  @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId    Int?
+  branch      Branch?   @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("suites")
+}
+
+model MotorCategory {
+  id         Int      @id @default(autoincrement())
+  categoryId String   @unique
+  labelEn    String
+  labelKh    String
+  labelZh    String
+  bikes      Bike[]
+  companyId  Int?
+  company    Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("motor_categories")
+}
+
+model Bike {
+  id              Int            @id @default(autoincrement())
+  name            String
+  category        String
+  motorCategoryId Int?
+  motorCategory   MotorCategory? @relation(fields: [motorCategoryId], references: [id], onDelete: SetNull)
+  engine          String
+  power           String
+  price           Float
+  image           String
+  badge           String?
+  detail          String?
+  companyId       Int?
+  company         Company?       @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId        Int?
+  branch          Branch?        @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  bookings        Booking[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@map("bikes")
+}
+
+model Booking {
+  id                    Int       @id @default(autoincrement())
+  reference             String    @unique
+  type                  String
+  title                 String
+  subTitle              String?
+  startDate             String
+  endDate               String
+  unitsCount            Int       @default(1)
+  ratePerUnit           Float     @default(0)
+  subTotal              Float     @default(0)
+  discount              Float     @default(0)
+  total                 Float
+  guestName             String
+  guestEmail            String
+  guestPhone            String?
+  guestGender           String?
+  nationality           String?
+  specificNationality   String?
+  idDocumentType        String?
+  idDocumentNumber      String?
+  idDocumentPhotoUrl    String?
+  driverLicenseNumber   String?
+  driverLicensePhotoUrl String?
+  helmetSizeRider       String?
+  helmetSizePassenger   String?
+  ridingExperience      String?
+  transferRequest       String?
+  status                String    @default("active")
+  paymentMethod         String?
+  paymentChannel        String?
+  paymentStatus         String?
+  userId                Int?
+  user                  User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  customerId            Int?
+  customer              Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  suiteId               Int?
+  suite                 Suite?    @relation(fields: [suiteId], references: [id], onDelete: SetNull)
+  bikeId                Int?
+  bike                  Bike?     @relation(fields: [bikeId], references: [id], onDelete: SetNull)
+  companyId             Int?
+  company               Company?  @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId              Int?
+  branch                Branch?   @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("bookings")
+}
+
+model Experience {
+  id        Int      @id @default(autoincrement())
+  chipText  String   @default("{}")
+  title     String   @default("{}")
+  items     String   @default("[]")
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId  Int?
+  branch    Branch?  @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("experiences")
+}
+
+model Dining {
+  id               Int      @id @default(autoincrement())
+  chipText         String   @default("{}")
+  title            String   @default("{}")
+  body1            String   @default("{}")
+  body2            String   @default("{}")
+  mainImage        String
+  dishOverlayImage String
+  chef             String   @default("{}")
+  michelinBadge    String   @default("{}")
+  companyId        Int?
+  company          Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  branchId         Int?
+  branch           Branch?  @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("dinings")
+}
+
+model DiningOffer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  details   String
+  price     Float?
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("dining_offers")
+}
+
+model Gallery {
+  id          Int      @id @default(autoincrement())
+  chipText    String   @default("{}")
+  title       String   @default("{}")
+  description String   @default("{}")
+  items       String   @default("[]")
+  companyId   Int?
+  company     Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("galleries")
+}
+
+model SocialLink {
+  id        Int      @id @default(autoincrement())
+  image     String
+  url       String
+  titleEn   String
+  titleKh   String
+  titleZh   String
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("social_links")
+}
+
+model Testimonial {
+  id           Int      @id @default(autoincrement())
+  name         String
+  location     String
+  suite        String
+  image        String
+  rating       Int      @default(5)
+  text         String
+  stayDuration String?
+  date         String?
+  companyId    Int?
+  company      Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+model ScenicRoute {
+  id        Int      @id @default(autoincrement())
+  no        String
+  name      String
+  size      String
+  desc      String
+  badge     String?
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("scenic_routes")
+}

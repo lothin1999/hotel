@@ -1,0 +1,117 @@
+.orders-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.page-header {
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--primary, #d4af50);
+    margin-bottom: 0.3rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: var(--muted-foreground, #7a7590);
+  }
+}
+
+.filter-bar {
+  padding: 1.2rem 1.8rem;
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 500px;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--muted-foreground, #7a7590);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border, rgba(212, 175, 80, 0.15));
+  }
+
+  td {
+    font-size: 0.85rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border, rgba(212, 175, 80, 0.08));
+    color: var(--foreground, #c8c3d8);
+    vertical-align: middle;
+  }
+
+  tr:hover td {
+    background: var(--accent, #1f1d2e);
+  }
+
+  .ref-col {
+    font-family: monospace;
+    color: var(--primary, #d4af50);
+    font-weight: bold;
+  }
+
+  .cust-info {
+    display: flex;
+    flex-direction: column;
+
+    .bold-text { font-weight: 500; }
+    .sub-text { font-size: 0.75rem; color: var(--muted-foreground, #7a7590); }
+  }
+
+  .price-col {
+    color: var(--primary, #d4af50);
+    font-weight: bold;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius, 0.5rem);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.confirmed, &.active, &.completed {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    &.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 5rem;
+}
+
+.page-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border, rgba(212, 175, 80, 0.15));
+  border-top-color: var(--primary, #d4af50);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

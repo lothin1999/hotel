@@ -1,0 +1,8 @@
+.auth-layout-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background, #04030a);
+  color: var(--foreground, #c8c3d8);
+}

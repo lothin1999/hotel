@@ -1,0 +1,117 @@
+.reports-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.page-header {
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--primary, #d4af50);
+    margin-bottom: 0.3rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: var(--muted-foreground, #7a7590);
+  }
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  .card-icon { font-size: 1.8rem; }
+  .card-val {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--primary, #d4af50);
+    font-weight: 600;
+  }
+  .card-label {
+    font-size: 0.78rem;
+    color: var(--muted-foreground, #7a7590);
+    text-transform: uppercase;
+  }
+}
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: var(--card-foreground, #f8f6ff);
+  }
+
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    height: 220px;
+    padding-top: 2rem;
+    border-bottom: 1px solid var(--border, rgba(212, 175, 80, 0.15));
+  }
+
+  .bar-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .bar {
+    width: 100%;
+    max-width: 45px;
+    background: linear-gradient(180deg, var(--primary, #d4af50) 0%, rgba(212, 175, 80, 0.2) 100%);
+    border-radius: var(--radius, 0.5rem) var(--radius, 0.5rem) 0 0;
+    position: relative;
+
+    .bar-tooltip {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: var(--primary, #d4af50);
+    }
+  }
+
+  .bar-label {
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--muted-foreground, #7a7590);
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 5rem;
+}
+
+.page-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border, rgba(212, 175, 80, 0.15));
+  border-top-color: var(--primary, #d4af50);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

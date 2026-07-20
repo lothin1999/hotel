@@ -1,0 +1,83 @@
+<div class="settings-wrapper">
+  <div class="page-header">
+    <div>
+      <h2>System & Property Settings</h2>
+      <p>Configure general hotel information, branding, operational toggles, and currencies.</p>
+    </div>
+  </div>
+
+  <div class="form-card spartan-card" *ngIf="!loading">
+    <form (ngSubmit)="onSubmit()" class="admin-form">
+      <div class="section-title">Property Branding</div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Property Name</label>
+          <input type="text" [(ngModel)]="settings.hotelName" name="hotelName" class="spartan-input" required />
+        </div>
+        <div class="form-group">
+          <label>Brand Tagline</label>
+          <input type="text" [(ngModel)]="settings.tagline" name="tagline" class="spartan-input" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contact Email</label>
+          <input type="email" [(ngModel)]="settings.contactEmail" name="contactEmail" class="spartan-input" required />
+        </div>
+        <div class="form-group">
+          <label>Contact Phone</label>
+          <input type="text" [(ngModel)]="settings.contactPhone" name="contactPhone" class="spartan-input" required />
+        </div>
+      </div>
+
+      <div class="section-title">Financial & Currency</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Base Currency</label>
+          <select [(ngModel)]="settings.currency" name="currency" class="spartan-input">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="KHR">KHR (៛)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tax Rate (%)</label>
+          <input type="number" [(ngModel)]="settings.taxRate" name="taxRate" class="spartan-input" required />
+        </div>
+      </div>
+
+      <div class="section-title">Feature Toggles</div>
+
+      <div class="toggles-grid">
+        <label class="toggle-item">
+          <input type="checkbox" [(ngModel)]="settings.enableBikeRentals" name="enableBikeRentals" />
+          <span>Enable Motorbike Rental Catalog</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" [(ngModel)]="settings.autoConfirmBookings" name="autoConfirmBookings" />
+          <span>Auto-confirm Incoming Reservations</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" [(ngModel)]="settings.maintenanceMode" name="maintenanceMode" />
+          <span>Enable Maintenance Mode</span>
+        </label>
+      </div>
+
+      <div class="success-alert" *ngIf="successMsg">
+        ✓ {{ successMsg }}
+      </div>
+
+      <button type="submit" class="spartan-btn-primary" [disabled]="saving">
+        <span *ngIf="!saving">Save System Settings</span>
+        <span *ngIf="saving">Saving...</span>
+      </button>
+    </form>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="page-spinner"></div>
+  </div>
+</div>

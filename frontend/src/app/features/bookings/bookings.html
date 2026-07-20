@@ -1,0 +1,97 @@
+<div class="bookings-wrapper">
+  <div class="page-header">
+    <div>
+      <h2>Bookings History</h2>
+      <p>Monitor guest transactions, details, check-in dates, and status logs.</p>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar spartan-card">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (ngModelChange)="applyFilters()" 
+        placeholder="Search by reference, name, or email..."
+        class="spartan-input"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label>Status:</label>
+      <select [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()" class="spartan-input">
+        <option value="all">All Bookings</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="pending">Pending</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Bookings List -->
+  <div class="list-card spartan-card" *ngIf="!loading">
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Guest Info</th>
+            <th>Booking Item</th>
+            <th>Dates (Check-in/out)</th>
+            <th>Total Cost</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of filteredBookings">
+            <td class="ref-col">{{ $any(booking).reference || ('#BK-' + booking.id) }}</td>
+            <td>
+              <div class="guest-details">
+                <span class="guest-name">{{ booking.customerName || $any(booking).guestName }}</span>
+                <span class="guest-sub">{{ booking.customerEmail || $any(booking).guestEmail }}</span>
+                <span class="guest-sub" *ngIf="booking.customerPhone">{{ booking.customerPhone }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="booking-item-details">
+                <span class="item-title">{{ booking.roomName || booking.bikeName || $any(booking).title || 'Reservation' }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="dates-display">
+                <span>In: {{ booking.checkIn || $any(booking).startDate }}</span>
+                <span>Out: {{ booking.checkOut || $any(booking).endDate }}</span>
+              </div>
+            </td>
+            <td class="price-col">${{ booking.totalAmount || $any(booking).total }}</td>
+            <td>
+              <select 
+                [ngModel]="booking.status" 
+                (ngModelChange)="updateStatus(booking.id, $event)"
+                class="status-select"
+                [class]="(booking.status || '').toLowerCase()"
+              >
+                <option value="PENDING">Pending</option>
+                <option value="CONFIRMED">Confirmed</option>
+                <option value="CANCELLED">Cancelled</option>
+              </select>
+            </td>
+            <td>
+              <button class="delete-btn" (click)="deleteBooking(booking.id)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredBookings.length === 0">
+            <td colspan="7" class="empty-state">No matching booking records found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="page-spinner"></div>
+  </div>
+</div>

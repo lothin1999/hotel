@@ -1,0 +1,205 @@
+.rooms-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--primary, #d4af50);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: var(--muted-foreground, #7a7590);
+  }
+}
+
+.form-card {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border, rgba(212, 175, 80, 0.15));
+    padding-bottom: 1rem;
+
+    h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.10rem;
+      color: var(--primary, #d4af50);
+      letter-spacing: 0.05em;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: 1px solid var(--border, rgba(212, 175, 80, 0.2));
+      color: var(--muted-foreground, #7a7590);
+      padding: 0.4rem 1rem;
+      font-family: inherit;
+      font-size: 0.8rem;
+      border-radius: var(--radius, 0.5rem);
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        border-color: var(--primary, #d4af50);
+        color: var(--primary, #d4af50);
+      }
+    }
+  }
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+
+  .form-group {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted-foreground, #7a7590);
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted-foreground, #7a7590);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border, rgba(212, 175, 80, 0.15));
+  }
+
+  td {
+    font-size: 0.85rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border, rgba(212, 175, 80, 0.08));
+    color: var(--foreground, #c8c3d8);
+    vertical-align: middle;
+  }
+
+  tr:hover td {
+    background: var(--accent, #1f1d2e);
+  }
+
+  .thumb {
+    width: 60px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: var(--radius, 0.5rem);
+    border: 1px solid var(--border, rgba(212, 175, 80, 0.15));
+  }
+
+  .ref-col {
+    font-family: monospace;
+    color: var(--primary, #d4af50);
+    font-weight: bold;
+  }
+
+  .bold-text {
+    font-weight: 500;
+  }
+
+  .price-col {
+    color: var(--primary, #d4af50);
+  }
+
+  .actions-cell {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .edit-btn, .delete-btn {
+    border: none;
+    padding: 0.4rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.75rem;
+    border-radius: var(--radius, 0.5rem);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .edit-btn {
+    background: rgba(212, 175, 80, 0.15);
+    color: var(--primary, #d4af50);
+    border: 1px solid var(--border, rgba(212, 175, 80, 0.2));
+
+    &:hover {
+      background: rgba(212, 175, 80, 0.3);
+    }
+  }
+
+  .delete-btn {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--destructive, #8b1a2f);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+
+    &:hover {
+      background: var(--destructive, #8b1a2f);
+      color: var(--destructive-foreground, #f8f6ff);
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted-foreground, #7a7590);
+    font-style: italic;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+}
+
+.page-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border, rgba(212, 175, 80, 0.15));
+  border-top-color: var(--primary, #d4af50);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

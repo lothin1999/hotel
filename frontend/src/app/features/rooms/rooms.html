@@ -1,0 +1,99 @@
+<div class="rooms-wrapper">
+  <div class="page-header">
+    <div>
+      <h2>Manage Suites</h2>
+      <p>Configure room details, layouts, pricing, and photos.</p>
+    </div>
+    <button class="spartan-btn-primary" (click)="openAddForm()" *ngIf="!showForm">
+      + Add New Suite
+    </button>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card spartan-card" *ngIf="showForm">
+    <div class="card-header">
+      <h3>{{ editingRoom ? 'Modify Suite Details' : 'Create New Suite' }}</h3>
+      <button class="close-btn" (click)="closeForm()">Cancel</button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="admin-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Room Identifier / No</label>
+          <input type="text" [(ngModel)]="no" name="no" placeholder="01 / 06" class="spartan-input" required />
+        </div>
+        <div class="form-group">
+          <label>Suite Name</label>
+          <input type="text" [(ngModel)]="name" name="name" placeholder="Horizon Ocean Villa" class="spartan-input" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Dimensions / View</label>
+          <input type="text" [(ngModel)]="size" name="size" placeholder="110m² · Oceanfront" class="spartan-input" required />
+        </div>
+        <div class="form-group">
+          <label>Nightly Rate (USD)</label>
+          <input type="number" [(ngModel)]="price" name="price" class="spartan-input" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Photo URL</label>
+        <input type="text" [(ngModel)]="image" name="image" placeholder="https://images.unsplash.com/..." class="spartan-input" required />
+      </div>
+
+      <div class="form-group">
+        <label>Description (Optional)</label>
+        <textarea [(ngModel)]="description" name="description" rows="3" placeholder="Brief outline of amenities..." class="spartan-input"></textarea>
+      </div>
+
+      <button type="submit" class="spartan-btn-primary">
+        {{ editingRoom ? 'Save Changes' : 'Create Suite' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Rooms List -->
+  <div class="list-card spartan-card" *ngIf="!showForm && !loading">
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>No</th>
+            <th>Name</th>
+            <th>Layout & View</th>
+            <th>Nightly Rate</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let room of rooms">
+            <td>
+              <img [src]="room.image" class="thumb" alt="Suite preview" />
+            </td>
+            <td class="ref-col">{{ $any(room).no || ('#RM-' + room.id) }}</td>
+            <td class="bold-text">{{ room.name }}</td>
+            <td>{{ $any(room).size || room.description }}</td>
+            <td class="price-col">${{ room.pricePerNight || $any(room).price }}/night</td>
+            <td>
+              <div class="actions-cell">
+                <button class="edit-btn" (click)="openEditForm(room)">Edit</button>
+                <button class="delete-btn" (click)="deleteRoom(room.id)">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="rooms.length === 0">
+            <td colspan="6" class="empty-state">No suites configured. Click "Add New Suite" to begin.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="page-spinner"></div>
+  </div>
+</div>

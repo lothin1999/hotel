@@ -1,17 +1,12 @@
-# Development Dockerfile for Angular App with Hot Reloading inside website folder
 FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
-# Copy application source code
 COPY . .
 
-# Expose Angular dev server port
-EXPOSE 4200
+EXPOSE 4300
 
-# Start dev server bound to 0.0.0.0 with polling for instant hot reload on file changes
-CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--poll", "1000", "--allowed-hosts"]
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--port", "4300", "--allowed-hosts", "--poll", "1000"]

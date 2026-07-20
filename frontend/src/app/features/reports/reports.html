@@ -1,0 +1,47 @@
+<div class="reports-wrapper">
+  <div class="page-header">
+    <div>
+      <h2>Reports & Financial Analytics</h2>
+      <p>Performance stats, occupancy metrics, and revenue growth logs.</p>
+    </div>
+  </div>
+
+  <div class="summary-cards" *ngIf="analytics && !loading">
+    <div class="summary-card spartan-card">
+      <div class="card-icon">💰</div>
+      <div class="card-val">${{ analytics.summary.totalRevenue | number:'1.0-0' }}</div>
+      <div class="card-label">Total Revenue</div>
+    </div>
+    <div class="summary-card spartan-card">
+      <div class="card-icon">📈</div>
+      <div class="card-val">{{ analytics.summary.occupancyRatePercentage }}%</div>
+      <div class="card-label">Occupancy Rate</div>
+    </div>
+    <div class="summary-card spartan-card">
+      <div class="card-icon">🏨</div>
+      <div class="card-val">{{ analytics.summary.confirmedCount }}</div>
+      <div class="card-label">Confirmed Reservations</div>
+    </div>
+    <div class="summary-card spartan-card">
+      <div class="card-icon">🏍️</div>
+      <div class="card-val">{{ analytics.summary.activeBikes }}</div>
+      <div class="card-label">Active Rentals</div>
+    </div>
+  </div>
+
+  <div class="chart-card spartan-card" *ngIf="analytics && !loading">
+    <h3>Monthly Revenue Growth</h3>
+    <div class="bar-chart">
+      <div class="bar-item" *ngFor="let item of analytics.monthlyTrends">
+        <div class="bar" [style.height.%]="(item.revenue / 40000) * 100">
+          <span class="bar-tooltip">${{ item.revenue | number:'1.0-0' }}</span>
+        </div>
+        <span class="bar-label">{{ item.month }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="page-spinner"></div>
+  </div>
+</div>

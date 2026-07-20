@@ -1,0 +1,62 @@
+<div class="orders-wrapper">
+  <div class="page-header">
+    <div>
+      <h2>Orders & Financial Transactions</h2>
+      <p>Real-time order receipts, invoice records, and billing logs.</p>
+    </div>
+  </div>
+
+  <div class="filter-bar spartan-card">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (ngModelChange)="applyFilters()" 
+        placeholder="Search order ID, booking ref, or customer..."
+        class="spartan-input"
+      />
+    </div>
+  </div>
+
+  <div class="list-card spartan-card" *ngIf="!loading">
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Booking Reference</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let o of filteredOrders">
+            <td class="ref-col">{{ o.orderId }}</td>
+            <td>{{ o.bookingRef }}</td>
+            <td>
+              <div class="cust-info">
+                <span class="bold-text">{{ o.customer }}</span>
+                <span class="sub-text">{{ o.email }}</span>
+              </div>
+            </td>
+            <td>{{ o.date | date:'mediumDate' }}</td>
+            <td class="price-col">${{ o.amount | number:'1.0-2' }}</td>
+            <td>
+              <span class="status-badge" [class]="o.status.toLowerCase()">{{ o.status }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="filteredOrders.length === 0">
+            <td colspan="6" class="empty-state">No matching orders found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="page-spinner"></div>
+  </div>
+</div>

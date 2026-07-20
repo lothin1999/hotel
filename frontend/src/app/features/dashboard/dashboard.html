@@ -1,0 +1,72 @@
+<div class="dashboard-wrapper">
+  <div class="dashboard-header">
+    <h2>Administrative Overview</h2>
+    <p>Real-time analytics and booking records.</p>
+  </div>
+
+  <div class="stats-grid" *ngIf="!loading">
+    <div class="stat-card spartan-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-value">${{ totalRevenue | number:'1.0-2' }}</div>
+      <div class="stat-label">Total Revenue</div>
+    </div>
+    <div class="stat-card spartan-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-value">{{ bookingsCount }}</div>
+      <div class="stat-label">Total Bookings</div>
+    </div>
+    <div class="stat-card spartan-card">
+      <div class="stat-icon">🏨</div>
+      <div class="stat-value">{{ roomsCount }}</div>
+      <div class="stat-label">Active Suites</div>
+    </div>
+    <div class="stat-card spartan-card">
+      <div class="stat-icon">🏍️</div>
+      <div class="stat-value">{{ bikesCount }}</div>
+      <div class="stat-label">Rental Bikes</div>
+    </div>
+  </div>
+
+  <div class="dashboard-main" *ngIf="!loading">
+    <div class="recent-bookings-card spartan-card">
+      <div class="card-header">
+        <h3>Recent Bookings</h3>
+        <a routerLink="/bookings" class="view-all-link">View All Bookings</a>
+      </div>
+      
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Reference / Guest</th>
+              <th>Guest Details</th>
+              <th>Item / Rental</th>
+              <th>Total Cost</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of recentBookings">
+              <td class="ref-col">{{ booking.reference || ('#BK-' + booking.id) }}</td>
+              <td>{{ booking.guestName || booking.customerName }}</td>
+              <td>{{ booking.title || booking.roomName || booking.bikeName || 'Reservation' }}</td>
+              <td class="price-col">${{ booking.total || booking.totalAmount }}</td>
+              <td>
+                <span class="status-badge" [class]="(booking.status || '').toLowerCase()">
+                  {{ booking.status }}
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="recentBookings.length === 0">
+              <td colspan="5" class="empty-state">No booking records found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <div class="dashboard-spinner"></div>
+  </div>
+</div>
